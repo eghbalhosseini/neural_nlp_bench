@@ -5,6 +5,9 @@
 #SBATCH --time=96:00:00
 #SBATCH --ntasks=1
 #SBATCH --mem=267G
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=ehoseini@mit.edu
+
 
 i=0
 
