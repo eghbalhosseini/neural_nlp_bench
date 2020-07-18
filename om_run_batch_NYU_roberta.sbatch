@@ -8,7 +8,7 @@
 
 i=0
 
-for benchmark in Blank2014fROI-encoding ; do
+for benchmark in Pereira2018-encoding ; do
 for model in roberta-base \
   nyu-mll/roberta-base-1B-1 nyu-mll/roberta-base-1B-2 nyu-mll/roberta-base-1B-3 \
   nyu-mll/roberta-base-100M-1 nyu-mll/roberta-base-100M-2 nyu-mll/roberta-base-100M-3 \
