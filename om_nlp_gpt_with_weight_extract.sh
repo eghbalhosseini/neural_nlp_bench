@@ -11,14 +11,11 @@
 i=0
 for trained in "" "-untrained" ; do
 for benchmark in Fedorenko2016v3-encoding-weights ; do
-for model in sentence-length ETM word2vec skip-thoughts glove lm_1b \
-  bert-base-uncased bert-base-multilingual-cased bert-large-uncased bert-large-uncased-whole-word-masking \
+for model in  bert-base-uncased bert-base-multilingual-cased bert-large-uncased \
   openaigpt gpt2 gpt2-medium gpt2-large gpt2-xl distilgpt2 \
   transfo-xl-wt103 \
   xlnet-base-cased xlnet-large-cased xlm-mlm-en-2048 xlm-mlm-enfr-1024 xlm-mlm-xnli15-1024 xlm-clm-enfr-1024 xlm-mlm-100-1280 \
-  roberta-base roberta-large distilroberta-base \
-  distilbert-base-uncased \
-  ctrl \
+  roberta-base roberta-large distilroberta-base distilbert-base-uncased \
   albert-base-v1 albert-base-v2 albert-large-v1 albert-large-v2 albert-xlarge-v1 albert-xlarge-v2 albert-xxlarge-v1 albert-xxlarge-v2 \
   xlm-roberta-base xlm-roberta-large ; do
   model_list[$i]="$model$trained"
