@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp-weight
-#SBATCH --array=0-90
+#SBATCH --array=0-5
 #SBATCH --time=56:00:00
 #SBATCH --ntasks=1
 #SBATCH --mem=80G
@@ -11,8 +11,7 @@
 i=0
 for trained in "" "-untrained" ; do
 for benchmark in Fedorenko2016v3-encoding-weights ; do
-for model in
-  openaigpt gpt2 gpt2-medium gpt2-large gpt2-xl distilgpt2 ; do
+for model in openaigpt gpt2 gpt2-medium gpt2-large gpt2-xl distilgpt2 ; do
   model_list[$i]="$model$trained"
   benchmark_list[$i]="$benchmark"
   i=$[$i +1]
