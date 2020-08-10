@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp-weight
-#SBATCH --array=0-5
+#SBATCH --array=0-10
 #SBATCH --time=56:00:00
 #SBATCH --ntasks=1
 #SBATCH --mem=80G
