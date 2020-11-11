@@ -1,0 +1,59 @@
+My SLURM_ARRAY_TASK_ID:  0
+Running model roberta-base
+Running benchmark Fedorenko2016v3-encoding
+INFO:__main__:Running with args Namespace(log_level='DEBUG'), ['run', '--model', 'roberta-base', '--benchmark', 'Fedorenko2016v3-encoding']
+DEBUG:result_caching._DiskStorage:Running function: neural_nlp.score/benchmark=Fedorenko2016v3-encoding,model=roberta-base,subsample=None
+INFO:neural_nlp:Loading benchmark
+INFO:neural_nlp:Running
+/usr/local/lib/python3.6/site-packages/brainio_base/assemblies.py:213: FutureWarning: The inplace argument has been deprecated and will be removed in a future version of xarray.
+  xr_data.set_index(append=True, inplace=True, **coords_d)
+layers:   0%|          | 0/13 [00:00<?, ?it/s]INFO:neural_nlp.benchmarks.neural:Computing activations
+DEBUG:neural_nlp.benchmarks.s3._S3Storage:Loading from storage: neural_nlp.benchmarks.neural.Fedorenko2016V3Encoding.load_assembly
+DEBUG:neural_nlp.benchmarks.s3._S3Storage:Downloading Fedorenko2016v3.nc to /home/ehoseini/.neural_nlp/Fedorenko2016v3.nc
+layers:   0%|          | 0/13 [00:02<?, ?it/s]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/usr/local/lib/python3.6/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/home/ehoseini/neural-nlp/neural_nlp/__main__.py", line 32, in <module>
+    fire.Fire(command=FIRE_FLAGS)
+  File "/usr/local/lib/python3.6/site-packages/fire/core.py", line 138, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+  File "/usr/local/lib/python3.6/site-packages/fire/core.py", line 468, in _Fire
+    target=component.__name__)
+  File "/usr/local/lib/python3.6/site-packages/fire/core.py", line 672, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+  File "/home/ehoseini/neural-nlp/neural_nlp/__main__.py", line 22, in run
+    score = score_function(model=model, layers=layers, subsample=subsample, benchmark=benchmark)
+  File "/usr/local/lib/python3.6/site-packages/result_caching/__init__.py", line 79, in wrapper
+    result = function(*args, **kwargs)
+  File "/home/ehoseini/neural-nlp/neural_nlp/__init__.py", line 36, in score
+    layer_score = benchmark_impl(candidate)
+  File "/usr/local/lib/python3.6/site-packages/brainscore/utils/__init__.py", line 80, in __call__
+    return self.content(*args, **kwargs)
+  File "/home/ehoseini/neural-nlp/neural_nlp/benchmarks/neural.py", line 600, in __call__
+    stimulus_set = self._target_assembly.attrs['stimulus_set']
+  File "/usr/local/lib/python3.6/site-packages/brainscore/utils/__init__.py", line 54, in __getattr__
+    self._ensure_loaded()
+  File "/usr/local/lib/python3.6/site-packages/brainscore/utils/__init__.py", line 73, in _ensure_loaded
+    self.content = self.load_fnc()
+  File "/usr/local/lib/python3.6/site-packages/result_caching/__init__.py", line 75, in wrapper
+    return self.load(function_identifier)
+  File "/home/ehoseini/neural-nlp/neural_nlp/benchmarks/s3.py", line 35, in load
+    assembly = self._retrieve(self._key + '.nc', self._local_root_dir)
+  File "/home/ehoseini/neural-nlp/neural_nlp/benchmarks/s3.py", line 41, in _retrieve
+    self._download_file(key, local_path)
+  File "/home/ehoseini/neural-nlp/neural_nlp/benchmarks/s3.py", line 64, in _download_file
+    with tqdm(total=obj.content_length, unit='B', unit_scale=True, desc=key, file=sys.stdout) as progress_bar:
+  File "/usr/local/lib/python3.6/site-packages/boto3/resources/factory.py", line 339, in property_loader
+    self.load()
+  File "/usr/local/lib/python3.6/site-packages/boto3/resources/factory.py", line 505, in do_action
+    response = action(self, *args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/boto3/resources/action.py", line 83, in __call__
+    response = getattr(parent.meta.client, operation_name)(*args, **params)
+  File "/usr/local/lib/python3.6/site-packages/botocore/client.py", line 316, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+  File "/usr/local/lib/python3.6/site-packages/botocore/client.py", line 635, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (403) when calling the HeadObject operation: Forbidden

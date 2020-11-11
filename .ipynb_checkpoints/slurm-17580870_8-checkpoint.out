@@ -1,0 +1,168 @@
+My SLURM_ARRAY_TASK_ID:  8
+Running model gpt2-medium-untrained
+Running benchmark Fedorenko2016v3-encoding-weights
+INFO:__main__:Running with args Namespace(log_level='INFO'), ['run', '--model', 'gpt2-medium-untrained', '--benchmark', 'Fedorenko2016v3-encoding-weights']
+INFO:neural_nlp:Loading benchmark
+INFO:neural_nlp:Running
+/usr/local/lib/python3.6/site-packages/brainio_base/assemblies.py:213: FutureWarning: The inplace argument has been deprecated and will be removed in a future version of xarray.
+  xr_data.set_index(append=True, inplace=True, **coords_d)
+layers:   0%|          | 0/25 [00:00<?, ?it/s]INFO:neural_nlp.benchmarks.neural:Computing activations
+INFO:neural_nlp.neural_data.ecog:Neural data directory: /home/ehoseini/neural-nlp/ressources/neural_data/ecog-Fedorenko2016
+INFO:transformers.configuration_utils:loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-config.json from cache at /om/user/ehoseini/st/torch/transformers/98aa65385e18b0efd17acd8bf64dcdf21406bb0c99c801c2d3c9f6bfd1f48f29.250d6dc755ccb17d19c7c1a7677636683aa35f0f6cb5461b3c0587bc091551a0
+INFO:transformers.configuration_utils:Model config GPT2Config {
+  "activation_function": "gelu_new",
+  "architectures": [
+    "GPT2LMHeadModel"
+  ],
+  "attn_pdrop": 0.1,
+  "bos_token_id": 50256,
+  "embd_pdrop": 0.1,
+  "eos_token_id": 50256,
+  "initializer_range": 0.02,
+  "layer_norm_epsilon": 1e-05,
+  "model_type": "gpt2",
+  "n_ctx": 1024,
+  "n_embd": 1024,
+  "n_head": 16,
+  "n_layer": 24,
+  "n_positions": 1024,
+  "n_special": 0,
+  "predict_special_tokens": true,
+  "resid_pdrop": 0.1,
+  "summary_activation": null,
+  "summary_first_dropout": 0.1,
+  "summary_proj_to_labels": true,
+  "summary_type": "cls_index",
+  "summary_use_proj": true,
+  "task_specific_params": {
+    "text-generation": {
+      "do_sample": true,
+      "max_length": 50
+    }
+  },
+  "vocab_size": 50257
+}
+
+INFO:transformers.tokenization_utils_base:loading file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-vocab.json from cache at /om/user/ehoseini/st/torch/transformers/f20f05d3ae37c4e3cd56764d48e566ea5adeba153dcee6eb82a18822c9c731ec.1512018be4ba4e8726e41b9145129dc30651ea4fec86aa61f4b9f40bf94eac71
+INFO:transformers.tokenization_utils_base:loading file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-merges.txt from cache at /om/user/ehoseini/st/torch/transformers/6d882670c55563617571fe0c97df88626fb5033927b40fc18a8acf98dafd4946.70bec105b4158ed9a1747fea67a43f5dee97855c64d62b6ec3742f4cfdb5feda
+INFO:transformers.configuration_utils:loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-config.json from cache at /om/user/ehoseini/st/torch/transformers/98aa65385e18b0efd17acd8bf64dcdf21406bb0c99c801c2d3c9f6bfd1f48f29.250d6dc755ccb17d19c7c1a7677636683aa35f0f6cb5461b3c0587bc091551a0
+INFO:transformers.configuration_utils:Model config GPT2Config {
+  "activation_function": "gelu_new",
+  "architectures": [
+    "GPT2LMHeadModel"
+  ],
+  "attn_pdrop": 0.1,
+  "bos_token_id": 50256,
+  "embd_pdrop": 0.1,
+  "eos_token_id": 50256,
+  "initializer_range": 0.02,
+  "layer_norm_epsilon": 1e-05,
+  "model_type": "gpt2",
+  "n_ctx": 1024,
+  "n_embd": 1024,
+  "n_head": 16,
+  "n_layer": 24,
+  "n_positions": 1024,
+  "n_special": 0,
+  "output_hidden_states": true,
+  "predict_special_tokens": true,
+  "resid_pdrop": 0.1,
+  "summary_activation": null,
+  "summary_first_dropout": 0.1,
+  "summary_proj_to_labels": true,
+  "summary_type": "cls_index",
+  "summary_use_proj": true,
+  "task_specific_params": {
+    "text-generation": {
+      "do_sample": true,
+      "max_length": 50
+    }
+  },
+  "vocab_size": 50257
+}
+
+INFO:transformers.modeling_utils:loading weights file https://cdn.huggingface.co/gpt2-medium-pytorch_model.bin from cache at /om/user/ehoseini/st/torch/transformers/64652c50e84ddabb9bad81a37ff82624ab70053f402f8d9a58c0e90fb8289fb6.8769029be4f66a5ae1055eefdd1d11621b901d510654266b8681719fff492d6e
+INFO:transformers.modeling_utils:All model checkpoint weights were used when initializing GPT2Model.
+
+INFO:transformers.modeling_utils:All the weights of GPT2Model were initialized from the model checkpoint at gpt2-medium.
+If your task is similar to the task the model of the ckeckpoint was trained on, you can already use GPT2Model for predictions without further training.
+
+cross-validation:   0%|          | 0/5 [00:00<?, ?it/s][A
+cross-validation:  20%|##        | 1/5 [00:00<00:02,  1.68it/s][A
+cross-validation:  40%|####      | 2/5 [00:01<00:01,  1.68it/s][A
+cross-validation:  60%|######    | 3/5 [00:01<00:01,  1.69it/s][A
+cross-validation:  80%|########  | 4/5 [00:02<00:00,  1.68it/s][A
+cross-validation: 100%|##########| 5/5 [00:02<00:00,  1.68it/s][Across-validation: 100%|##########| 5/5 [00:02<00:00,  1.68it/s]
+
+num subjects:   0%|          | 0/4 [00:00<?, ?it/s][A
+
+selections: 0it [00:00, ?it/s][A[A
+
+
+heldout subject:   0%|          | 0/2 [00:00<?, ?it/s][A[A[A
+
+
+
+cross-validation:   0%|          | 0/5 [00:00<?, ?it/s][A[A[A[A
+
+
+
+cross-validation:  20%|##        | 1/5 [00:00<00:01,  3.03it/s][A[A[A[A
+
+
+
+cross-validation:  40%|####      | 2/5 [00:00<00:00,  3.03it/s][A[A[A[A
+
+
+
+cross-validation:  60%|######    | 3/5 [00:00<00:00,  3.03it/s][A[A[A[A
+
+
+
+cross-validation:  80%|########  | 4/5 [00:01<00:00,  3.03it/s][A[A[A[A
+
+
+
+cross-validation: 100%|##########| 5/5 [00:01<00:00,  3.03it/s][A[A[A[Across-validation: 100%|##########| 5/5 [00:01<00:00,  3.03it/s]
+heldout subject:   0%|          | 0/2 [00:01<?, ?it/s]
+selections: 0it [00:01, ?it/s]
+num subjects:   0%|          | 0/4 [00:01<?, ?it/s]
+layers:   0%|          | 0/25 [01:26<?, ?it/s]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/usr/local/lib/python3.6/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/home/ehoseini/neural-nlp/neural_nlp/__main__.py", line 32, in <module>
+    fire.Fire(command=FIRE_FLAGS)
+  File "/usr/local/lib/python3.6/site-packages/fire/core.py", line 138, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+  File "/usr/local/lib/python3.6/site-packages/fire/core.py", line 468, in _Fire
+    target=component.__name__)
+  File "/usr/local/lib/python3.6/site-packages/fire/core.py", line 672, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+  File "/home/ehoseini/neural-nlp/neural_nlp/__main__.py", line 22, in run
+    score = score_function(model=model, layers=layers, subsample=subsample, benchmark=benchmark)
+  File "/usr/local/lib/python3.6/site-packages/result_caching/__init__.py", line 79, in wrapper
+    result = function(*args, **kwargs)
+  File "/home/ehoseini/neural-nlp/neural_nlp/__init__.py", line 35, in score
+    layer_score = benchmark_impl(candidate)
+  File "/usr/local/lib/python3.6/site-packages/brainscore/utils/__init__.py", line 80, in __call__
+    return self.content(*args, **kwargs)
+  File "/home/ehoseini/neural-nlp/neural_nlp/benchmarks/neural.py", line 657, in __call__
+    score = self.ceiling_normalize(score)
+  File "/home/ehoseini/neural-nlp/neural_nlp/benchmarks/neural.py", line 668, in ceiling_normalize
+    score = ceil_neuroids(raw_neuroids, self.ceiling, subject_column='subject_UID')
+  File "/home/ehoseini/neural-nlp/neural_nlp/benchmarks/neural.py", line 673, in ceiling
+    return self._ceiler(identifier=self.identifier, assembly=self._target_assembly, metric=self._metric)
+  File "/usr/local/lib/python3.6/site-packages/result_caching/__init__.py", line 79, in wrapper
+    result = function(*args, **kwargs)
+  File "/home/ehoseini/neural-nlp/neural_nlp/benchmarks/ceiling.py", line 79, in __call__
+    scores = self.collect(identifier, assembly=assembly, metric=metric)
+  File "/usr/local/lib/python3.6/site-packages/result_caching/__init__.py", line 79, in wrapper
+    result = function(*args, **kwargs)
+  File "/home/ehoseini/neural-nlp/neural_nlp/benchmarks/ceiling.py", line 91, in collect
+    score = self.holdout_ceiling(assembly=sub_assembly, metric=metric)
+  File "/home/ehoseini/neural-nlp/neural_nlp/benchmarks/ceiling.py", line 39, in __call__
+    apply_raw = 'raw' in score.attrs and \
+AttributeError: 'tuple' object has no attribute 'attrs'
