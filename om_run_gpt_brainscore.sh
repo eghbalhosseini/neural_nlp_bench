@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=arch_search
-#SBATCH --array=0
+#SBATCH --array=0-5
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=267G
@@ -9,8 +9,8 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Fedorenko2016v3-encoding ; do
-for model in distilgpt2 ; do
+for benchmark in Fedorenko2016v3-encoding-weights Pereira2018-encoding-weights ; do
+for model in gpt2 bert-base-uncased xlm-mlm-en-2048 ; do
   model_list[$i]="$model"
   benchmark_list[$i]="$benchmark"
   i=$i+1
@@ -28,4 +28,3 @@ echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
 singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master.simg python /home/`whoami`/neural-nlp-master/neural-nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
-#singularity exec -B /om:/om /om/user/`whoami`/simg_images/arch_search.simg python ~/neural-nlp/neural_nlp run --model gpt2-xl --benchmark Blank2014fROI-encoding --log_level DEBUG
