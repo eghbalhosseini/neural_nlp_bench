@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=arch_search
-#SBATCH --array=0-5
+#SBATCH --array=0-1
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=267G
@@ -10,7 +10,7 @@
 
 i=0
 for benchmark in Fedorenko2016v3-encoding-weights Pereira2018-encoding-weights ; do
-for model in gpt2 bert-base-uncased xlm-mlm-en-2048 ; do
+for model in distilgpt2 ; do
   model_list[$i]="$model"
   benchmark_list[$i]="$benchmark"
   i=$i+1
