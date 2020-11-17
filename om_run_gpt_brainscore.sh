@@ -6,7 +6,7 @@
 #SBATCH --mem=267G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=ehoseini@mit.edu
+#SBATCH --mail-user=alexso@mit.edu
 
 i=0
 for benchmark in Fedorenko2016v3-encoding-weights Pereira2018-encoding-weights ; do
