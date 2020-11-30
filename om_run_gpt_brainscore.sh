@@ -16,7 +16,7 @@ for benchmark in Fedorenko2016v3-encoding-weights \
         lm_1b \
         bert-large-uncased-whole-word-masking \
         xlm-mlm-en-2048 \
-        t5-3b \
+        t5-base \
         ctrl \
         albert-xxlarge-v2 \
         gpt2-xl ; do
