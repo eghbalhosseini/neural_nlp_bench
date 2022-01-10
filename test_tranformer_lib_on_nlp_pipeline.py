@@ -53,5 +53,6 @@ if __name__ =='__main__':
 
     #score_results=score_function(benchmark=benchmark_tsk, model=model_identifier, model_impl=transformer,
     #                  layers=list(brainscore_config['layers']))
+
     score_results=score_function(benchmark=benchmark_tsk, model=model_identifier, model_impl=transformer,
-                   layers=brainscore_config['layers'])
+                   layers=list(brainscore_config['layers']))
