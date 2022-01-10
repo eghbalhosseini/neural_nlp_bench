@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=neural_bench
-#SBATCH --array=0-1
+#SBATCH --array=0
 #SBATCH --time=96:00:00
 #SBATCH -c 16
 #SBATCH --mem=160G
@@ -10,7 +10,7 @@
 
 i=0
 for benchmark in Fedorenko2016v3-encoding ; do
-      for model in distilgpt2 ; do
+      for model in gpt2 ; do
           model_list[$i]="$model"
           benchmark_list[$i]="$benchmark"
           i=$i+1
