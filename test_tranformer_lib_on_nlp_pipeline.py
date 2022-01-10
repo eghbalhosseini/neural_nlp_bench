@@ -15,7 +15,7 @@ if user=='eghbalhosseini':
 elif user=='ehoseini':
     model_and_config_dir = '/om2/user/ehoseini/MyData/neural_nlp_bench/'
 
-GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP = {"distilgpt2": os.path.join(model_and_config_dir,'CONFIG_ARCHIVE_MAP','originals','distilgpt2-config.json')}
+GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP = {"distilgpt2": os.path.join(model_and_config_dir,'CONFIG_ARCHIVE_MAP','distilgpt2-config.json')}
 GPT2_PRETRAINED_MODEL_ARCHIVE_MAP = {"distilgpt2": os.path.join(model_and_config_dir,'MODEL_ARCHIVE_MAP','distilgpt2-pytorch_model.bin')}
 
 if __name__ =='__main__':
