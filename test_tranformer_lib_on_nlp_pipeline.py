@@ -19,13 +19,13 @@ GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP = {"distilgpt2": os.path.join(model_and_confi
 GPT2_PRETRAINED_MODEL_ARCHIVE_MAP = {"distilgpt2": os.path.join(model_and_config_dir,'MODEL_ARCHIVE_MAP','distilgpt2-pytorch_model.bin')}
 
 if __name__ =='__main__':
-    #benchmark_name="Pereira2018-encoding"
+    #enchmark_name="Pereira2018-encoding"
     benchmark_name = 'Fedorenko2016v3-encoding'
     model_name="distilgpt2"
     config_file=GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP[model_name]
     model_file=GPT2_PRETRAINED_MODEL_ARCHIVE_MAP[model_name]
     benchmark_tsk = benchmark_name
-
+    my_env = os.environ.copy()
     config = GPT2Config.from_json_file(config_file)
     num_layers = config.n_layer
     config.output_hidden_states = True
@@ -48,10 +48,10 @@ if __name__ =='__main__':
                                              tokenizer=tokenizer,
                                              tokenizer_special_tokens=brainscore_config.get('tokenizer_special_tokens',()),
                                              model=model,
-                                             layers=list(brainscore_config['layers']),
+                                             layers=brainscore_config['layers'],
                                              sentence_average=word_last)
 
     #score_results=score_function(benchmark=benchmark_tsk, model=model_identifier, model_impl=transformer,
     #                  layers=list(brainscore_config['layers']))
     score_results=score_function(benchmark=benchmark_tsk, model=model_identifier, model_impl=transformer,
-                   layers=[list(brainscore_config['layers'])[-1]])
+                   layers=brainscore_config['layers'])
