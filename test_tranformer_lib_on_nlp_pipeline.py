@@ -19,7 +19,8 @@ GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP = {"distilgpt2": os.path.join(model_and_confi
 GPT2_PRETRAINED_MODEL_ARCHIVE_MAP = {"distilgpt2": os.path.join(model_and_config_dir,'MODEL_ARCHIVE_MAP','distilgpt2-pytorch_model.bin')}
 
 if __name__ =='__main__':
-    benchmark_name="Pereira2018-encoding"
+    #benchmark_name="Pereira2018-encoding"
+    benchmark_name = 'Fedorenko2016v3-encoding'
     model_name="distilgpt2"
     config_file=GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP[model_name]
     model_file=GPT2_PRETRAINED_MODEL_ARCHIVE_MAP[model_name]
