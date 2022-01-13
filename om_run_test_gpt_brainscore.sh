@@ -29,4 +29,4 @@ echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
 #singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /home/`whoami`/neural-nlp-master/neural-nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
-singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /om/user/`whoami`/neural-nlp-1/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /om/user/`whoami`/neural-nlp-master/neural_nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"

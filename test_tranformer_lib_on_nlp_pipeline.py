@@ -11,7 +11,7 @@ from transformers import GPT2Config
 
 user=getpass.getuser()
 if user=='eghbalhosseini':
-    model_and_config_dir = '/Users/eghbalhosseini/MyData/arch_search'
+    model_and_config_dir = '/Users/eghbalhosseini/MyData/neural_nlp_bench/'
 elif user=='ehoseini':
     model_and_config_dir = '/om2/user/ehoseini/MyData/neural_nlp_bench/'
 
@@ -19,7 +19,7 @@ GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP = {"distilgpt2": os.path.join(model_and_confi
 GPT2_PRETRAINED_MODEL_ARCHIVE_MAP = {"distilgpt2": os.path.join(model_and_config_dir,'MODEL_ARCHIVE_MAP','distilgpt2-pytorch_model.bin')}
 
 if __name__ =='__main__':
-    #enchmark_name="Pereira2018-encoding"
+    #benchmark_name="Pereira2018-encoding"
     benchmark_name = 'Fedorenko2016v3-encoding'
     model_name="distilgpt2"
     config_file=GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP[model_name]
