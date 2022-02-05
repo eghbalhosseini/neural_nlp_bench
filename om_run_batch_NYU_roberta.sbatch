@@ -39,5 +39,6 @@ export XDG_CACHE_HOME
 
 cd /om/user/ehoseini/neural-nlp-nyu/neural_nlp/
 
-singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_fz.simg python neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+#singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_fz.simg python neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
+singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
