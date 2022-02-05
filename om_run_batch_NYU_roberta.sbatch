@@ -37,7 +37,7 @@ export RESULTCACHING_HOME
 XDG_CACHE_HOME=/om2/user/`whoami`/st
 export XDG_CACHE_HOME
 
-cd /om/user/ehoseini/neural-nlp-nyu
+cd /om/user/ehoseini/neural-nlp-nyu/neural_nlp/
 
 singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_fz.simg python neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
