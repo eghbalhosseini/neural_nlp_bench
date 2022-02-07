@@ -48,7 +48,7 @@ cp "${Model_config_file}" "${saving_list[$SLURM_ARRAY_TASK_ID]}"
 
 . ~/.bash_profile
 . ~/.bashrc
-conda activate neural_nlp_1
+conda activate base
 
 python fix_pytorch_version.py "${saving_list[$SLURM_ARRAY_TASK_ID]}"
 
