@@ -10,7 +10,7 @@
 #SBATCH --output=R-%x.%j.out
 
 i=0
-for benchmark in Fedorenko2016v3-encoding ; do
+for benchmark in Pereira2018-encoding ; do
   for model in mistral/alias-gpt2-small-x21  ; do
       for checkpoint in `seq 0 10000 400000`; do
             model_list[$i]="${model}/ckpt_${checkpoint}"
@@ -30,4 +30,4 @@ echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
-singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /home/`whoami`/neural-nlp-master/neural-nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}" --log_level DEBUG
+singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /home/`whoami`/neural-nlp-master/neural-nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
