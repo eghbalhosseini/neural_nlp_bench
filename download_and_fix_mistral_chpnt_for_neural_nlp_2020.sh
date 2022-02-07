@@ -50,6 +50,6 @@ cp "${Model_config_file}" "${saving_list[$SLURM_ARRAY_TASK_ID]}"
 . ~/.bashrc
 conda activate neural_nlp_1
 
-python fix_pytorch_version.py "${ROOT_DIR}/${model_id_list[$SLURM_ARRAY_TASK_ID]}"
+python fix_pytorch_version.py "${saving_list[$SLURM_ARRAY_TASK_ID]}"
 
 # save model file for pytorch < 1.6.0
