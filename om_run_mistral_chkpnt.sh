@@ -11,7 +11,7 @@
 
 i=0
 for benchmark in Pereira2018-encoding ; do
-  for model in mistral/alias-gpt2-small-x21  ; do
+  for model in mistral/eowyn-gpt2-medium-x777  ; do
       for checkpoint in `seq 0 10000 400000`; do
             model_list[$i]="${model}/ckpt_${checkpoint}"
             benchmark_list[$i]="$benchmark"
