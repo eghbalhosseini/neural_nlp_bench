@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=download_
-#SBATCH --array=0-1
+#SBATCH --array=0
 #SBATCH --time=2:00:00
 #SBATCH --ntasks=1
 #SBATCH --mem=20G
@@ -16,8 +16,8 @@ rm -f $CHECKPOINT_FILE
 touch $CHECKPOINT_FILE
 printf "%s,%s,%s,%s\n"  "checkpoint_id" "checkpoint" "src_dir" "target_dir"   >> $CHECKPOINT_FILE
 
-for checkpoint in miniBERTa_100m_v2/gpt2/checkpoints_4/global_step20000 ; do
-                  #miniBERTa_1b_v2/gpt2/checkpoints_4/global_step92500 ; do
+for checkpoint in miniBERTa_1b_v2/gpt2/checkpoints_4/global_step92500 ; do
+  #miniBERTa_100m_v2/gpt2/checkpoints_4/global_step20000 ; do
     checkpoint_list[$i]="$checkpoint"
     srt_loc="${ROOT_DIR}/${checkpoint}"
     target_loc="${ROOT_DIR}/${checkpoint}_torch_1_5"
