@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=download_
-#SBATCH --array=0-40
+#SBATCH --array=0-1
 #SBATCH --time=2:00:00
 #SBATCH --ntasks=1
 #SBATCH --mem=20G
