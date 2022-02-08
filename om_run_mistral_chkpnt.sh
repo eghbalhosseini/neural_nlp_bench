@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlpMistral
-#SBATCH --array=0-40
+#SBATCH --array=0-3
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=160G
@@ -12,8 +12,8 @@
 i=0
 for benchmark in Pereira2018-encoding ; do
   for model in mistral/eowyn-gpt2-medium-x777  ; do
-      for checkpoint in `seq 0 10000 400000`; do
-            model_list[$i]="${model}/ckpt_${checkpoint}"
+      for checkpoint in `seq 0 10000 20000`; do
+            model_list[$i]="${model}/ckpt_${checkpoint}-untrained"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
       done
