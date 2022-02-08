@@ -7,8 +7,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
-#!/bin/bash
-/om/user/ehoseini/MyData/miniBERTa_training/
+
 i=0
 ROOT_DIR=/om/user/ehoseini/MyData/miniBERTa_training/
 
