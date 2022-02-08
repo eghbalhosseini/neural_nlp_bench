@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlpGptNeoX
-#SBATCH --array=0-2
+#SBATCH --array=0-1
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=160G
@@ -10,7 +10,7 @@
 #SBATCH --output=R-%x.%j.out
 
 i=0
-for benchmark in Pereira2018-encoding ; do
+for benchmark in Fedorenko2016v3-encoding ; do
   for model in gpt2-neox-orig-10M-v2 gpt2-neox-orig-10M-v2-untrained  ; do
 
             model_list[$i]="${model}"
