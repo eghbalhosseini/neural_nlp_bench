@@ -7,7 +7,7 @@
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
-#SBATCH --output=R-%x.%j.out
+
 
 i=0
 for benchmark in Pereira2018-encoding ; do
