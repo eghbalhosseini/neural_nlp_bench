@@ -31,14 +31,15 @@ echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
 module add openmind/singularity
-export SINGULARITY_CACHEDIR=/om2/user/`whoami`/st/
-RESULTCACHING_HOME=/om2/user/`whoami`/.result_caching
+export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
+RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
 export RESULTCACHING_HOME
 XDG_CACHE_HOME=/om2/user/`whoami`/st
 export XDG_CACHE_HOME
 
-cd /om/user/ehoseini/neural-nlp-nyu/neural_nlp/
+
 
 #singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_fz.simg python neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
-singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /om/user/ehoseini/neural-nlp-nyu/neural_nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+#singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /om/user/ehoseini/neural-nlp-nyu/neural_nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+singularity exec -B /om:/om,/om5:/om5 /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /home/`whoami`/neural-nlp-master/neural-nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
