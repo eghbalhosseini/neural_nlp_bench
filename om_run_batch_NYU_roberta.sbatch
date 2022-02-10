@@ -12,7 +12,7 @@
 i=0
 
 for benchmark in Pereira2018-encoding ; do
-    for model in roberta-base ,roberta-base-untrained \
+    for model in roberta-base , roberta-base-untrained \
         nyu-mll/roberta-base-1B-1 nyu-mll/roberta-base-1B-1-untrained \
         nyu-mll/roberta-base-100M-1 nyu-mll/nyu-mll/roberta-base-100M-1-untrained \
         nyu-mll/roberta-base-10M-1 nyu-mll/roberta-base-10M-1-untrained  ; do
