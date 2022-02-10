@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --job-name=nlp_NYU
-#SBATCH --array=0-13
+#SBATCH --array=0-8
 #SBATCH --time=96:00:00
 #SBATCH --ntasks=1
 #SBATCH --mem=120G
@@ -12,11 +12,10 @@
 i=0
 
 for benchmark in Pereira2018-encoding ; do
-    for model in roberta-base \
-        nyu-mll/roberta-base-1B-1 nyu-mll/roberta-base-1B-2 nyu-mll/roberta-base-1B-3 \
-        nyu-mll/roberta-base-100M-1 nyu-mll/roberta-base-100M-2 nyu-mll/roberta-base-100M-3 \
-        nyu-mll/roberta-base-10M-1 nyu-mll/roberta-base-10M-2 nyu-mll/roberta-base-10M-3 \
-        nyu-mll/roberta-med-small-1M-1 nyu-mll/roberta-med-small-1M-2 nyu-mll/roberta-med-small-1M-3 ; do
+    for model in roberta-base ,roberta-base-untrained \
+        nyu-mll/roberta-base-1B-1 nyu-mll/roberta-base-1B-1-untrained \
+        nyu-mll/roberta-base-100M-1 nyu-mll/nyu-mll/roberta-base-100M-1-untrained \
+        nyu-mll/roberta-base-10M-1 nyu-mll/roberta-base-10M-1-untrained  ; do
             model_list[$i]="$model"
             benchmark_list[$i]="$benchmark"
             i=$[$i +1]
