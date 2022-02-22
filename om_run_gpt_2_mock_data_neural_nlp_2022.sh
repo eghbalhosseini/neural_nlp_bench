@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-1
+#SBATCH --array=0-5
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=160G
@@ -10,7 +10,7 @@
 
 i=0
 for benchmark in MghMockLang-encoding ; do
-  for model in distilgpt2 distilgpt2-untrained ; do
+  for model in distilgpt2 distilgpt2-untrained gpt2 gpt2-untrained gpt2-medium gpt2-medium-untrained ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
