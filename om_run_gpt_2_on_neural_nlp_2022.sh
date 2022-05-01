@@ -26,6 +26,7 @@ export XDG_CACHE_HOME
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+echo "cache id " $RESULTCACHING_HOME
 
 
 . ~/.bash_profile
