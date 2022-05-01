@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-7
+#SBATCH --array=0-2
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=160G
@@ -10,7 +10,7 @@
 
 i=0
 for benchmark in Pereira2018-encoding  ; do
-  for model in gpt2-xl xlm-mlm-en-2048 xlnet-large-cased roberta-base bert-large-uncased-whole-word-masking ctrl albert-xxlarge-v2 ; do
+  for model in gpt2 gpt2-untrained ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
