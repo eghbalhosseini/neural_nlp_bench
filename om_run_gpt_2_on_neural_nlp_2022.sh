@@ -19,7 +19,7 @@ done
 
 module add openmind/singularity
 export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
-RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
+#RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
 export RESULTCACHING_HOME
 XDG_CACHE_HOME=/om/user/`whoami`/st
 export XDG_CACHE_HOME
@@ -32,5 +32,7 @@ echo "cache id " $RESULTCACHING_HOME
 . ~/.bash_profile
 . ~/.bashrc
 conda activate neural_nlp_2022
+
+which python
 
 /om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
