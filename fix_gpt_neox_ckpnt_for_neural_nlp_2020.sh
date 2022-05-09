@@ -16,7 +16,7 @@ rm -f $CHECKPOINT_FILE
 touch $CHECKPOINT_FILE
 printf "%s,%s,%s,%s\n"  "checkpoint_id" "checkpoint" "src_dir" "target_dir"   >> $CHECKPOINT_FILE
 
-for checkpoint in miniBERTa_1b_v2/gpt2/checkpoints_4/global_step92500 ; do
+for checkpoint in miniBERTa_training/miniBERTa_100m_v2/gpt2/checkpoints_0 ; do
   #miniBERTa_100m_v2/gpt2/checkpoints_4/global_step20000 ; do
     checkpoint_list[$i]="$checkpoint"
     srt_loc="${ROOT_DIR}/${checkpoint}"
