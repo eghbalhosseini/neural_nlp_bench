@@ -10,7 +10,7 @@
 i=0
 for benchmark in Fedorenko2016v3-encoding Pereira2018-encoding ; do
   for model in gpt2-neox-pos_learned-100M-v2-ckpnt  ; do
-      for checkpoint in `seq 2900 100 3000`; do
+      for checkpoint in `seq 100 100 200`; do
             model_list[$i]="${model}-${checkpoint}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
