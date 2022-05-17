@@ -9,19 +9,17 @@
 
 i=0
 for benchmark in Pereira2018-encoding ; do
-  for model in bert-large-uncased-whole-word-masking \
-  roberta-base \
-  xlnet-large-cased \
-  xlm-mlm-en-2048 \
-  gpt2-xl \
-  albert-xxlarge-v2 \
-  ctrl ; do
-      for checkpoint in `seq 250 1000 11500`; do
-            model_list[$i]="${model}-${checkpoint}"
-            benchmark_list[$i]="$benchmark"
-            i=$[$i+1]
-      done
-    done
+  for model in  bert-large-uncased-whole-word-masking \
+                roberta-base \
+                xlnet-large-cased \
+                xlm-mlm-en-2048 \
+                gpt2-xl \
+                albert-xxlarge-v2 \
+                ctrl ; do
+                    model_list[$i]="$model"
+                    benchmark_list[$i]="$benchmark"
+                    i=$[$i+1]
+  done
 done
 
 module add openmind/singularity
