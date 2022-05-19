@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-3
+#SBATCH --array=0-7
 #SBATCH --time=56:00:00
 #SBATCH --mem=120G
 #SBATCH --exclude node017,node018
@@ -8,14 +8,14 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Pereira2018-encoding ; do
+for benchmark in Pereira2018-rdm ; do
   for model in xlnet-large-cased \
                 xlm-mlm-en-2048 \
-                albert-xxlarge-v2 ; do
-                #bert-large-uncased-whole-word-masking \
-                #roberta-base \
-                #gpt2-xl \
-                #ctrl
+                albert-xxlarge-v2 \
+                bert-large-uncased-whole-word-masking \
+                roberta-base \
+                gpt2-xl \
+                ctrl ; do
                     model_list[$i]="$model"
                     benchmark_list[$i]="$benchmark"
                     i=$[$i+1]
