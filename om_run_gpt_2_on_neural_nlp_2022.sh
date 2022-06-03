@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-2
+#SBATCH --array=0-1
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=160G
@@ -10,7 +10,7 @@
 
 i=0
 for benchmark in Pereira2018-encoding  ; do
-  for model in gpt2 gpt2-untrained ; do
+  for model in distilgpt2 ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
@@ -19,7 +19,7 @@ done
 
 module add openmind/singularity
 export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
-#RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
+RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
 export RESULTCACHING_HOME
 XDG_CACHE_HOME=/om/user/`whoami`/st
 export XDG_CACHE_HOME
