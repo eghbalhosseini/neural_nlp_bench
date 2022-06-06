@@ -10,7 +10,7 @@
 
 i=0
 for benchmark in Pereira2018-encoding  ; do
-  for model in distilgpt2 distilgpt2-untrained ; do
+  for model in glove ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
