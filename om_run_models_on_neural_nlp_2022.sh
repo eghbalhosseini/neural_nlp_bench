@@ -10,7 +10,7 @@
 
 i=0
 for benchmark in Pereira2018-encoding  ; do
-  for model in glove ; do
+  for model in gpt2 gpt2-untrained ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
@@ -28,7 +28,7 @@ echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 echo "cache id " $RESULTCACHING_HOME
 
-
+s
 . ~/.bash_profile
 . ~/.bashrc
 conda activate neural_nlp_2022
