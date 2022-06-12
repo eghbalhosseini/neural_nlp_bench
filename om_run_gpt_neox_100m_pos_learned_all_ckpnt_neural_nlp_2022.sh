@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=nlp2022
+#SBATCH --job-name=100M
 #SBATCH --array=0-82
-#SBATCH --time=56:00:00
+#SBATCH --time=6-23:00:00
 #SBATCH --mem=120G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
@@ -27,9 +27,12 @@ export XDG_CACHE_HOME
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+echo "cache id " $RESULTCACHING_HOME
 
 . ~/.bash_profile
 . ~/.bashrc
 conda activate neural_nlp_2022
+
+which python
 
 /om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"

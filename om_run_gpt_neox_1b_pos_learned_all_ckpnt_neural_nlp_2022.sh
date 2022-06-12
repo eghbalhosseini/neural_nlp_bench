@@ -1,14 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=nlp2022
+#SBATCH --job-name=1B
 #SBATCH --array=0-123
-#SBATCH --time=56:00:00
-#SBATCH -c 16
-#SBATCH --mem=160G
+#SBATCH --time=6-23:00:00
+#SBATCH --mem=120G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
-i=0
 i=0
 for benchmark in Fedorenko2016v3-encoding Pereira2018-encoding ; do
   for model in gpt2-neox-pos_learned-1B-v2-ckpnt  ; do

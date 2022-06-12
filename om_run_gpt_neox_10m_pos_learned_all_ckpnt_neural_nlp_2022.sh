@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=nlp2022
-#SBATCH --array=0-24
-#SBATCH --time=56:00:00
+#SBATCH --job-name=10M
+#SBATCH --array=0-81
+#SBATCH --time=6-23:00:00
 #SBATCH --mem=120G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
@@ -10,7 +10,7 @@
 i=0
 for benchmark in Fedorenko2016v3-encoding Pereira2018-encoding ; do
   for model in gpt2-neox-pos_learned-10M-v2-ckpnt  ; do
-      for checkpoint in `seq 250 1000 11500`; do
+      for checkpoint in `seq 250 1000 40250`; do
             model_list[$i]="${model}-${checkpoint}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
