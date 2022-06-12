@@ -2,7 +2,7 @@
 #SBATCH --job-name=100M
 #SBATCH --array=0-82
 #SBATCH --time=6-23:00:00
-#SBATCH --mem=120G
+#SBATCH --mem=80G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
