@@ -15,9 +15,9 @@ for benchmark in Fedorenko2016v3-encoding Pereira2018-encoding ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
-      done
     done
 done
+
 
 module add openmind/singularity
 export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
