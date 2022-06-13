@@ -9,8 +9,8 @@
 
 i=0
 for benchmark in Fedorenko2016v3-encoding Pereira2018-encoding ; do
-  for model in gpt2-neox-pos_learned-10M-v2-ckpnt-1900 \
-               gpt2-neox-pos_learned-100M-v2-ckpnt-11600 \
+  for model in gpt2-neox-pos_learned-10M-v2-ckpnt-2000 \
+               gpt2-neox-pos_learned-100M-v2-ckpnt-11250 \
                gpt2-neox-pos_learned-100M-v2-ckpnt-155000 ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"

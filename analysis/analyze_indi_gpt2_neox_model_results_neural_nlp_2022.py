@@ -25,22 +25,15 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
-    model_1B='gpt2-neox-pos_learned-1B'
-    loss_1B_ckpnt='155000'
-    model_100M = 'gpt2-neox-pos_learned-100M'
-    #loss_100M_ckpnt='11600'
-    loss_100M_ckpnt='11250'
-    model_10M = 'gpt2-neox-pos_learned-10M'
-    #loss_10m_ckpnt='1900'
-    loss_10M_ckpnt = '2250'
-    file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{loss_1B_ckpnt}*.pkl'))
-    file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                f'benchmark={benchmark},model={model_100M}-v2-ckpnt-{loss_100M_ckpnt}*.pkl'))
-    file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                  f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}*.pkl'))
-    files_srt=[file_10M[0],file_100M[0],file_1B[0]]
-    chkpoints_srt=['10M','100M','1B']
+    model='gpt2-neox-pos_learned-1B'
+    files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
     # order files
+    chkpoints=[re.findall(r'ckpnt-\d+',x)[0] for x in files]
+    chkpoints=[int(x.replace('ckpnt-','')) for x in chkpoints]
+    reorder=np.argsort(chkpoints)
+    chkpoints_srt=[chkpoints[x] for x in reorder]
+    files_srt=[files[x] for x in reorder]
+
     scores_mean=[]
     scors_std=[]
     for ix, file in tqdm(enumerate(files_srt)):
@@ -48,7 +41,7 @@ if __name__ == "__main__":
         scores_mean.append(x[:,0])
         scors_std.append(x[:,1])
     l_names=pd.read_pickle(file)['data'].layer.values
-    cmap_all = cm.get_cmap('viridis')
+    cmap_all = cm.get_cmap('plasma')
     all_col = cmap_all(np.divide(np.arange(len(scores_mean)), len(scores_mean)))
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
     ax = plt.axes((.1, .2, .45, .35))
@@ -65,11 +58,13 @@ if __name__ == "__main__":
 
     ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
-    ax.set_title(f'benchmark {benchmark}')
+    ax = plt.axes((.1, .6, .45, .35))
+    ax.imshow(np.stack(scores_mean),vmax=1,aspect='auto')
+    ax.set_title(f'model:{model}, benchmark {benchmark}')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox_{benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_{model}_{benchmark}.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_{benchmark}.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_{model}_{benchmark}.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
