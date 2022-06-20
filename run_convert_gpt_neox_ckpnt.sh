@@ -16,12 +16,12 @@ while read x; do
       original=$ROOT_DIR
       correction=''
       ckpont_name="${x/$original/$correction}"
-
-
-      LINE_COUNT=$(expr ${LINE_COUNT} + 1)
+      ckpont_file="${ckpnt_name}/pytorch_model.bin"
+      if [ ! -f "$ckpont_file" ]
+        LINE_COUNT=$(expr ${LINE_COUNT} + 1)
         # folder to find the file
-
-      printf "%d,%s,%s\n" "$LINE_COUNT" "$ckpont_name" "$x" >> $CKPNT_FILE
+        printf "%d,%s,%s\n" "$LINE_COUNT" "$ckpont_name" "$x" >> $CKPNT_FILE
+      fi
 done < <(find $ROOT_DIR -maxdepth 1 -type d -name "global*")
 
 run_val=0
