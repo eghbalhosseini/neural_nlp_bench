@@ -30,7 +30,7 @@ if [ "$LINE_COUNT" -gt "$run_val" ]; then
   echo "running  ${LINE_COUNT} jobs"
 
    #nohup /cm/shared/admin/bin/submit-many-jobs 3 2 3 1 convert_gpt_neox_ckpoint.sh  $CKPNT_FILE
-   #nohup /cm/shared/admin/bin/submit-many-jobs $LINE_COUNT 75 100 25 convert_gpt_neox_ckpoint.sh  $CKPNT_FILE &
+   nohup /cm/shared/admin/bin/submit-many-jobs $LINE_COUNT 75 100 25 convert_gpt_neox_ckpoint.sh  $CKPNT_FILE &
   else
     echo $LINE_COUNT
 fi
