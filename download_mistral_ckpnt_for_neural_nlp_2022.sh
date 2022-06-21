@@ -42,9 +42,9 @@ else
   git lfs pull
 fi
 
-# copy config file
-Model_config_file="${ROOT_DIR}/${model_id_list[$SLURM_ARRAY_TASK_ID]}/config.json"
-cp "${Model_config_file}" "${saving_list[$SLURM_ARRAY_TASK_ID]}"
+# copy config file from the main branch in to the checkpoint folder ( not needed anymore )
+#Model_config_file="${ROOT_DIR}/${model_id_list[$SLURM_ARRAY_TASK_ID]}/config.json"
+#p "${Model_config_file}" "${saving_list[$SLURM_ARRAY_TASK_ID]}"
 
 #. ~/.bash_profile
 #. ~/.bashrc
