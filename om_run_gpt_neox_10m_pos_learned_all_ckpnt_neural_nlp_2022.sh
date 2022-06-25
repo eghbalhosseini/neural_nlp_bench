@@ -8,7 +8,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Blank2014fROI-encoding ; do
+for benchmark in Futrell2018-encoding ; do
   for model in gpt2-neox-pos_learned-10M-v2-ckpnt  ; do
       for checkpoint in `seq 250 1000 40250`; do
             model_list[$i]="${model}-${checkpoint}"

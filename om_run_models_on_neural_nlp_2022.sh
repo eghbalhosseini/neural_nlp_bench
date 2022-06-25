@@ -9,7 +9,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Blank2014fROI-encoding Futrell2018-encoding ; do
+for benchmark in  Futrell2018-encoding ; do
   for model in gpt2 gpt2-untrained ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
@@ -17,6 +17,7 @@ for benchmark in Blank2014fROI-encoding Futrell2018-encoding ; do
     done
 done
 
+#Blank2014fROI-encoding
 module add openmind/singularity
 export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
 RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
