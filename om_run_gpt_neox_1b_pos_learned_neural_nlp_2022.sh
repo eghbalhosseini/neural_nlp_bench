@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=100M
-#SBATCH --array=0-82
+#SBATCH --job-name=1B
+#SBATCH --array=0-254
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=40G
 #SBATCH --exclude node017,node018
@@ -9,8 +9,8 @@
 
 i=0
 for benchmark in Blank2014fROI-encoding Futrell2018-encoding ; do
-  for model in gpt2-neox-pos_learned-100M-v2-ckpnt  ; do
-      for checkpoint in `seq 250 1000 40250`; do
+  for model in gpt2-neox-pos_learned-1B-v2-ckpnt  ; do
+      for checkpoint in `seq 2500 2500 320000`; do
             model_list[$i]="${model}-${checkpoint}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
@@ -27,12 +27,9 @@ export XDG_CACHE_HOME
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
-echo "cache id " $RESULTCACHING_HOME
 
 . ~/.bash_profile
 . ~/.bashrc
 conda activate neural_nlp_2022
-
-which python
 
 /om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"

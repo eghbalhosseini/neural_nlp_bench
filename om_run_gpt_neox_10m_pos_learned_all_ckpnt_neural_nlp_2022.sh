@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=10M
-#SBATCH --array=0-45
+#SBATCH --array=0-26
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=40G
 #SBATCH --exclude node017,node018
@@ -8,7 +8,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Futrell2018-encoding ; do
+for benchmark in Blank2014fROI-encoding Futrell2018-encoding ; do
   for model in gpt2-neox-pos_learned-10M-v2-ckpnt  ; do
       for checkpoint in `seq 250 1000 11500`; do
             model_list[$i]="${model}-${checkpoint}"
