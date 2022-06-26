@@ -33,13 +33,16 @@ if __name__ == "__main__":
     model_10M = 'gpt2-neox-pos_learned-10M'
     #loss_10m_ckpnt='1900'
     loss_10M_ckpnt = '2000'
+    file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                          f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{2500}-untrained*.pkl'))
+
     file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{loss_1B_ckpnt}*.pkl'))
     file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                 f'benchmark={benchmark},model={model_100M}-v2-ckpnt-{loss_100M_ckpnt}*.pkl'))
     file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                   f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}*.pkl'))
-    files_srt=[file_10M[0],file_100M[0],file_1B[0]]
-    chkpoints_srt=['10M','100M','1B']
+    files_srt=[file_1B_untrained[0],file_10M[0],file_100M[0],file_1B[0]]
+    chkpoints_srt=['untrained','10M','100M','1B']
     # order files
     scores_mean=[]
     scors_std=[]
@@ -57,7 +60,7 @@ if __name__ == "__main__":
         ax.plot(r3, scr, color=all_col[idx,:],linewidth=2,marker='.',markersize=10,label=f'ck:{chkpoints_srt[idx]}')
         ax.fill_between(r3, scr-scors_std[idx],scr+scors_std[idx], facecolor=all_col[idx, :],alpha=0.1)
     ax.axhline(y=0, color='k', linestyle='-')
-    ax.legend(bbox_to_anchor=(1.2, .8), frameon=True,fontsize=8)
+    ax.legend(bbox_to_anchor=(1.3, .8), frameon=True,fontsize=8)
     ax.set_xlim((0-.5,len(l_names)-.5))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
