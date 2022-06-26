@@ -1,14 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name=100M
-#SBATCH --array=0-82
+#SBATCH --array=0-40
 #SBATCH --time=6-23:00:00
-#SBATCH --mem=80G
+#SBATCH --mem=40G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Blank2014fROI-encoding ; do
+for benchmark in Futrell2018-encoding ; do
   for model in gpt2-neox-pos_learned-100M-v2-ckpnt  ; do
       for checkpoint in `seq 250 1000 40250`; do
             model_list[$i]="${model}-${checkpoint}"

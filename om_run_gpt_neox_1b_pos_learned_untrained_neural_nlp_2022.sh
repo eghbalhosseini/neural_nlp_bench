@@ -1,16 +1,16 @@
 #!/bin/bash
 #SBATCH --job-name=1B
-#SBATCH --array=0-1
+#SBATCH --array=0-127
 #SBATCH --time=6-23:00:00
-#SBATCH --mem=80G
+#SBATCH --mem=40G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Pereira2018-encoding Blank2014fROI-encoding ; do
+for benchmark in Futrell2018-encoding ; do
   for model in gpt2-neox-pos_learned-1B-v2-ckpnt  ; do
-      for checkpoint in `seq 2500 2500 2500`; do
+      for checkpoint in `seq 2500 2500 320000`; do
             model_list[$i]="${model}-${checkpoint}-untrained"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
