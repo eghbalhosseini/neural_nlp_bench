@@ -25,7 +25,7 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     #benchmark='Pereira2018-encoding'
-    benchmark='Blank2014fROI-encoding'
+    benchmark='Futrell2018-encoding'
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
     loss_1B_ckpnt='310000'
@@ -33,8 +33,8 @@ if __name__ == "__main__":
     #loss_100M_ckpnt='11600'
     loss_100M_ckpnt='14250'
     model_10M = 'gpt2-neox-pos_learned-10M'
-    loss_10M_ckpnt='2250'
-    #loss_10M_ckpnt = '2000'
+    #loss_10M_ckpnt='2250'
+    loss_10M_ckpnt = '2000'
     file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{2500}-untrained*.pkl'))
     file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{loss_1B_ckpnt}*.pkl'))
