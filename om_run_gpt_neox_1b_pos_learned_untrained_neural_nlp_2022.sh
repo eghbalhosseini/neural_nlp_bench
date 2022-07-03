@@ -37,11 +37,17 @@ then
   correction=''
   activity_name="${x/$original/$correction}"
   ACT_DIR="${RESULTCACHING_HOME}/neural_nlp.models.wrapper.core.ActivationsExtractorHelper._from_sentences_stored/"
-  act_name="identifier=${model_list[$SLURM_ARRAY_TASK_ID]},stimuli_identifier=${activity_name}*"
+  act_name="identifier=${model_list[$SLURM_ARRAY_TASK_ID]},*"
+
+  find $ACT_DIR -type f -iname $act_name -printf x | wc -c
+
   find $ACT_DIR -type f -iname $act_name -exec rm -rf {} \;
 
   SCORE_DIR="${RESULTCACHING_HOME}/neural_nlp.score/"
   score_name="benchmark=${benchmark_list[$SLURM_ARRAY_TASK_ID]},model=${model_list[$SLURM_ARRAY_TASK_ID]}*"
+
+  find $ACT_DIR -type f -iname $act_name -printf x | wc -c
+
   find $SCORE_DIR -type f -iname $score_name -exec rm -rf {} \;
 
   echo " removed prior data "
