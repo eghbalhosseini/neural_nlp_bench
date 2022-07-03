@@ -61,23 +61,27 @@ if __name__ == "__main__":
     l_names=pd.read_pickle(file)['data'].layer.values
     cmap_all = cm.get_cmap('viridis')
     all_col = cmap_all(np.divide(np.arange(len(scores_mean)), len(scores_mean)))
-    fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    ax = plt.axes((.1, .2, .45, .35))
+    fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
+    ax = plt.axes((.1, .4, .45, .35))
     for idx,scr in enumerate(scores_mean):
         r3 = np.arange(len(scr))
-        ax.plot(r3, scr, color=all_col[idx,:],linewidth=2,marker='.',markersize=10,label=f'ck:{chkpoints_srt[idx]}')
-        ax.fill_between(r3, scr-scors_std[idx],scr+scors_std[idx], facecolor=all_col[idx, :],alpha=0.1)
+        ax.plot(idx, scr, color=all_col[idx,:],linewidth=2,marker='.',markersize=20,label=f'ck:{chkpoints_srt[idx]},',zorder=2)
+        ax.errorbar(idx, scr,yerr=scors_std[idx],color='k',zorder=1)
     # add precomputed
-    ax.plot(r3,model_bench['score'],linestyle='-',linewidth=2,color=(.5,.5,.5,1),label='trained(precomputed)',zorder=1)
-    ax.plot(r3, model_unt_bench['score'], linestyle='--',linewidth=2, color=(.5,.5,.5,1), label='untrained(precomputed)',zorder=1)
+    ax.errorbar(idx+.5,model_bench['score'],yerr=model_bench['error'],linestyle='--',fmt='.',markersize=20,linewidth=2,color=(0,0,0,1),label='trained(precomputed)',zorder=1)
+    ax.errorbar(-0.5, model_unt_bench['score'], yerr=model_unt_bench['error'], linestyle='--', fmt='.', markersize=20,
+                linewidth=2, color=(.5, .5, .5, 1), label='untrained(precomputed)', zorder=1)
+
     ax.axhline(y=0, color='k', linestyle='-')
     ax.legend(bbox_to_anchor=(1.3, .8), frameon=True,fontsize=8)
-    ax.set_xlim((0-.5,len(l_names)-.5))
+    ax.set_xlim((-1,len(scores_mean)))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-    ax.set_xticks(np.arange(len(scr)))
-    ax.set_xlabel('Layer')
+    ax.set_xticks((-.5,0,1,2,3,3.5))
+    ax.set_xticklabels(['untrained(precomputed)','untrained','10M','100M','1B','trained(precomputed)'],rotation=90)
+
     ax.set_ylim([-.15, 1])
+    ax.set_axisbelow(True)
     plt.grid(True, which="both", ls="-", color='0.9')
     #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
