@@ -8,17 +8,17 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-#overwrite=true
-#for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding ; do
-#    for model in mistral/caprica-gpt2-small-x81  ; do
-#      for checkpoint in `seq 0 0 1` ; do
-#            model_list[$i]="${model}/ckpt_${checkpoint}-untrained"
-#            benchmark_list[$i]="$benchmark"
-#            i=$[$i+1]
-#      done
-#    done
-#done
-#
+overwrite=true
+for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding ; do
+    for model in mistral/caprica-gpt2-small-x81  ; do
+      for checkpoint in `seq 0 1 10` ; do
+            model_list[$i]="${model}/ckpt_${checkpoint}-untrained"
+            benchmark_list[$i]="$benchmark"
+            i=$[$i+1]
+      done
+    done
+done
+
 #
 #RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
 #export RESULTCACHING_HOME
