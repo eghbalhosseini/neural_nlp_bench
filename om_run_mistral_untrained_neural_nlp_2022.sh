@@ -19,13 +19,13 @@ for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encodin
     done
 done
 
-#
-#RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
-#export RESULTCACHING_HOME
-#echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
-#echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
-#echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
-#
+
+RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
+export RESULTCACHING_HOME
+echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
+echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
+echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+
 
 #if [ $overwrite ]
 #then
