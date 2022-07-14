@@ -27,28 +27,28 @@ echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
 
-#if [ $overwrite ]
-#then
-#  x=${benchmark_list[$SLURM_ARRAY_TASK_ID]}
-#  original='-encoding'
-#  correction=''
-#  activity_name="${x/$original/$correction}"
-#  ACT_DIR="${RESULTCACHING_HOME}/neural_nlp.models.wrapper.core.ActivationsExtractorHelper._from_sentences_stored/"
-#  act_name="identifier=${model_list[$SLURM_ARRAY_TASK_ID]},*"
-#
-#  find $ACT_DIR -type f -iname $act_name -printf x | wc -c
-#
-#  find $ACT_DIR -type f -iname $act_name -exec rm -rf {} \;
-#
-#  SCORE_DIR="${RESULTCACHING_HOME}/neural_nlp.score/"
-#  score_name="benchmark=${benchmark_list[$SLURM_ARRAY_TASK_ID]},model=${model_list[$SLURM_ARRAY_TASK_ID]}*"
-#
-#  find $ACT_DIR -type f -iname $act_name -printf x | wc -c
-#
-#  find $SCORE_DIR -type f -iname $score_name -exec rm -rf {} \;
-#
-#  echo " removed prior data "
-#fi
+if [ $overwrite ]
+then
+  x=${benchmark_list[$SLURM_ARRAY_TASK_ID]}
+  original='-encoding'
+  correction=''
+  activity_name="${x/$original/$correction}"
+  ACT_DIR="${RESULTCACHING_HOME}/neural_nlp.models.wrapper.core.ActivationsExtractorHelper._from_sentences_stored/"
+  act_name="identifier=${model_list[$SLURM_ARRAY_TASK_ID]},*"
+
+  find $ACT_DIR -type f -iname $act_name -printf x | wc -c
+
+  find $ACT_DIR -type f -iname $act_name -exec rm -rf {} \;
+
+  SCORE_DIR="${RESULTCACHING_HOME}/neural_nlp.score/"
+  score_name="benchmark=${benchmark_list[$SLURM_ARRAY_TASK_ID]},model=${model_list[$SLURM_ARRAY_TASK_ID]}*"
+
+  find $ACT_DIR -type f -iname $act_name -printf x | wc -c
+
+  find $SCORE_DIR -type f -iname $score_name -exec rm -rf {} \;
+
+  echo " removed prior data "
+fi
 
 
 #. ~/.bash_profile
