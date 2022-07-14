@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=MIS
-#SBATCH --array=0-3
+#SBATCH --array=0
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=40G
 #SBATCH --exclude node017,node018
@@ -11,7 +11,7 @@ i=0
 overwrite=true
 for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding ; do
     for model in mistral/caprica-gpt2-small-x81  ; do
-      for checkpoint in `seq 0 1 10` ; do
+      for checkpoint in `seq 0 1 0` ; do
             model_list[$i]="${model}/ckpt_${checkpoint}-untrained"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
