@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=MIS
-#SBATCH --array=0
+#SBATCH --array=0-2
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=40G
 #SBATCH --exclude node017,node018
@@ -51,7 +51,7 @@ then
 fi
 
 
-#. ~/.bash_profile
-#. ~/.bashrc
-#conda activate neural_nlp_2022
-#/om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+. ~/.bash_profile
+. ~/.bashrc
+conda activate neural_nlp_2022
+/om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
