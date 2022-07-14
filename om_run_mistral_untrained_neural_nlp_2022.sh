@@ -1,9 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=MISTRL
-#SBATCH --array=0-2
+#SBATCH --job-name=MIS
+#SBATCH --array=0-3
 #SBATCH --time=6-23:00:00
-#SBATCH --mem=60G
-#SBATCH --partition evlab
+#SBATCH --mem=40G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
@@ -20,12 +19,9 @@ for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encodin
     done
 done
 
-module add openmind/singularity
-export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
+
 RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
 export RESULTCACHING_HOME
-XDG_CACHE_HOME=/om/user/`whoami`/st
-export XDG_CACHE_HOME
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
