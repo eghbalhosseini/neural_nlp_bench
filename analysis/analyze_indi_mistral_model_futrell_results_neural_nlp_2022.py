@@ -24,8 +24,6 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
-    benchmark='Blank2014fROI-encoding'
     benchmark='Futrell2018-encoding'
     model='mistral_caprica-gpt2-small-x81'
     files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}_*.pkl'))
@@ -57,22 +55,19 @@ if __name__ == "__main__":
             label= f'{chkpoints_srt[idx]}-untrained'
         else:
             label = f'{chkpoints_srt[idx]}'
-        ax.plot(r3, scr, color=all_col[idx,:],linewidth=2,label=f'ck:{label}')
-        ax.errorbar(r3, scr, yerr=scors_std[idx], linewidth=2, color=all_col[idx, :],marker='.', markersize=10)
+        ax.plot(chkpoints_srt[idx], scr, color=all_col[idx,:],linewidth=2,label=f'ck:{label}')
+        ax.errorbar(chkpoints_srt[idx], scr, yerr=scors_std[idx], linewidth=2, color=all_col[idx, :],marker='.', markersize=10)
+    ax.plot(chkpoints_srt,scores_mean,color='k',linewidth=2)
     ax.axhline(y=0, color='k', linestyle='-')
     ax.legend(bbox_to_anchor=(1.4, 2), frameon=True,fontsize=8)
-    ax.set_xlim((0-.5,len(l_names)-.5))
+    #ax.set_xlim((0-.5,len(scores_mean)-.5))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_xticks(np.arange(len(scr)))
 
-    ax.set_xticklabels(l_names, rotation=90, fontsize=12)
+    #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
-    ax = plt.axes((.1, .6, .45, .35))
-    vmax=np.ceil(10*(np.max(np.stack(scores_mean))+.1))/10
-    ax.imshow(np.stack(scores_mean),vmax=vmax,aspect='auto')
-    ax.set_yticks(np.arange(len(scores_mean)))
-    ax.set_yticklabels(chkpoints_srt,fontsize=12)
+    ax.set_xlabel('training step')
     ax.set_title(f'model:{model}, benchmark {benchmark}')
     fig.show()
 
