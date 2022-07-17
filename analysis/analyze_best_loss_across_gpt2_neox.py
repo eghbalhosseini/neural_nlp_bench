@@ -26,6 +26,7 @@ elif user=='ehoseini':
 if __name__ == "__main__":
     #benchmark='Pereira2018-encoding'
     benchmark='Blank2014fROI-encoding'
+    benchmark = 'Fedorenko2016v3-encoding'
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
     loss_1B_ckpnt='310000'
@@ -43,7 +44,7 @@ if __name__ == "__main__":
     file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                   f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}*.pkl'))
     files_srt=[file_1B_untrained[0],file_10M[0],file_100M[0],file_1B[0]]
-    chkpoints_srt=['untrained','10M','100M','1B']
+    chkpoints_srt=['untrained-manual','10M','100M','1B']
     # order files
     scores_mean=[]
     scors_std=[]
@@ -68,8 +69,8 @@ if __name__ == "__main__":
         ax.plot(r3, scr, color=all_col[idx,:],linewidth=2,marker='.',markersize=10,label=f'ck:{chkpoints_srt[idx]}')
         ax.fill_between(r3, scr-scors_std[idx],scr+scors_std[idx], facecolor=all_col[idx, :],alpha=0.1)
     # add precomputed
-    ax.plot(r3,model_bench['score'],linestyle='-',linewidth=2,color=(.5,.5,.5,1),label='trained(precomputed)',zorder=1)
-    ax.plot(r3, model_unt_bench['score'], linestyle='--',linewidth=2, color=(.5,.5,.5,1), label='untrained(precomputed)',zorder=1)
+    ax.plot(r3,model_bench['score'],linestyle='-',linewidth=2,color=(.5,.5,.5,1),label='trained(Schrimpf)',zorder=1)
+    ax.plot(r3, model_unt_bench['score'], linestyle='--',linewidth=2, color=(.5,.5,.5,1), label='untrained(Schrimpf)',zorder=1)
     ax.axhline(y=0, color='k', linestyle='-')
     ax.legend(bbox_to_anchor=(1.3, .8), frameon=True,fontsize=8)
     ax.set_xlim((0-.5,len(l_names)-.5))
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     ax.spines['right'].set_visible(False)
     ax.set_xticks(np.arange(len(scr)))
     ax.set_xlabel('Layer')
-    ax.set_ylim([-.15, 1])
+    ax.set_ylim([-.15, .6])
     plt.grid(True, which="both", ls="-", color='0.9')
     #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')

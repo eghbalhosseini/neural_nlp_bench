@@ -9,7 +9,7 @@
 
 i=0
 overwrite=true
-for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding Fedorenko2016v3-encoding ; do
+for benchmark in  Fedorenko2016v3-encoding ; do
   for model in gpt2-neox-pos_learned-1B-v2-ckpnt  ; do
       for checkpoint in `seq 2500 2500 2500`; do
             model_list[$i]="${model}-${checkpoint}-untrained"
@@ -19,16 +19,13 @@ for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encodin
     done
 done
 
-module add openmind/singularity
-export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
+# Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding
+
 RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
 export RESULTCACHING_HOME
-XDG_CACHE_HOME=/om/user/`whoami`/st
-export XDG_CACHE_HOME
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
-
 
 if [ $overwrite ]
 then

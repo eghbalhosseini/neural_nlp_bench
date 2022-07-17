@@ -42,14 +42,15 @@ if __name__ =='__main__':
     config_names=[x['weight_identifier'] for x in transformer_configurations]
     model_config=transformer_configurations[config_names.index('gpt2-neox-pos_learned-1B-v2-ckpnt-300000')]
 
-    model_config = transformer_configurations[config_names.index('mistral/caprica-gpt2-small-x81/ckpt_190000')]
-    model_conf = AutoConfig.from_pretrained(model_config['config_file'])
-    model_ctr = AutoModelWithLMHead
-    state_dict = None
-    model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict)
+    #model_config = transformer_configurations[config_names.index('mistral/caprica-gpt2-small-x81/ckpt_190000')]
+    #model_conf = AutoConfig.from_pretrained(model_config['config_file'])
+    #model_ctr = AutoModelWithLMHead
+    #state_dict = None
+    #model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict)
     #list(model.state_dict().keys())
     model_conf=GPTNeoXPosLearnedConfig.from_pretrained(model_config['config_file'])
     model_ctr=GPTNeoXPosLearnedForCausalLM
+    model=model_ctr(config=model_conf)
     state_dict=None
     model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict)
 
