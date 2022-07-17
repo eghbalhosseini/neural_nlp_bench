@@ -6,7 +6,8 @@ import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 from datasets import load_dataset
-from neural_nlp.models.gpt_neox_model import GPTNeoXModel,GPTNeoXPosLearnedModel,GPTNeoXPosLearnedForCausalLM,GPTNeoXPosLearnedConfig,GPTNeoXConfig
+from transformers import AutoConfig, AutoModel, AutoModelWithLMHead,AutoTokenizer
+from neural_nlp.models.gpt_neox_model import GPTNeoXModel,GPTNeoXPosLearnedModel,GPTNeoXPosLearnedForCausalLM,GPTNeoXPosLearnedConfig,GPTNeoXConfig, initialize_gpt_neox_weights
 
 def tokenize_function(examples):
     # max_length=None => use the model max length (it's actually the default)
@@ -41,6 +42,12 @@ if __name__ =='__main__':
     config_names=[x['weight_identifier'] for x in transformer_configurations]
     model_config=transformer_configurations[config_names.index('gpt2-neox-pos_learned-1B-v2-ckpnt-300000')]
 
+    model_config = transformer_configurations[config_names.index('mistral/caprica-gpt2-small-x81/ckpt_190000')]
+    model_conf = AutoConfig.from_pretrained(model_config['config_file'])
+    model_ctr = AutoModelWithLMHead
+    state_dict = None
+    model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict)
+    #list(model.state_dict().keys())
     model_conf=GPTNeoXPosLearnedConfig.from_pretrained(model_config['config_file'])
     model_ctr=GPTNeoXPosLearnedForCausalLM
     state_dict=None

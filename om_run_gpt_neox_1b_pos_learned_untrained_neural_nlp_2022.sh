@@ -9,7 +9,7 @@
 
 i=0
 overwrite=true
-for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding ; do
+for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding Fedorenko2016v3-encoding ; do
   for model in gpt2-neox-pos_learned-1B-v2-ckpnt  ; do
       for checkpoint in `seq 2500 2500 2500`; do
             model_list[$i]="${model}-${checkpoint}-untrained"
@@ -38,21 +38,14 @@ then
   activity_name="${x/$original/$correction}"
   ACT_DIR="${RESULTCACHING_HOME}/neural_nlp.models.wrapper.core.ActivationsExtractorHelper._from_sentences_stored/"
   act_name="identifier=${model_list[$SLURM_ARRAY_TASK_ID]},*"
-
   find $ACT_DIR -type f -iname $act_name -printf x | wc -c
-
   find $ACT_DIR -type f -iname $act_name -exec rm -rf {} \;
-
   SCORE_DIR="${RESULTCACHING_HOME}/neural_nlp.score/"
   score_name="benchmark=${benchmark_list[$SLURM_ARRAY_TASK_ID]},model=${model_list[$SLURM_ARRAY_TASK_ID]}*"
-
   find $ACT_DIR -type f -iname $act_name -printf x | wc -c
-
   find $SCORE_DIR -type f -iname $score_name -exec rm -rf {} \;
-
   echo " removed prior data "
 fi
-
 
 . ~/.bash_profile
 . ~/.bashrc

@@ -25,7 +25,8 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
-    model='gpt2-neox-pos_learned-1B'
+    benchmark='Fedorenko2016v3-encoding'
+    model='gpt2-neox-pos_learned-10M'
     files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
     # order files
     chkpoints=[re.findall(r'ckpnt-\d+',x)[0] for x in files]
@@ -50,7 +51,7 @@ if __name__ == "__main__":
         ax.plot(r3, scr, color=all_col[idx,:],linewidth=2,label=f'ck:{chkpoints_srt[idx]}')
         ax.errorbar(r3, scr, yerr=scors_std[idx], linewidth=2, color=all_col[idx, :],marker='.', markersize=10)
     ax.axhline(y=0, color='k', linestyle='-')
-    ax.legend(bbox_to_anchor=(1.4, 2), frameon=True,fontsize=8)
+    ax.legend(bbox_to_anchor=(1.8, 2), frameon=True,fontsize=8,ncol=3)
     ax.set_xlim((0-.5,len(l_names)-.5))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
