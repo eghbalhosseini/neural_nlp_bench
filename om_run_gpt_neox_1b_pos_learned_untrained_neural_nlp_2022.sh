@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=1B
-#SBATCH --array=0-3
+#SBATCH --array=0
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=40G
 #SBATCH --exclude node017,node018
