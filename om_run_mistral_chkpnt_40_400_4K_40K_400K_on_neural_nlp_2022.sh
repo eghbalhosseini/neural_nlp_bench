@@ -37,9 +37,15 @@ then
   activity_name="${x/$original/$correction}"
 
   x=${model_list[$SLURM_ARRAY_TASK_ID]}
-  original='/'
-  correction='_'
+  original='mistral/'
+  correction='mistral_'
+  model_fix="${x/$original/$correction}"
+
+  x=$model_fix
+  original='/ckpt'
+  correction='_ckpt'
   model_name="${x/$original/$correction}"
+
 
   ACT_DIR="${RESULTCACHING_HOME}/neural_nlp.models.wrapper.core.ActivationsExtractorHelper._from_sentences_stored/"
   act_name="identifier=${model_name},stimuli_identifier=${activity_name}*"
