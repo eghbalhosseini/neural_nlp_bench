@@ -14,9 +14,9 @@ activity_id_list="Fedorenko2016.ecog"
 activity_arr=($activity_id_list)
 
 for benchmark in wikitext-2  ; do
-  for model in mistral/caprica-gpt2-small-x81  ; do
+  for model in mistral-caprica-gpt2-small-x81  ; do
       for checkpoint in 40 400 4000 40000 400000; do
-            model_list[$i]="${model}/ckpt_${checkpoint}"
+            model_list[$i]="${model}-ckpnt-${checkpoint}"
             benchmark_list[$i]="$benchmark"
             activity_list[$i]="${activity_arr[$idx]}"
             i=$[$i+1]
