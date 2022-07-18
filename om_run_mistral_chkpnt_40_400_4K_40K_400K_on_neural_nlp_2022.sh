@@ -22,6 +22,13 @@ done
 
 #Futrell2018-encoding
 
+RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
+export RESULTCACHING_HOME
+echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
+echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
+echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+
+
 if [ $overwrite ]
 then
   x=${benchmark_list[$SLURM_ARRAY_TASK_ID]}
@@ -41,11 +48,6 @@ fi
 
 # Blank2014fROI-encoding
 
-RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
-export RESULTCACHING_HOME
-echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
-echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
-echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
 . ~/.bash_profile
 . ~/.bashrc
