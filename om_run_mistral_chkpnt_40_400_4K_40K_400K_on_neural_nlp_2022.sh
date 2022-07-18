@@ -10,11 +10,15 @@
 i=0
 overwrite=true
 
+activity_id_list="Fedorenko2016.ecog"
+activity_arr=($activity_id_list)
+
 for benchmark in Fedorenko2016v3-encoding  ; do
   for model in mistral/caprica-gpt2-small-x81  ; do
       for checkpoint in 40 400 4000 40000 400000; do
             model_list[$i]="${model}/ckpt_${checkpoint}"
             benchmark_list[$i]="$benchmark"
+            activity_list[$i]="${activity_arr[$idx]}"
             i=$[$i+1]
       done
     done
@@ -31,10 +35,11 @@ echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
 if [ $overwrite ]
 then
-  x=${benchmark_list[$SLURM_ARRAY_TASK_ID]}
-  original='-encoding'
-  correction=''
-  activity_name="${x/$original/$correction}"
+  #x=${benchmark_list[$SLURM_ARRAY_TASK_ID]}
+  #original='-encoding'
+  #correction=''
+  #activity_name="${x/$original/$correction}"
+  activity_name=${activity_list[$SLURM_ARRAY_TASK_ID]}
 
   x=${model_list[$SLURM_ARRAY_TASK_ID]}
   original='mistral/'
