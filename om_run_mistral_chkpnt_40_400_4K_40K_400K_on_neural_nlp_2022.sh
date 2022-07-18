@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=MISTRAL
-#SBATCH --array=0-4
+#SBATCH --array=0-15
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=40G
 #SBATCH --exclude node017,node018
@@ -8,7 +8,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Fedorenko2016v3-encoding ; do
+for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding  ; do
   for model in mistral/caprica-gpt2-small-x81  ; do
       for checkpoint in 40 400 4000 40000 400000; do
             model_list[$i]="${model}/ckpt_${checkpoint}"
