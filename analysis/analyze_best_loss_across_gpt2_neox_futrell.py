@@ -24,9 +24,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-
     benchmark='Futrell2018-encoding'
-
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
     loss_1B_ckpnt='310000'
@@ -69,9 +67,9 @@ if __name__ == "__main__":
         ax.plot(idx, scr, color=all_col[idx,:],linewidth=2,marker='.',markersize=20,label=f'ck:{chkpoints_srt[idx]},',zorder=2)
         ax.errorbar(idx, scr,yerr=scors_std[idx],color='k',zorder=1)
     # add precomputed
-    ax.errorbar(idx+.5,model_bench['score'],yerr=model_bench['error'],linestyle='--',fmt='.',markersize=20,linewidth=2,color=(0,0,0,1),label='trained(precomputed)',zorder=1)
+    ax.errorbar(idx+.5,model_bench['score'],yerr=model_bench['error'],linestyle='--',fmt='.',markersize=20,linewidth=2,color=(0,0,0,1),label='trained(Schrimpf)',zorder=1)
     ax.errorbar(-0.5, model_unt_bench['score'], yerr=model_unt_bench['error'], linestyle='--', fmt='.', markersize=20,
-                linewidth=2, color=(.5, .5, .5, 1), label='untrained(precomputed)', zorder=1)
+                linewidth=2, color=(.5, .5, .5, 1), label='untrained(Schrimpf)', zorder=1)
 
     ax.axhline(y=0, color='k', linestyle='-')
     ax.legend(bbox_to_anchor=(1.3, .8), frameon=True,fontsize=8)
@@ -79,7 +77,7 @@ if __name__ == "__main__":
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_xticks((-.5,0,1,2,3,3.5))
-    ax.set_xticklabels(['untrained(precomputed)','untrained','10M','100M','1B','trained(precomputed)'],rotation=90)
+    ax.set_xticklabels(['untrained(Shrimpf)','untrained','10M','100M','1B','trained(Schrimpf)'],rotation=90)
 
     ax.set_ylim([-.15, 1])
     ax.set_axisbelow(True)
