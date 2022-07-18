@@ -25,7 +25,7 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     #benchmark='Pereira2018-encoding'
-    benchmark='Blank2014fROI-encoding'
+    #benchmark='Blank2014fROI-encoding'
     benchmark = 'Fedorenko2016v3-encoding'
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
