@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
-#%%
 import getpass
 import sys
 import pickle
@@ -14,7 +13,6 @@ user=getpass.getuser()
 print(user)
 import re
 from tqdm import tqdm
-
 if user=='eghbalhosseini':
     analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
     result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
@@ -22,11 +20,11 @@ elif user=='ehoseini':
     analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
     result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
-
+#%%
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
-    benchmark='Fedorenko2016v3-encoding'
-    model='gpt2-neox-pos_learned-10M'
+    #benchmark='Fedorenko2016v3-encoding'
+    model='gpt2-neox-pos_learned-1B'
     files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
     # order files
     chkpoints=[re.findall(r'ckpnt-\d+',x)[0] for x in files]
@@ -34,7 +32,7 @@ if __name__ == "__main__":
     reorder=np.argsort(chkpoints)
     chkpoints_srt=[chkpoints[x] for x in reorder]
     files_srt=[files[x] for x in reorder]
-
+#%%
     scores_mean=[]
     scors_std=[]
     for ix, file in tqdm(enumerate(files_srt)):
@@ -60,7 +58,11 @@ if __name__ == "__main__":
     ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
     ax = plt.axes((.1, .6, .45, .35))
-    ax.imshow(np.stack(scores_mean),vmax=1,aspect='auto')
+    vmax = np.ceil(10 * (np.max(np.stack(scores_mean)) + .1)) / 10
+    ax.imshow(np.stack(scores_mean), vmax=vmax, aspect='auto')
+    ax.set_yticks(np.arange(len(scores_mean)))
+    ax.set_yticklabels(chkpoints_srt, fontsize=12)
+
     ax.set_title(f'model:{model}, benchmark {benchmark}')
     fig.show()
 

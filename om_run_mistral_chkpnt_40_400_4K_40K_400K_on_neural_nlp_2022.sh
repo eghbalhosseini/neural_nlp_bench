@@ -35,8 +35,16 @@ then
   original='-encoding'
   correction=''
   activity_name="${x/$original/$correction}"
+
+  x=${model_list[$SLURM_ARRAY_TASK_ID]}
+  original='/ckpt'
+  correction='_ckpt'
+  model_name="${x/$original/$correction}"
+
   ACT_DIR="${RESULTCACHING_HOME}/neural_nlp.models.wrapper.core.ActivationsExtractorHelper._from_sentences_stored/"
-  act_name="identifier=${model_list[$SLURM_ARRAY_TASK_ID]},*"
+  act_name="identifier=${model_name},stimuli_identifier=${activity_name}*"
+
+  echo "searching for ${act_name}"
   find $ACT_DIR -type f -iname $act_name -printf x | wc -c
   find $ACT_DIR -type f -iname $act_name -exec rm -rf {} \;
   SCORE_DIR="${RESULTCACHING_HOME}/neural_nlp.score/"
@@ -49,8 +57,8 @@ fi
 # Blank2014fROI-encoding
 
 
-. ~/.bash_profile
-. ~/.bashrc
-conda activate neural_nlp_2022
-
-/om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+#. ~/.bash_profile
+#. ~/.bashrc
+#conda activate neural_nlp_2022
+#
+#/om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
