@@ -60,8 +60,8 @@ if __name__ == "__main__":
     ax = plt.axes((.1, .6, .45, .35))
     vmax = np.ceil(10 * (np.max(np.stack(scores_mean)) + .1)) / 10
     ax.imshow(np.stack(scores_mean), vmax=vmax, aspect='auto')
-    ax.set_yticks(np.arange(len(scores_mean)))
-    ax.set_yticklabels(chkpoints_srt, fontsize=12)
+    ax.set_yticks(np.arange(0,len(scores_mean),5))
+    ax.set_yticklabels(chkpoints_srt[::5], fontsize=6)
 
     ax.set_title(f'model:{model}, benchmark {benchmark}')
     fig.show()
