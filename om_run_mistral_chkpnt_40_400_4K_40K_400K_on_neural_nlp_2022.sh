@@ -13,7 +13,7 @@ overwrite=true
 activity_id_list="Fedorenko2016.ecog"
 activity_arr=($activity_id_list)
 
-for benchmark in Fedorenko2016v3-encoding  ; do
+for benchmark in wikitext-2  ; do
   for model in mistral/caprica-gpt2-small-x81  ; do
       for checkpoint in 40 400 4000 40000 400000; do
             model_list[$i]="${model}/ckpt_${checkpoint}"

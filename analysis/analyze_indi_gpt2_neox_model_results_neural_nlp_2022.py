@@ -22,8 +22,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 #%%
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
-    #benchmark='Fedorenko2016v3-encoding'
+    benchmark='Futrell2018-encoding'
     model='gpt2-neox-pos_learned-1B'
     files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
     # order files
@@ -31,11 +30,15 @@ if __name__ == "__main__":
     chkpoints=[int(x.replace('ckpnt-','')) for x in chkpoints]
     reorder=np.argsort(chkpoints)
     chkpoints_srt=[chkpoints[x] for x in reorder]
-    files_srt=[files[x] for x in reorder]
+    files_srt = [files[x] for x in reorder]
+    # subsample here
+    reorder_new=np.concatenate((np.asarray([0,]),np.squeeze(np.argwhere(np.mod(np.asarray(chkpoints_srt)[:,],10000)==0))))
+    files_select=[files_srt[x] for x in reorder_new]
+    chkpoints_select=[chkpoints_srt[x] for x in reorder_new]
 #%%
     scores_mean=[]
     scors_std=[]
-    for ix, file in tqdm(enumerate(files_srt)):
+    for ix, file in tqdm(enumerate(files_select)):
         x=pd.read_pickle(file)['data'].values
         scores_mean.append(x[:,0])
         scors_std.append(x[:,1])
@@ -44,25 +47,30 @@ if __name__ == "__main__":
     all_col = cmap_all(np.divide(np.arange(len(scores_mean)), len(scores_mean)))
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
     ax = plt.axes((.1, .2, .45, .35))
-    for idx,scr in enumerate(scores_mean):
+    locas=[]
+    for idx, scr in enumerate(scores_mean):
         r3 = np.arange(len(scr))
-        ax.plot(r3, scr, color=all_col[idx,:],linewidth=2,label=f'ck:{chkpoints_srt[idx]}')
-        ax.errorbar(r3, scr, yerr=scors_std[idx], linewidth=2, color=all_col[idx, :],marker='.', markersize=10)
+        if 'untrained' in files_select[idx]:
+            label = f'{chkpoints_select[idx]}-untrained'
+            loca=0
+        else:
+            label = f'{chkpoints_select[idx]}'
+            loca=chkpoints_select[idx];
+        locas.append(loca)
+        ax.plot(loca, scr, color=all_col[idx, :], linewidth=2, label=f'ck:{label}')
+        ax.errorbar(loca, scr, yerr=scors_std[idx], linewidth=2, color=all_col[idx, :], marker='.',
+                    markersize=10)
     ax.axhline(y=0, color='k', linestyle='-')
-    ax.legend(bbox_to_anchor=(1.8, 2), frameon=True,fontsize=8,ncol=3)
-    ax.set_xlim((0-.5,len(l_names)-.5))
+    ax.plot(locas, scores_mean, color='k', linewidth=2)
+    ax.axhline(y=0, color='k', linestyle='-')
+    ax.legend(bbox_to_anchor=(1.4, 2), frameon=True, fontsize=8)
+    # ax.set_xlim((0-.5,len(scores_mean)-.5))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_xticks(np.arange(len(scr)))
 
-    ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
-    ax = plt.axes((.1, .6, .45, .35))
-    vmax = np.ceil(10 * (np.max(np.stack(scores_mean)) + .1)) / 10
-    ax.imshow(np.stack(scores_mean), vmax=vmax, aspect='auto')
-    ax.set_yticks(np.arange(0,len(scores_mean),5))
-    ax.set_yticklabels(chkpoints_srt[::5], fontsize=6)
-
+    ax.set_xlabel('training step')
     ax.set_title(f'model:{model}, benchmark {benchmark}')
     fig.show()
 
