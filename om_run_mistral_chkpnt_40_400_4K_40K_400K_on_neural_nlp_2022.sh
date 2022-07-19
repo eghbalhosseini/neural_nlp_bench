@@ -37,8 +37,6 @@ echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
 if [ $overwrite ]
 then
-  activity_name=${activity_list[$SLURM_ARRAY_TASK_ID]}
-  model_name=${model_list[$SLURM_ARRAY_TASK_ID]}
   #original='mistral/'
   #correction='mistral_'
   #model_fix="${x/$original/$correction}"
@@ -48,13 +46,14 @@ then
   #correction='_ckpt'
   #model_name="${x/$original/$correction}"
 
-
+  activity_name=${activity_list[$SLURM_ARRAY_TASK_ID]}
+  model_name=${model_list[$SLURM_ARRAY_TASK_ID]}
   ACT_DIR="${RESULTCACHING_HOME}/neural_nlp.models.wrapper.core.ActivationsExtractorHelper._from_sentences_stored/"
   act_name="identifier=${model_name},stimuli_identifier=${activity_name}*"
-
   echo "searching for ${act_name}"
   find $ACT_DIR -type f -iname $act_name -printf x | wc -c
   find $ACT_DIR -type f -iname $act_name -exec rm -rf {} \;
+
   SCORE_DIR="${RESULTCACHING_HOME}/neural_nlp.score/"
   score_name="benchmark=${benchmark_list[$SLURM_ARRAY_TASK_ID]},model=${model_list[$SLURM_ARRAY_TASK_ID]}*"
   find $ACT_DIR -type f -iname $act_name -printf x | wc -c
@@ -62,8 +61,8 @@ then
   echo " removed prior data "
 fi
 
-#. ~/.bash_profile
-#. ~/.bashrc
-#conda activate neural_nlp_2022
+. ~/.bash_profile
+. ~/.bashrc
+conda activate neural_nlp_2022
 
-#/om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+/om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
