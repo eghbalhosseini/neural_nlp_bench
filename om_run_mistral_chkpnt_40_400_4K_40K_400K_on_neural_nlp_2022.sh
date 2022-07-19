@@ -15,7 +15,7 @@ overwrite=true
 activity_id_list="naturalistic_stories"
 activity_arr=($activity_id_list)
 
-for benchmark in Blank2014fROI-encoding ; do
+for benchmark in Futrell2018-encoding ; do
   for model in mistral-caprica-gpt2-small-x81  ; do
       for checkpoint in 40 400 4000 40000 400000; do
             model_list[$i]="${model}-ckpnt-${checkpoint}"
@@ -58,6 +58,7 @@ then
 
   SCORE_DIR="${RESULTCACHING_HOME}/neural_nlp.score/"
   score_name="benchmark=${benchmark_list[$SLURM_ARRAY_TASK_ID]},model=${model_list[$SLURM_ARRAY_TASK_ID]}*"
+  echo "searching for ${score_name}"
   find $ACT_DIR -type f -iname $act_name -printf x | wc -c
   find $SCORE_DIR -type f -iname $score_name -exec rm -rf {} \;
   echo " removed prior data "
