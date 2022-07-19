@@ -15,7 +15,7 @@ overwrite=true
 activity_id_list="naturalistic_stories"
 activity_arr=($activity_id_list)
 
-for benchmark in Blank2014fROI-encoding ; do
+for benchmark in wikitext-2 ; do
   for model in mistral-caprica-gpt2-small-x81  ; do
       for checkpoint in 40 400 4000 40000 400000; do
             model_list[$i]="${model}-ckpnt-${checkpoint}"
