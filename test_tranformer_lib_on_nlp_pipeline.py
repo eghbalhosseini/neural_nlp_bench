@@ -20,22 +20,23 @@ GPT2_PRETRAINED_MODEL_ARCHIVE_MAP = {"distilgpt2": os.path.join(model_and_config
 
 if __name__ =='__main__':
     #benchmark_name="Pereira2018-encoding"
-    benchmark_name = 'Fedorenko2016v3-encoding'
+    benchmark_name = 'wikitext-2'
     model_name="distilgpt2"
-    config_file=GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP[model_name]
-    model_file=GPT2_PRETRAINED_MODEL_ARCHIVE_MAP[model_name]
+    #config_file=GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP[model_name]
+    #model_file=GPT2_PRETRAINED_MODEL_ARCHIVE_MAP[model_name]
     benchmark_tsk = benchmark_name
     my_env = os.environ.copy()
-    config = GPT2Config.from_json_file(config_file)
+    config = GPT2Config.from_pretrained('distilgpt2')
     num_layers = config.n_layer
     config.output_hidden_states = True
     config.state_dict = None
     model = GPT2Model(config)
-    model.from_pretrained(model_file, config=config)
+    #model.from_pretrained(model_file, config=config)
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-    model_identifier = config.weight_identifier
+    #model_identifier = config.weight_identifier
+    model_identifier=model_name
     # find model index in model_configs
-    config_idx = int(np.argwhere([x['weight_identifier'] == config.weight_identifier for x in transformer_configurations]))
+    config_idx = int(np.argwhere([x['weight_identifier'] == model_identifier for x in transformer_configurations]))
     brainscore_config = transformer_configurations[config_idx]
     # - tokenizer_ctr: the importable class name of the model's tokenizer class
     brainscore_config['tokenizer_ctr'] = brainscore_config.get('tokenizer_ctr',brainscore_config['prefix'] + 'Tokenizer')

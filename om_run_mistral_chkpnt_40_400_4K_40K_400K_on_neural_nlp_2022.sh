@@ -13,7 +13,7 @@ overwrite=true
 activity_id_list="Fedorenko2016.ecog"
 activity_arr=($activity_id_list)
 
-for benchmark in wikitext-2 ; do
+for benchmark in Blank2014fROI-encoding ; do
   for model in mistral-caprica-gpt2-small-x81  ; do
       for checkpoint in 40 400 4000 40000 400000; do
             model_list[$i]="${model}-ckpnt-${checkpoint}"
@@ -25,6 +25,8 @@ for benchmark in wikitext-2 ; do
 done
 
 #Futrell2018-encoding
+#Blank2014fROI-encoding
+#wikitext-2
 
 RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
 export RESULTCACHING_HOME
