@@ -47,7 +47,7 @@ if __name__ =='__main__':
 #    state_dict = None
 #    model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict)
 
-    model_config = transformer_configurations[config_names.index('mistral/caprica-gpt2-small-x81/ckpt_400000')]
+    model_config = transformer_configurations[config_names.index('mistral-caprica-gpt2-small-x81ckpnt-400000')]
     model_conf = AutoConfig.from_pretrained(model_config['config_file'])
     model_ctr = AutoModelWithLMHead
     state_dict = None

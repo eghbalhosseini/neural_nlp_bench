@@ -24,9 +24,9 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
+    #benchmark='Pereira2018-encoding'
     #benchmark = 'Blank2014fROI-encoding'
-    #benchmark = 'Futrell2018-encoding'
+    benchmark = 'Futrell2018-encoding'
     #benchmark = 'Fedorenko2016v3-encoding'
     model_1B='gpt2-neox-pos_learned-1B'
     loss_1B_ckpnt='310000'
