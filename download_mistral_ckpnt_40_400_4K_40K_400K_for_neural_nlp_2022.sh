@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=download_
-#SBATCH --array=0-4
+#SBATCH --array=0-5
 #SBATCH --time=2:00:00
 #SBATCH --ntasks=1
 #SBATCH --mem=20G
@@ -17,7 +17,7 @@ touch $CHECKPOINT_FILE
 printf "%s,%s,%s,%s\n" "row" "model_id" "checkpoint_id" "save_dir"    >> $CHECKPOINT_FILE
 
 for model_id in alias-gpt2-small-x21 ; do
-    for checkpoint in 40 400 4000 40000 400000; do
+    for checkpoint in 0 40 400 4000 40000 400000; do
             model_id_list[$i]="$model_id"
             checkpoint_list[$i]="$checkpoint"
             save_loc="${ROOT_DIR}/${model_id}/ckpt_${checkpoint}"
