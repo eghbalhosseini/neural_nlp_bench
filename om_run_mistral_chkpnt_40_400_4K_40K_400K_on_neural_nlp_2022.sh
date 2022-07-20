@@ -1,9 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=MISTRAL
-#SBATCH --array=0-1
+#SBATCH --array=0-4
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=120G
-#SBATCH --gres=gpu:2
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
