@@ -26,10 +26,11 @@ elif user=='ehoseini':
 if __name__ == "__main__":
     #benchmark='Pereira2018-encoding'
     #benchmark = 'Blank2014fROI-encoding'
-    benchmark='Fedorenko2016v3-encoding'
+    benchmark='Futrell2018-encoding'
+    model = 'mistral_caprica-gpt2-small-x81'
     model='gpt2-neox-pos_learned-1B'
-    training_key='miniberta_1b'
-    files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
+
+
     # order files
     chkpoints=[re.findall(r'ckpnt-\d+',x)[0] for x in files]
     chkpoints=[int(x.replace('ckpnt-','')) for x in chkpoints]

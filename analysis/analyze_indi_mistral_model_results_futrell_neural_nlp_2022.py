@@ -24,8 +24,8 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
-    benchmark='Blank2014fROI-encoding'
+    #benchmark='Pereira2018-encoding'
+    #benchmark='Blank2014fROI-encoding'
     benchmark='Futrell2018-encoding'
 
     model='mistral_caprica-gpt2-small-x81'
