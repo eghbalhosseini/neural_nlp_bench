@@ -2,6 +2,7 @@ from neural_nlp import model_pool
 from neural_nlp.models.implementations import transformer_configurations
 import transformers
 from transformers import AutoTokenizer
+from accelerate import Accelerator
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -39,6 +40,10 @@ def evaluate(model):
 context_length=1024
 EVAL_BATCH_SIZE=32
 if __name__ =='__main__':
+    accelerator = Accelerator(cpu=False,
+                              mixed_precision="no",
+                              log_with="wandb")
+
     config_names=[x['weight_identifier'] for x in transformer_configurations]
     #model_config=transformer_configurations[config_names.index('gpt2-neox-pos_learned-1B-v2-ckpnt-300000')]
 #    model_conf = GPTNeoXPosLearnedConfig.from_pretrained(model_config['config_file'])
@@ -60,6 +65,8 @@ if __name__ =='__main__':
     print(f"Input IDs length: {len(tokenized_datasets['train']['input_ids'])}")
     eval_dataloader = DataLoader(
         tokenized_datasets["validation"], shuffle=False, collate_fn=collate_fn, batch_size=EVAL_BATCH_SIZE)
+
+    model, eval_dataloader,  = accelerator.prepare(model, eval_dataloader)
     (a,b)=evaluate(model)
     print(f"loss: {a}, perplexity {b}")
 
