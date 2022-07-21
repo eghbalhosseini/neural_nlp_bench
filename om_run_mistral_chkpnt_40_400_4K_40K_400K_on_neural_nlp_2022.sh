@@ -2,7 +2,7 @@
 #SBATCH --job-name=MISTRAL
 #SBATCH --array=0-4
 #SBATCH --time=6-23:00:00
-#SBATCH --mem=120G
+#SBATCH --mem=267G
 #SBATCH --gres=gpu:1
 #SBATCH --constraint=ampere
 #SBATCH --exclude node017,node018
