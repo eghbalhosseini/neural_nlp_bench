@@ -8,8 +8,8 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-overwrite=true
-for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding ; do
+overwrite=false
+for benchmark in Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
     for model in mistral/caprica-gpt2-small-x81  ; do
       for checkpoint in `seq 0 1 0` ; do
             model_list[$i]="${model}/ckpt_${checkpoint}-untrained"

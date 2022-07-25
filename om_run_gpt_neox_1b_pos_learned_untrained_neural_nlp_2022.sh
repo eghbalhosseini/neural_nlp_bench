@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=1B
-#SBATCH --array=0
+#SBATCH --array=0-1
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=40G
 #SBATCH --exclude node017,node018
@@ -10,7 +10,7 @@
 i=0
 overwrite=false
 echo $overwrite
-for benchmark in  Fedorenko2016v3-encoding ; do
+for benchmark in  Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
   for model in gpt2-neox-pos_learned-1B-v2-ckpnt  ; do
       for checkpoint in `seq 2500 2500 2500`; do
             model_list[$i]="${model}-${checkpoint}-untrained"
