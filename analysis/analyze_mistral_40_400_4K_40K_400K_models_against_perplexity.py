@@ -24,12 +24,12 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
+    #benchmark='Pereira2018-encoding'
     #benchmark = 'Blank2014fROI-encoding'
-    #benchmark = 'Futrell2018-encoding'
+    benchmark = 'Futrell2018-encoding'
     #benchmark = 'Fedorenko2016v3-encoding'
     model = 'mistral-caprica-gpt2-small-x81'
-    chkpnts = [0, 40, 400, 4000, 40000, 400000]
+    chkpnts = [40, 400, 4000, 40000, 400000]
     files_ckpnt = []
     for ckpnt in chkpnts:
         if ckpnt == 0:
@@ -40,8 +40,11 @@ if __name__ == "__main__":
         if len(file_c) > 0:
             files_ckpnt.append(file_c[0])
 
-    chkpoints_srt = ['untrained-manual (n=0)', '0.01% (n=40)', '0.1% (n=400)', '1% (n=4K)', '10% (n=40K)',
+    chkpoints_srt = [ '0.01% (n=40)', '0.1% (n=400)', '1% (n=4K)', '10% (n=40K)',
                      '100% (n=400K)']
+    chkpoints_srt = ['0.01% (n=40)', '0.1% (n=400)',  '10% (n=40K)',
+                     '100% (n=400K)']
+
     # order files
     scores_mean=[]
     scors_std=[]
@@ -54,23 +57,12 @@ if __name__ == "__main__":
     score_loc=[np.argmax(x) for x in scores_mean]
     score_std=[scors_std[x][score_loc[x]] for x in range(len(score_loc))]
     #
-    benchmark='wikitext2'
-    training_results = pd.read_pickle(os.path.join(result_dir, 'data', 'miniberta_train_valid_set.pkl'))
-    # find the location of perplexity score closest to checkpoint:
-    training_chkpnt = [training_results[key]['validation_result'][:, 0].astype(int) for key in training_results.keys()]
-    training_perplex = [training_results[key]['validation_result'][:, 2] for key in
-                       training_results.keys()]
-    # reorder them to be 10m, 100m, 1B
-    training_chkpnt.reverse()
-    training_perplex.reverse()
-    #
-    model_perplex=[]
-    for idx, los_chk in enumerate([loss_10M_ckpnt,loss_100M_ckpnt,loss_1B_ckpnt]):
-        chkpoints=training_chkpnt[idx]
-        loc=np.argmin(np.abs(chkpoints-int(los_chk)))
-        model_perplex.append(training_perplex[idx][loc])
+    preplex_benchmark='wikitext-103-raw-v1-test'
+    training_perplex=[4392.1587,885.9544,61.31,42.1,32.75]
 
-    validation_perpelxity=np.asarray(model_perplex)
+    training_perplex = [4392.1587, 885.9544, 42.1, 32.75]
+
+    validation_perpelxity=np.asarray(training_perplex)
     validation_score=np.asarray(score_max)
 
     cmap_all = cm.get_cmap('plasma')
@@ -85,19 +77,21 @@ if __name__ == "__main__":
     ax.spines['right'].set_visible(False)
     ax.set_ylabel('Pearson Corr')
     ax.set_xlabel('perplexity')
+    ax.set_xscale('log')
     ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
-    ax.set_title(f'model:gpt_neox \n benchmark {benchmark} against perplexity')
+    ax.set_title(f'model:{model} \n benchmark {benchmark} against \n perplexity {preplex_benchmark}')
     fig.show()
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox_{benchmark}_against_perplexity.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_{model}_{benchmark}_against_perplexity_{preplex_benchmark}.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_{benchmark}_against_perplexity.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_{model}_{benchmark}_against_perplexity_{preplex_benchmark}.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
 
     #%% do the same analysis but take the 1b model and find how it behaves
 
-    score_max_1b = np.argmax(scores_mean[-1])
+    model_with_max = scores_mean[np.argmax(np.max(np.stack(scores_mean),axis=1))]
+    score_max_1b=np.argmax(model_with_max)
     scores_max= [scores_mean[x][score_max_1b] for x in range(len(scores_mean))]
     score_std = [scors_std[x][score_max_1b] for x in range(len(scores_mean))]
     validation_score = np.asarray(scores_max)
@@ -110,13 +104,14 @@ if __name__ == "__main__":
         ax.errorbar(validation_perpelxity[idx], validation_score[idx], yerr=score_std[idx], linewidth=2, color=all_col[idx, :], marker='.', markersize=10)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-    ax.set_ylabel('Pearson Corr')
+    ax.set_ylabel('Pearson Corr for best layer in model')
     ax.set_xlabel('perplexity')
+    ax.set_xscale('log')
     ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
-    ax.set_title(f'model:gpt_neox \n benchmark {benchmark} against perplexity \n for best layer in 1B ')
+    ax.set_title(f'model:{model} \n benchmark {benchmark} against \n perplexity {preplex_benchmark}')
     fig.show()
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox_{benchmark}_against_perplexity_for_best_layer_in_1b.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_{model}_{benchmark}_against_perplexity_{preplex_benchmark}_for_best_layer_in_model.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_{benchmark}_against_perplexity_in_1b.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_{model}_{benchmark}_against_perplexity_{preplex_benchmark}_for_best_layer_in_model.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)

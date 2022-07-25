@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=10M
-#SBATCH --array=0-12
+#SBATCH --array=0-6
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=60G
 #SBATCH --exclude node017,node018
@@ -8,10 +8,10 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Fedorenko2016v3-encoding Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding ; do
+for benchmark in Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
   for model in gpt2-neox-pos_learned-10M-v2-ckpnt-2000 \
                gpt2-neox-pos_learned-100M-v2-ckpnt-14250 \
-               gpt2-neox-pos_learned-100M-v2-ckpnt-310000 ; do
+               gpt2-neox-pos_learned-1B-v2-ckpnt-310000 ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
