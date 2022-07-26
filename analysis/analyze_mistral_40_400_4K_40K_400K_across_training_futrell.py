@@ -26,14 +26,16 @@ elif user=='ehoseini':
 if __name__ == "__main__":
 
     benchmark='Futrell2018-encoding'
-    model='mistral_caprica-gpt2-small-x81'
+    benchmark = 'Futrell2018-sentences_encoding'
+    model='mistral-caprica-gpt2-small-x81'
     chkpnts=[0,40,400,4000,40000,400000]
+
     files_ckpnt=[]
     for ckpnt in chkpnts:
         if ckpnt==0:
             ckpnt=str(ckpnt)+'-untrained'
         file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                          f'benchmark={benchmark},model={model}_ckpt_{ckpnt},*.pkl'))
+                                          f'benchmark={benchmark},model={model}-ckpnt-{ckpnt},*.pkl'))
         print(file_c)
         if len(file_c)>0:
             files_ckpnt.append(file_c[0])
