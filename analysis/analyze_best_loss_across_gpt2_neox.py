@@ -25,8 +25,8 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
-    #benchmark='Blank2014fROI-encoding'
-    #benchmark = 'Fedorenko2016v3-encoding'
+    benchmark='Blank2014fROI-encoding'
+    benchmark = 'Fedorenko2016v3-encoding'
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
     loss_1B_ckpnt='310000'
@@ -35,6 +35,10 @@ if __name__ == "__main__":
     loss_100M_ckpnt='14250'
     model_10M = 'gpt2-neox-pos_learned-10M'
     loss_10M_ckpnt='2250'
+
+    model_1M = 'gpt2-neox-pos_learned-1M'
+    loss_1M_ckpnt = '1000'
+
     #loss_10M_ckpnt = '2000'
     file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{2500}-untrained*.pkl'))
@@ -43,6 +47,8 @@ if __name__ == "__main__":
                                 f'benchmark={benchmark},model={model_100M}-v2-ckpnt-{loss_100M_ckpnt}*.pkl'))
     file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                   f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}*.pkl'))
+    file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                 f'benchmark={benchmark},model={model_1M}-v2-ckpnt-{loss_1M_ckpnt}*.pkl'))
     files_srt=[file_1B_untrained[0],file_10M[0],file_100M[0],file_1B[0]]
     chkpoints_srt=['untrained','10M','100M','1B']
     # order files

@@ -24,8 +24,8 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Futrell2018-encoding'
-    #benchmark='Futrell2018-stories_encoding'
+    #benchmark='Futrell2018-encoding'
+    benchmark='Futrell2018-stories_encoding'
     #benchmark = 'Futrell2018-sentences_encoding'
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
@@ -36,6 +36,11 @@ if __name__ == "__main__":
     model_10M = 'gpt2-neox-pos_learned-10M'
     #loss_10M_ckpnt='2250'
     loss_10M_ckpnt = '2000'
+
+    model_1M = 'gpt2-neox-pos_learned-1M'
+    loss_1M_ckpnt = '1000'
+
+
     file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{2500}-untrained*.pkl'))
     file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{loss_1B_ckpnt}*.pkl'))
@@ -43,8 +48,12 @@ if __name__ == "__main__":
                                 f'benchmark={benchmark},model={model_100M}-v2-ckpnt-{loss_100M_ckpnt}*.pkl'))
     file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                   f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}*.pkl'))
-    files_srt=[file_1B_untrained[0],file_10M[0],file_100M[0],file_1B[0]]
-    chkpoints_srt=['untrained','10M','100M','1B']
+
+    file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                f'benchmark={benchmark},model={model_1M}-v2-ckpnt-{loss_1M_ckpnt}*.pkl'))
+
+    files_srt=[file_1B_untrained[0],file_1M[0],file_10M[0],file_100M[0],file_1B[0]]
+    chkpoints_srt=['untrained','1M','10M','100M','1B']
     # order files
     scores_mean=[]
     scors_std=[]
@@ -64,11 +73,11 @@ if __name__ == "__main__":
     all_col = cmap_all(np.divide(np.arange(len(scores_mean)), len(scores_mean)))
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     #ax = plt.axes((.1, .4, .45, .35))
-    ax = plt.axes((.1, .4, .25, .35))
-    x_coords=[1e6,10e6,100e6,1000e6]
+    ax = plt.axes((.1, .4, .35, .35))
+    x_coords=[1e5,1e6,10e6,100e6,1000e6]
     for idx,scr in enumerate(scores_mean):
         r3 = np.arange(len(scr))
-        ax.plot(x_coords[idx], scr, color=all_col[idx,:],linewidth=2,marker='.',markersize=20,label=f'ck:{chkpoints_srt[idx]},',zorder=2)
+        ax.plot(x_coords[idx], scr, color=all_col[idx,:],linewidth=2,marker='.',markersize=20,label=f'{chkpoints_srt[idx]}',zorder=2)
         ax.errorbar(x_coords[idx], scr,yerr=scors_std[idx],color='k',zorder=1)
     # add precomputed
     #ax.errorbar(idx+.5,model_bench['score'],yerr=model_bench['error'],linestyle='--',fmt='.',markersize=20,linewidth=2,color=(0,0,0,1),label='trained(Schrimpf)',zorder=1)
@@ -82,12 +91,21 @@ if __name__ == "__main__":
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     major_ticks = x_coords
-    minor_ticks = np.concatenate([np.arange(1,11)*1e6,np.arange(1,11)*1e7,np.arange(1,11)*1e8])
+    minor_ticks = np.concatenate([np.arange(1,11)*1e5,np.arange(1,11)*1e6,np.arange(1,11)*1e7,np.arange(1,11)*1e8])
+
+    ax.plot(8000e6, np.asarray(model_bench['score']), color=(.3,.3,.3,1), linewidth=2, marker='.', markersize=20,
+            label=f'Schrimpf(2021)', zorder=2)
+    ax.errorbar(8000e6, np.asarray(model_bench['score']), yerr=np.asarray(model_bench['error']), color='k', zorder=1)
+
+
     ax.set_xticks(major_ticks)
+    ax.set_xticks(np.concatenate([major_ticks, [8000e6]]))
+
     ax.set_xticks(minor_ticks, minor=True)
     plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
     ax.set_axisbelow(True)
-    ax.set_xticklabels(['untrained', '10M', '100M', '1B'], rotation=0)
+    #ax.set_xticklabels(['untrained','1M', '10M', '100M', '1B'], rotation=0)
+    ax.set_xticklabels(['untrained','1M', '10M', '100M', '1B', 'Schrimpf\n(2021)'], rotation=0)
     ax.set_ylim([.2, .9])
     #ax.set_xticks((-.5,0,1,2,3,3.5))
     #ax.set_xticks((-.5, 0, 1, 2, 3, 3.5))
@@ -100,7 +118,7 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark}')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox_{benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox_{benchmark}.png'), dpi=300, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
     fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_{benchmark}.eps'), format='eps',metadata=None,

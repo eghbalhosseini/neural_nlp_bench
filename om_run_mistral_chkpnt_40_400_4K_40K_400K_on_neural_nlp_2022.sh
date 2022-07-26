@@ -58,7 +58,7 @@ then
   find $ACT_DIR -type f -iname $act_name -exec rm -rf {} \;
 
   SCORE_DIR="${RESULTCACHING_HOME}/neural_nlp.score/"
-  score_name="benchmark=${benchmark_list[$SLURM_ARRAY_TASK_ID]},model=${model_list[$SLURM_ARRAY_TASK_ID]}*"
+  score_name="benchmark=${benchmark_list[$SLURM_ARRAY_TASK_ID]},model=${model_list[$SLURM_ARRAY_TASK_ID]},*"
   echo "searching for ${score_name}"
   find $ACT_DIR -type f -iname $act_name -printf x | wc -c
   find $SCORE_DIR -type f -iname $score_name -exec rm -rf {} \;

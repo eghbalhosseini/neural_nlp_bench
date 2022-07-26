@@ -24,12 +24,13 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    #benchmark='Pereira2018-encoding'
-    benchmark='Blank2014fROI-encoding'
+    benchmark='Pereira2018-encoding'
+    #benchmark='Blank2014fROI-encoding'
     #benchmark = 'Fedorenko2016v3-encoding'
     #benchmark='Futrell2018-encoding'
     model='mistral-caprica-gpt2-small-x81'
     chkpnts=[0,40,400,4000,40000,400000]
+    precomputed_model = 'gpt2'
     files_ckpnt=[]
 
     for ckpnt in chkpnts:
@@ -41,7 +42,12 @@ if __name__ == "__main__":
         if len(file_c)>0:
             files_ckpnt.append(file_c[0])
 
-    chkpoints_srt=['untrained-manual (n=0)','0.01% (n=40)','0.1% (n=400)' ,'1% (n=4K)','10% (n=40K)','100% (n=400K)']
+    chkpoints_srt=['untrained (n=0)','0.01% (n=40)','0.1% (n=400)' ,'1% (n=4K)','10% (n=40K)','100% (n=400K)']
+    precomputed = pd.read_csv('/om/user/ehoseini/neural-nlp-2022/precomputed-scores.csv')
+    precomputed_bench = precomputed[precomputed['benchmark'] == benchmark]
+    model_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model]
+    model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model + '-untrained']
+
     # order files
     scores_mean=[]
     scors_std=[]
@@ -81,3 +87,69 @@ if __name__ == "__main__":
 
     fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}_{benchmark}.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
+
+    # plot for best layer of Shrimpf study
+    layer_id = np.argmax(model_bench['score'])
+
+    scr_layer = [x[layer_id] for x in scores_mean]
+    scr_layer_std = [x[layer_id] for x in scors_std]
+
+    fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
+    # ax = plt.axes((.1, .4, .45, .35))
+    ax = plt.axes((.1, .4, .4, .35))
+
+    x_coords = [0.001, 0.01, 0.1, 1, 10,100]
+    for idx, scr in enumerate(scr_layer):
+        ax.plot(x_coords[idx], scr, color=all_col[idx, :], linewidth=2, marker='.', markersize=20,
+                label=f'{chkpoints_srt[idx]}', zorder=2)
+        ax.errorbar(x_coords[idx], scr, yerr=scr_layer_std[idx], color='k', zorder=1)
+    # add precomputed
+    # ax.errorbar(idx+.5,model_bench['score'],yerr=model_bench['error'],linestyle='--',fmt='.',markersize=20,linewidth=2,color=(0,0,0,1),label='trained(Schrimpf)',zorder=1)
+    # ax.errorbar(-0.5, model_unt_bench['score'], yerr=model_unt_bench['error'], linestyle='--', fmt='.', markersize=20,
+    #            linewidth=2, color=(.5, .5, .5, 1), label='untrained(Schrimpf)', zorder=1)
+    ax.set_xscale('log')
+    ax.plot(x_coords, scr_layer, color='k', linewidth=2, zorder=1)
+    ax.axhline(y=0, color='k', linestyle='-')
+
+    # ax.set_xlim((-1,len(scores_mean)))
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    major_ticks = x_coords
+    minor_ticks = np.concatenate([ np.arange(1, 11) * 1e-3, np.arange(1, 11) * 1e-2,np.arange(1, 11) * 1e-1,np.arange(1, 11) * 1e0,np.arange(1, 11) * 1e1])
+
+    ax.plot(8e2, np.asarray(model_bench['score'])[layer_id], color=(.3, .3, .3, 1), linewidth=2, marker='.',
+            markersize=20,
+            label=f'Schrimpf(2021)', zorder=2)
+    ax.errorbar(8e2, np.asarray(model_bench['score'])[layer_id], yerr=np.asarray(model_bench['error'])[layer_id],
+                color='k', zorder=1)
+
+    ax.set_xticks(np.concatenate([major_ticks, [8e2]]))
+    ax.set_xticks(minor_ticks, minor=True)
+    plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
+    ax.set_axisbelow(True)
+
+    chkpoints_label = ['untrained', '0.01%', '0.1%', '1%', '10%',
+                     '100%','Schrimpf\n(2021)']
+    ax.set_xticklabels(chkpoints_label, rotation=0)
+    ax.set_ylim([-.2, 1.1])
+
+    # ax.set_xticks((-.5,0,1,2,3,3.5))
+    # ax.set_xticks((-.5, 0, 1, 2, 3, 3.5))
+    # ax.set_xticklabels(['untrained(Shrimpf)','untrained','10M','100M','1B','trained(Schrimpf)'],rotation=90)
+    # ax.set_xticks(np.asarray(x_coords))
+    ax.legend(bbox_to_anchor=(1.6, .8), frameon=True, fontsize=8)
+    # ax.set_xlim((min(x_coords),max(x_coords)))
+    # ax.set_xticklabels(l_names, rotation=90, fontsize=12)
+    ax.set_ylabel('Pearson Corr')
+    ax.set_title(f'benchmark {benchmark}')
+    fig.show()
+
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_for_schrimpf_layer_through_training_{model}_{benchmark}.png'), dpi=250,
+                format='png',
+                metadata=None,
+                bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
+
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_for_schrimpf_layer_through_training_{model}_{benchmark}.eps'), format='eps',
+                metadata=None,
+                bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
+

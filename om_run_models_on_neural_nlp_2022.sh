@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0
+#SBATCH --array=0-2
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=80G
@@ -9,8 +9,8 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in  Blank2014fROI-encoding ; do
-  for model in distilgpt2 ; do
+for benchmark in  Futrell2018-stories_encoding Futrell2018-sentences_encoding Futrell2018-encoding ; do
+  for model in gpt2 ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
