@@ -49,8 +49,8 @@ if __name__ == "__main__":
                                   f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}*.pkl'))
     file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                  f'benchmark={benchmark},model={model_1M}-v2-ckpnt-{loss_1M_ckpnt}*.pkl'))
-    files_srt=[file_1B_untrained[0],file_10M[0],file_100M[0],file_1B[0]]
-    chkpoints_srt=['untrained','10M','100M','1B']
+    files_srt = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
+    chkpoints_srt = ['untrained', '1M', '10M', '100M', '1B']
     # order files
     scores_mean=[]
     scors_std=[]
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     ax.spines['right'].set_visible(False)
     ax.set_xticks(np.arange(len(scr)))
     ax.set_xlabel('Layer')
-    ax.set_ylim([-.15, .6])
+    ax.set_ylim([-.15, 1])
     plt.grid(True, which="both", ls="-", color='0.9')
     #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
@@ -105,8 +105,8 @@ if __name__ == "__main__":
 
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     # ax = plt.axes((.1, .4, .45, .35))
-    ax = plt.axes((.1, .4, .25, .35))
-    x_coords = [1e6, 10e6, 100e6, 1000e6]
+    ax = plt.axes((.1, .4, .35, .35))
+    x_coords=[1e5,1e6,10e6,100e6,1000e6]
     for idx, scr in enumerate(scr_layer):
 
         ax.plot(x_coords[idx], scr, color=all_col[idx, :], linewidth=2, marker='.', markersize=20,
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     major_ticks = x_coords
-    minor_ticks = np.concatenate([np.arange(1, 11) * 1e6, np.arange(1, 11) * 1e7, np.arange(1, 11) * 1e8])
+    minor_ticks = np.concatenate([np.arange(1,11)*1e5,np.arange(1,11)*1e6,np.arange(1,11)*1e7,np.arange(1,11)*1e8])
 
     ax.plot(8000e6, np.asarray(model_bench['score'])[layer_id], color=(.3,.3,.3,1), linewidth=2, marker='.', markersize=20,
             label=f'Schrimpf(2021)', zorder=2)
@@ -135,8 +135,8 @@ if __name__ == "__main__":
     plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
     ax.set_axisbelow(True)
 
-
-    ax.set_xticklabels(['untrained', '10M', '100M', '1B','Schrimpf\n(2021)'], rotation=0)
+    ax.set_xticklabels(['untrained', '1M', '10M', '100M', '1B', 'Schrimpf\n(2021)'], rotation=0)
+    #ax.set_xticklabels(['untrained', '10M', '100M', '1B','Schrimpf\n(2021)'], rotation=0)
     ax.set_ylim([-.1, 1])
 
     # ax.set_xticks((-.5,0,1,2,3,3.5))

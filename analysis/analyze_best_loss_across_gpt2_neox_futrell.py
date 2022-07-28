@@ -25,8 +25,8 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     #benchmark='Futrell2018-encoding'
-    benchmark='Futrell2018-stories_encoding'
-    #benchmark = 'Futrell2018-sentences_encoding'
+    #benchmark='Futrell2018-stories_encoding'
+    benchmark = 'Futrell2018-sentences_encoding'
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
     loss_1B_ckpnt='310000'
@@ -39,6 +39,7 @@ if __name__ == "__main__":
 
     model_1M = 'gpt2-neox-pos_learned-1M'
     loss_1M_ckpnt = '1000'
+
 
 
     file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
@@ -63,10 +64,14 @@ if __name__ == "__main__":
         scors_std.append(x[:,1])
 
     # read precomputed scores
-    precomputed=pd.read_csv('/om/user/ehoseini/neural-nlp-2022/precomputed-scores.csv')
-    precomputed_bench=precomputed[precomputed['benchmark']==benchmark]
-    model_bench=precomputed_bench[precomputed_bench['model']==precomputed_model]
-    model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model+'-untrained']
+    #precomputed=pd.read_csv('/om/user/ehoseini/neural-nlp-2022/precomputed-scores.csv')
+    #precomputed_bench=precomputed[precomputed['benchmark']==benchmark]
+    #model_bench=precomputed_bench[precomputed_bench['model']==precomputed_model]
+    #model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model+'-untrained']
+
+    file_precompute = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                f'benchmark={benchmark},model={precomputed_model},*.pkl'))
+    model_bench=pd.read_pickle(file_precompute[0])['data'].values
 
     l_names=pd.read_pickle(file)['data'].layer.values
     cmap_all = cm.get_cmap('viridis')
@@ -93,9 +98,9 @@ if __name__ == "__main__":
     major_ticks = x_coords
     minor_ticks = np.concatenate([np.arange(1,11)*1e5,np.arange(1,11)*1e6,np.arange(1,11)*1e7,np.arange(1,11)*1e8])
 
-    ax.plot(8000e6, np.asarray(model_bench['score']), color=(.3,.3,.3,1), linewidth=2, marker='.', markersize=20,
+    ax.plot(8000e6, np.asarray(model_bench[:,0]), color=(.3,.3,.3,1), linewidth=2, marker='.', markersize=20,
             label=f'Schrimpf(2021)', zorder=2)
-    ax.errorbar(8000e6, np.asarray(model_bench['score']), yerr=np.asarray(model_bench['error']), color='k', zorder=1)
+    ax.errorbar(8000e6, np.asarray(model_bench[:,0]), yerr=np.asarray(model_bench[:,1]), color='k', zorder=1)
 
 
     ax.set_xticks(major_ticks)
@@ -106,7 +111,7 @@ if __name__ == "__main__":
     ax.set_axisbelow(True)
     #ax.set_xticklabels(['untrained','1M', '10M', '100M', '1B'], rotation=0)
     ax.set_xticklabels(['untrained','1M', '10M', '100M', '1B', 'Schrimpf\n(2021)'], rotation=0)
-    ax.set_ylim([.2, .9])
+    ax.set_ylim([-0.05, .4])
     #ax.set_xticks((-.5,0,1,2,3,3.5))
     #ax.set_xticks((-.5, 0, 1, 2, 3, 3.5))
     #ax.set_xticklabels(['untrained(Shrimpf)','untrained','10M','100M','1B','trained(Schrimpf)'],rotation=90)
