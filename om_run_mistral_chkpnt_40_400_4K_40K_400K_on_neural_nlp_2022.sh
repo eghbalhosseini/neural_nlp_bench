@@ -1,25 +1,25 @@
 #!/bin/bash
 #SBATCH --job-name=MISTRAL
-#SBATCH --array=0-3
+#SBATCH --array=0-24
 #SBATCH --time=6-23:00:00
-#SBATCH --mem=80G
+#SBATCH --mem=60G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 #SBATCH -p evlab
 
 i=0
-overwrite=true
+overwrite=false
 
 #activity_id_list="Fedorenko2016.ecog"
 activity_id_list="naturalStories naturalStories"
 activity_arr=($activity_id_list)
 
-for benchmark in Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
+for benchmark in Fedorenko2016v3-encoding Pereira2018-encoding Blank2014fROI-encoding Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
   for model in mistral-caprica-gpt2-small-x81  ; do
-      #for checkpoint in 40 400 4000 40000 400000; do
-      for checkpoint in 400 4000 ; do
-            model_list[$i]="${model}-ckpnt-${checkpoint}"
+      for checkpoint in 40 400 4000 40000 400000; do
+      #for checkpoint in 400 4000 ; do
+            model_list[$i]="${model}-ckpnt-${checkpoint}-permuted"
             benchmark_list[$i]="$benchmark"
             activity_list[$i]="${activity_arr[$idx]}"
             i=$[$i+1]

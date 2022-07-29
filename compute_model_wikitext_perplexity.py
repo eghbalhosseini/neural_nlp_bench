@@ -19,7 +19,7 @@ from tqdm import tqdm
 from datasets import load_dataset
 from transformers import AutoConfig, AutoModel, AutoModelWithLMHead,AutoTokenizer
 from neural_nlp.models.gpt_neox_model import GPTNeoXModel,GPTNeoXPosLearnedModel,GPTNeoXPosLearnedForCausalLM,GPTNeoXPosLearnedConfig,GPTNeoXConfig, initialize_gpt_neox_weights
-
+from neural_nlp.models import model_pool,initialize_gpt2_weights
 
 def batched_perplexity(model, dataset, tokenizer, batch_size, stride):
     device = model.device
@@ -61,21 +61,23 @@ def batched_perplexity(model, dataset, tokenizer, batch_size, stride):
 
     ppl = torch.exp(sum(torch.stack(lls) / end_locs[-1]))
     return ppl
-
-
 context_length=1024
 EVAL_BATCH_SIZE=32
 
-
 if __name__ == "__main__":
     device = "cuda"
+    device='cpu'
     config_names = [x['weight_identifier'] for x in transformer_configurations]
-    model_config = transformer_configurations[config_names.index('mistral-caprica-gpt2-small-x81-ckpnt-0')]
+    model_config = transformer_configurations[config_names.index('mistral-caprica-gpt2-small-x81-ckpnt-400000')]
     model_conf = AutoConfig.from_pretrained(model_config['config_file'])
     model_ctr = AutoModelWithLMHead
     state_dict = None
     model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict)
+    model.state_dict().keys()
+    state_dict_permute=initialize_gpt2_weights(model,permute=False)
+    model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict_permute)
     model.to(device)
+
     #model_id = "gpt2"
     #model = GPT2LMHeadModel.from_pretrained(model_id).to(device)
     tokenizer = GPT2TokenizerFast.from_pretrained(model_conf.model_type)
