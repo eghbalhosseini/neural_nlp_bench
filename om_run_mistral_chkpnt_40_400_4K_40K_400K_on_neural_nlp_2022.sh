@@ -6,7 +6,7 @@
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
-#SBATCH -p evlab
+
 
 i=0
 overwrite=false
