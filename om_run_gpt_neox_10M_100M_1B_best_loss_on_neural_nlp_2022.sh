@@ -8,8 +8,9 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
-  for model in gpt2-neox-pos_learned-10M-v2-ckpnt-2000 \
+for benchmark in Futrell2018-stories_encoding Blank2014fROI-encoding Futrell2018-sentences_encoding ; do
+  for model in gpt2-neox-pos_learned-1M-v2-ckpnt-1000 \
+              gpt2-neox-pos_learned-10M-v2-ckpnt-2000 \
                gpt2-neox-pos_learned-100M-v2-ckpnt-14250 \
                gpt2-neox-pos_learned-1B-v2-ckpnt-310000 ; do
             model_list[$i]="${model}"

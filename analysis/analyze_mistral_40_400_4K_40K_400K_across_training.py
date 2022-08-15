@@ -36,6 +36,8 @@ if __name__ == "__main__":
     for ckpnt in chkpnts:
         if ckpnt==0:
             ckpnt=str(ckpnt)+'-untrained'
+        else:
+            ckpnt = str(ckpnt) + ''
         file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model}-ckpnt-{ckpnt},subsample=None.pkl'))
         print(file_c)
@@ -75,17 +77,17 @@ if __name__ == "__main__":
     ax.spines['right'].set_visible(False)
     ax.set_xticks(np.arange(len(scr)))
     ax.set_xlabel('Layer')
-    ax.set_ylim([-.15, 0.5])
+    ax.set_ylim([-.15, 1.0])
     plt.grid(True, which="both", ls="-", color='0.9')
     #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
-    ax.set_title(f'benchmark {benchmark} \n model:{model}')
+    ax.set_title(f'benchmark {benchmark} \n model:{model}-permuted')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_through_training_{model}_{benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_through_training_{model}_{benchmark}-permuted.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}_{benchmark}.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}_{benchmark}-permuted.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
     # plot for best layer of Shrimpf study
