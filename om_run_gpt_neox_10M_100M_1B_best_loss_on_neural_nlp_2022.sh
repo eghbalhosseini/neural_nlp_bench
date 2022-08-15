@@ -8,7 +8,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Futrell2018-stories_encoding Blank2014fROI-encoding Futrell2018-sentences_encoding ; do
+for benchmark in  Blank2014fROI-encoding  ; do
   for model in gpt2-neox-pos_learned-1M-v2-ckpnt-1000 \
               gpt2-neox-pos_learned-10M-v2-ckpnt-2000 \
                gpt2-neox-pos_learned-100M-v2-ckpnt-14250 \
@@ -19,6 +19,8 @@ for benchmark in Futrell2018-stories_encoding Blank2014fROI-encoding Futrell2018
     done
 done
 
+#Futrell2018-stories_encoding
+#Futrell2018-sentences_encoding
 
 module add openmind/singularity
 export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
