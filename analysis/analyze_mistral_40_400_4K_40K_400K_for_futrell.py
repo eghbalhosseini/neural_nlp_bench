@@ -106,7 +106,7 @@ if __name__ == "__main__":
     ax.set_xticklabels(chkpoints_label, rotation=0)
     ax.set_ylim([-.2, 1.1])
 
-    ax.legend(bbox_to_anchor=(1.6, .8), frameon=True, fontsize=8)
+    ax.legend(bbox_to_anchor=(2, .8), frameon=True, fontsize=8)
     # ax.set_xlim((min(x_coords),max(x_coords)))
     # ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')

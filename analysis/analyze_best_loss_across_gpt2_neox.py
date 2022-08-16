@@ -14,6 +14,13 @@ user=getpass.getuser()
 print(user)
 import re
 from tqdm import tqdm
+plt.rcdefaults()
+
+## Set up LaTeX fonts
+import matplotlib
+from matplotlib.backends.backend_pgf import FigureCanvasPgf
+matplotlib.backend_bases.register_backend('pdf', FigureCanvasPgf)
+
 
 if user=='eghbalhosseini':
     analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
@@ -137,7 +144,7 @@ if __name__ == "__main__":
 
     ax.set_xticklabels(['untrained', '1M', '10M', '100M', '1B', 'Schrimpf\n(2021)'], rotation=0)
     #ax.set_xticklabels(['untrained', '10M', '100M', '1B','Schrimpf\n(2021)'], rotation=0)
-    ax.set_ylim([-.1, 1])
+    ax.set_ylim([-.1, .4])
 
     # ax.set_xticks((-.5,0,1,2,3,3.5))
     # ax.set_xticks((-.5, 0, 1, 2, 3, 3.5))
