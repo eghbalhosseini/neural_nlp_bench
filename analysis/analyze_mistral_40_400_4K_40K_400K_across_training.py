@@ -25,9 +25,9 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
-    #benchmark='Blank2014fROI-encoding'
+    benchmark='Blank2014fROI-encoding'
     #benchmark = 'Fedorenko2016v3-encoding'
-    #benchmark='Futrell2018-encoding'
+    benchmark='Futrell2018-encoding'
     model='mistral-caprica-gpt2-small-x81'
     chkpnts=[0,40,400,4000,40000,400000]
     precomputed_model = 'gpt2'
@@ -77,17 +77,17 @@ if __name__ == "__main__":
     ax.spines['right'].set_visible(False)
     ax.set_xticks(np.arange(len(scr)))
     ax.set_xlabel('Layer')
-    ax.set_ylim([-.15, 1.0])
+    ax.set_ylim([-.2, .5])
     plt.grid(True, which="both", ls="-", color='0.9')
     #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
     ax.set_title(f'benchmark {benchmark} \n model:{model}-permuted')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_through_training_{model}_{benchmark}-permuted.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_through_training_{model}_{benchmark}.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}_{benchmark}-permuted.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}_{benchmark}.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
     # plot for best layer of Shrimpf study
@@ -98,7 +98,7 @@ if __name__ == "__main__":
 
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     # ax = plt.axes((.1, .4, .45, .35))
-    ax = plt.axes((.1, .4, .4, .35))
+    ax = plt.axes((.1, .4, .35, .35))
 
     x_coords = [0.001, 0.01, 0.1, 1, 10,100]
     for idx, scr in enumerate(scr_layer):
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     chkpoints_label = ['untrained', '0.01%', '0.1%', '1%', '10%',
                      '100%','Schrimpf\n(2021)']
     ax.set_xticklabels(chkpoints_label, rotation=0)
-    ax.set_ylim([-.2, 1.1])
+    ax.set_ylim([-.2, .5])
 
     # ax.set_xticks((-.5,0,1,2,3,3.5))
     # ax.set_xticks((-.5, 0, 1, 2, 3, 3.5))

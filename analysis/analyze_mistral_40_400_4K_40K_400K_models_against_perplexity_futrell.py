@@ -24,10 +24,8 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
-    #benchmark = 'Blank2014fROI-encoding'
+
     benchmark = 'Futrell2018-encoding'
-    #benchmark = 'Fedorenko2016v3-encoding'
     model = 'mistral-caprica-gpt2-small-x81'
     chkpnts = [40, 400, 4000, 40000, 400000]
     files_ckpnt = []
@@ -58,9 +56,9 @@ if __name__ == "__main__":
             scores_mean.append(np.nan)
             scors_std.append(np.nan)
     # get perplexity results:
-    score_max=[max(x) for x in scores_mean]
-    score_loc=[np.argmax(x) for x in scores_mean]
-    score_std=[scors_std[x][score_loc[x]] for x in range(len(score_loc))]
+    score_max=scores_mean
+
+    score_std=scors_std
     #
     preplex_benchmark='wikitext-103-raw-v1-test'
     training_perplex=[4392.1587,885.9544,61.31,42.1,32.75]
@@ -108,11 +106,9 @@ if __name__ == "__main__":
 
     #%% do the same analysis but take the 1b model and find how it behaves
 
-    model_with_max = scores_mean[np.argmax(np.max(np.stack(scores_mean),axis=1))]
-    score_max_1b=np.argmax(model_with_max)
-    scores_max= [scores_mean[x][score_max_1b] for x in range(len(scores_mean))]
-    score_std = [scors_std[x][score_max_1b] for x in range(len(scores_mean))]
-    validation_score = np.asarray(scores_max)
+    score_max = scores_mean
+    score_std = scors_std
+    validation_score = np.asarray(score_max)
 
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
     ax = plt.axes((.1, .2, .35, .35))
@@ -138,7 +134,7 @@ if __name__ == "__main__":
 
     ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
     ax.set_axisbelow(True)
-    ax.set_ylim([-.1, .5])
+    ax.set_ylim([.4, .9])
 
     ax.legend(bbox_to_anchor=(1.6, .8), frameon=True, fontsize=8)
     ax.set_title(f'model:{model} \n benchmark {benchmark} against \n perplexity {preplex_benchmark}')
