@@ -35,7 +35,7 @@ if __name__ == "__main__":
     benchmark='Blank2014fROI-encoding'
     #benchmark = 'Fedorenko2016v3-encoding'
     model_1B='nyu-mll_roberta-base-1B-1'
-    precomputed_model='gpt2'
+    precomputed_model='roberta-base'
     model_100M = 'nyu-mll_roberta-base-100M-1'
     model_10M = 'nyu-mll_roberta-base-10M-1'
 
@@ -43,15 +43,16 @@ if __name__ == "__main__":
 
 
     #loss_10M_ckpnt = '2000'benchmark=Blank2014fROI-encoding,model=roberta-base-untrained,subsample=None.pkl
-    file_1B_untrained = glob(os.path.join(result_caching,
+    file_1B_untrained = glob(os.path.join(result_caching,'neural_nlp.score',
                                           f'benchmark={benchmark},model=roberta-base-untrained*.pkl'))
-    file_1B=glob(os.path.join(result_caching,f'benchmark={benchmark},model={model_1B}*.pkl'))
-    file_100M = glob(os.path.join(result_caching,
+    file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}*.pkl'))
+    file_100M = glob(os.path.join(result_caching,'neural_nlp.score',
                                 f'benchmark={benchmark},model={model_100M}*.pkl'))
-    file_10M = glob(os.path.join(result_caching,
+    file_10M = glob(os.path.join(result_caching,'neural_nlp.score',
                                   f'benchmark={benchmark},model={model_10M}*.pkl'))
-    files_srt = [file_1B_untrained[0], file_10M[0], file_100M[0], file_1B[0]]
-    chkpoints_srt = ['untrained', '10M', '100M', '1B']
+    #files_srt = [file_1B_untrained[0], file_10M[0], file_100M[0], file_1B[0]]
+    files_srt = [ file_10M[0], file_100M[0], file_1B[0]]
+    chkpoints_srt = [ '10M', '100M', '1B']
     # order files
     scores_mean=[]
     scors_std=[]
@@ -107,7 +108,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     # ax = plt.axes((.1, .4, .45, .35))
     ax = plt.axes((.1, .4, .35, .35))
-    x_coords=[1e5,1e6,10e6,100e6,1000e6]
+    x_coords=[1e6,10e6,100e6,]
     for idx, scr in enumerate(scr_layer):
 
         ax.plot(x_coords[idx], scr, color=all_col[idx, :], linewidth=2, marker='.', markersize=20,
