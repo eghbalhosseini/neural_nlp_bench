@@ -35,7 +35,7 @@ echo "Running saving directory ${saving_list[$SLURM_ARRAY_TASK_ID]}"
 
 
 if [ -d "${saving_list[$SLURM_ARRAY_TASK_ID]}" ]
-then:
+then
   true
 else
   git clone "https://huggingface.co/${model_id_list[$SLURM_ARRAY_TASK_ID]}-${checkpoint_list[$SLURM_ARRAY_TASK_ID]}" --single-branch "${saving_list[$SLURM_ARRAY_TASK_ID]}"
