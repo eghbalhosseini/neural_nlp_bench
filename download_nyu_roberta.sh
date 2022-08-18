@@ -38,6 +38,7 @@ if [ -d "${saving_list[$SLURM_ARRAY_TASK_ID]}" ]
 then
   true
 else
+
   git clone "https://huggingface.co/${model_id_list[$SLURM_ARRAY_TASK_ID]}-${checkpoint_list[$SLURM_ARRAY_TASK_ID]}" --single-branch "${saving_list[$SLURM_ARRAY_TASK_ID]}"
   cd "${saving_list[$SLURM_ARRAY_TASK_ID]}"
   git lfs pull

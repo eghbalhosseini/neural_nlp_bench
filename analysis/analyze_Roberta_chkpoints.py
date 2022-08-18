@@ -28,7 +28,7 @@ if user=='eghbalhosseini':
 elif user=='ehoseini':
     analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
     result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
-    result_caching='/om/user/ehoseini/MyData/snl_2020/'
+    result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
