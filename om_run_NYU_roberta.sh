@@ -1,16 +1,16 @@
 #!/bin/bash
 #SBATCH --job-name=NYU_roberta
-#SBATCH --array=0-5
+#SBATCH --array=0-44
 #SBATCH --time=56:00:00
-#SBATCH -c 16
-#SBATCH --mem=267G
+#SBATCH --mem=60G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
 for benchmark in Pereira2018-encoding Blank2014fROI-encoding Futrell2018-encoding Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
-for model in roberta-base-untrained ; do
+for model in nyu-mll/roberta-base-1B-1 nyu-mll/roberta-base-1B-2 nyu-mll/roberta-base-1B-3 nyu-mll/roberta-base-100M-1 nyu-mll/roberta-base-100M-2 nyu-mll/roberta-base-100M-3 \
+ nyu-mll/roberta-base-10M-2 nyu-mll/roberta-base-10M-1 nyu-mll/roberta-base-10M-3 ; do
   model_list[$i]="$model"
   benchmark_list[$i]="$benchmark"
   i=$i+1

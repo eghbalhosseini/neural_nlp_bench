@@ -33,31 +33,25 @@ elif user=='ehoseini':
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
     benchmark='Blank2014fROI-encoding'
-    benchmark = 'Fedorenko2016v3-encoding'
-    model_1B='nyu-mll_roberta-base-1B-3'
+    #benchmark = 'Fedorenko2016v3-encoding'
+    model_1B='nyu-mll_roberta-base-1B-1'
     precomputed_model='gpt2'
+    model_100M = 'nyu-mll_roberta-base-100M-1'
+    model_10M = 'nyu-mll_roberta-base-10M-1'
 
-    model_100M = 'nyu-mll_roberta-base-100M-3'
-    #loss_100M_ckpnt='11600'
-    loss_100M_ckpnt='14250'
-    model_10M = 'gpt2-neox-pos_learned-10M'
-    loss_10M_ckpnt='2250'
 
-    model_1M = 'gpt2-neox-pos_learned-1M'
-    loss_1M_ckpnt = '1000'
 
-    #loss_10M_ckpnt = '2000'
-    file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                          f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{2500}-untrained*.pkl'))
-    file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}*.pkl'))
-    file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
+
+    #loss_10M_ckpnt = '2000'benchmark=Blank2014fROI-encoding,model=roberta-base-untrained,subsample=None.pkl
+    file_1B_untrained = glob(os.path.join(result_caching,
+                                          f'benchmark={benchmark},model=roberta-base-untrained*.pkl'))
+    file_1B=glob(os.path.join(result_caching,f'benchmark={benchmark},model={model_1B}*.pkl'))
+    file_100M = glob(os.path.join(result_caching,
                                 f'benchmark={benchmark},model={model_100M}*.pkl'))
-    file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
+    file_10M = glob(os.path.join(result_caching,
                                   f'benchmark={benchmark},model={model_10M}*.pkl'))
-    file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                 f'benchmark={benchmark},model={model_1M}*.pkl'))
-    files_srt = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
-    chkpoints_srt = ['untrained', '1M', '10M', '100M', '1B']
+    files_srt = [file_1B_untrained[0], file_10M[0], file_100M[0], file_1B[0]]
+    chkpoints_srt = ['untrained', '10M', '100M', '1B']
     # order files
     scores_mean=[]
     scors_std=[]
