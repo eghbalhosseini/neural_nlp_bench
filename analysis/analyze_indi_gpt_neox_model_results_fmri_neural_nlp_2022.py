@@ -76,6 +76,29 @@ if __name__ == "__main__":
     ax.set_title(f'model:{model}, benchmark {benchmark}')
     fig.show()
 
+    #
+    fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
+    ax = plt.axes((.05, .2, .85, .35))
+    cmap_all = cm.get_cmap('viridis')
+    all_col = cmap_all(np.divide(np.arange(len(scores_mean[1])), len(scores_mean[1])))
+    scores_mean_np=np.stack(scores_mean).transpose()
+    scores_std_np = np.stack(scors_std).transpose()
+    for idx, scr in enumerate(scores_mean_np):
+
+        r3 = np.arange(len(scr))
+        r3=.8*r3/len(r3)
+        ax.plot(r3+idx, scr, color=all_col[idx, :], linewidth=2, label=f'ck:{label}')
+        #ax.errorbar(r3+idx, scr, yerr=scores_std_np[idx,:], linewidth=2, color=all_col[idx, :], marker='.', markersize=10)
+    ax.axhline(y=0, color='k', linestyle='-')
+    ax.legend(bbox_to_anchor=(1.4, 2), frameon=True, fontsize=8)
+    ax.set_xlim((0 - .5, len(l_names) - .5))
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.set_xticks(np.arange(len(scr)))
+
+    ax.set_xticklabels(l_names, rotation=90, fontsize=12)
+    ax.set_ylabel('Pearson Corr')
+    fig.show()
     fig.savefig(os.path.join(analysis_dir,f'chpnt_score_{model}_{benchmark}.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 

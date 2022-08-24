@@ -26,6 +26,7 @@ elif user=='ehoseini':
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
     benchmark='Blank2014fROI-encoding'
+    ylims=(-0.1,0.5)
     #benchmark = 'Fedorenko2016v3-encoding'
     benchmark='Futrell2018-encoding'
     model='mistral-caprica-gpt2-small-x81'
@@ -48,7 +49,7 @@ if __name__ == "__main__":
         model_files_c.append(files_ckpnt)
 
     chkpoints_srt=['0.01% (n=40)','0.1% (n=400)' ,'1% (n=4K)','10% (n=40K)','100% (n=400K)']
-    precomputed = pd.read_csv('/om/user/ehoseini/neural-nlp-2022/precomputed-scores.csv')
+    precomputed = pd.read_csv('/om/user/ehoseini/neural-nlp -2022/precomputed-scores.csv')
     precomputed_bench = precomputed[precomputed['benchmark'] == benchmark]
     model_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model]
     model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model + '-untrained']
@@ -91,7 +92,7 @@ if __name__ == "__main__":
     ax.spines['right'].set_visible(False)
     ax.set_xticks(np.arange(len(scr)))
     ax.set_xlabel('Layer')
-    ax.set_ylim([-.1, 1.1])
+    ax.set_ylim(ylims)
     plt.grid(True, which="both", ls="-", color='0.9')
     #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
@@ -123,6 +124,7 @@ if __name__ == "__main__":
         for idx, scr in enumerate(scr_layer):
             ax.plot(x_coords[id_mod], scr, color=all_col[id_mod, :], linewidth=2, marker=markers[idx], markersize=10,
                 label=f'{models[idx]}', zorder=2,markeredgecolor='k')
+            ax.errorbar(x_coords[id_mod], scr, yerr=scr_layer_std[idx], color='k', zorder=1)
     ax.set_xscale('log')
     ax.axhline(y=0, color='k', linestyle='-')
     ax.spines['top'].set_visible(False)
@@ -137,7 +139,7 @@ if __name__ == "__main__":
     chkpoints_label = [ '0.01%', '0.1%', '1%', '10%',
                      '100%',]
     ax.set_xticklabels(chkpoints_label, rotation=0)
-    ax.set_ylim([-.2, 1.0])
+    ax.set_ylim(ylims)
     ax.legend(bbox_to_anchor=(1.6, .8), frameon=True, fontsize=8)
 
     ax.set_ylabel('Pearson Corr')
