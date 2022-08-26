@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=MISTRAL
-#SBATCH --array=0-35
+#SBATCH --array=0-5
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=60G
 #SBATCH --exclude node017,node018
