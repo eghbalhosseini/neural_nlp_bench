@@ -49,6 +49,7 @@ if __name__ == "__main__":
 
     files_srt=[file_1M[0],file_10M[0],file_100M[0],file_1B[0]]
     chkpoints_srt=['1M','10M','100M','1B']
+    wikitext_perplexity=[50340.6719,2351.0483,639.1099,206.9432,68.1662]
     # order files
     scores_mean=[]
     scors_std=[]

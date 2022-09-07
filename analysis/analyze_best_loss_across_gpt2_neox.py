@@ -33,7 +33,7 @@ elif user=='ehoseini':
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
     #benchmark='Blank2014fROI-encoding'
-    ylims = (-.1, 1.1)
+    ylims = (-.1, 1)
     #ylims=(-.1,.5)
     #benchmark = 'Fedorenko2016v3-encoding'
     model_1B='gpt2-neox-pos_learned-1B'
@@ -43,21 +43,23 @@ if __name__ == "__main__":
     #loss_100M_ckpnt='11600'
     loss_100M_ckpnt='14250'
     model_10M = 'gpt2-neox-pos_learned-10M'
-    loss_10M_ckpnt='2250'
+    #loss_10M_ckpnt='2250'
+    loss_10M_ckpnt = '2000'
 
     model_1M = 'gpt2-neox-pos_learned-1M'
     loss_1M_ckpnt = '1000'
-
+    #permuted='-permuted'
+    permuted=''
     #loss_10M_ckpnt = '2000'
     file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{2500}-untrained*.pkl'))
-    file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{loss_1B_ckpnt}*.pkl'))
+    file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{loss_1B_ckpnt}{permuted}*.pkl'))
     file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                f'benchmark={benchmark},model={model_100M}-v2-ckpnt-{loss_100M_ckpnt}*.pkl'))
+                                f'benchmark={benchmark},model={model_100M}-v2-ckpnt-{loss_100M_ckpnt}{permuted}*.pkl'))
     file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                  f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}*.pkl'))
+                                  f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}{permuted}*.pkl'))
     file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                 f'benchmark={benchmark},model={model_1M}-v2-ckpnt-{loss_1M_ckpnt}*.pkl'))
+                                 f'benchmark={benchmark},model={model_1M}-v2-ckpnt-{loss_1M_ckpnt}{permuted}*.pkl'))
     files_srt = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
     chkpoints_srt = ['untrained', '1M', '10M', '100M', '1B']
     # order files
@@ -100,31 +102,34 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark}')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox_{benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_{benchmark}.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
     #%%
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    ax = plt.axes((.1, .2, .85, .35))
+    plt.rcParams.update({'font.size': 8})
+    ax = plt.axes((.05, .2, .9, .35))
     scores_mean_np = np.stack(scores_mean).transpose()
     scores_std_np = np.stack(scors_std).transpose()
     for idx, scr in enumerate(scores_mean_np):
         r3 = np.arange(len(scr))
-        r3 = .8 * r3 / len(r3)
+        std_v=scores_std_np[idx,:]
+        r3 = .95 * r3 / len(r3)
         r3= r3-np.mean(r3)
         for idy ,sc in enumerate(scr):
-            ax.plot(r3[idy]+idx, sc, color=all_col[idy, :], linewidth=2, marker='o', markersize=8,markeredgecolor='k',  zorder=5)
+            ax.plot(r3[idy]+idx, sc, color=all_col[idy, :], linewidth=2, marker='o', markersize=8,markeredgecolor='k',markeredgewidth=1,  zorder=5)
+            ax.errorbar(r3[idy]+idx, sc, yerr=std_v[idy], color='k', zorder=3)
         ax.plot(r3 + idx, scr, color=(.5,.5,.5), linewidth=1,zorder=4)
 
-    ax.axhline(y=0, color='k', linestyle='-',zorder=1)
-    ax.legend(bbox_to_anchor=(1.4, 2), frameon=True, fontsize=8)
+    ax.axhline(y=0, color='k', linestyle='-',zorder=2)
+    #ax.legend(bbox_to_anchor=(1.4, 2), frameon=True, fontsize=8)
     ax.set_xlim((0 - .5, len(l_names) - .5))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_xticks(np.arange(len(scores_mean_np)))
-
+    plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
     #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
 
     #ax.set_xticklabels(['untrained', '10M', '100M', '1B','Schrimpf\n(2021)'], rotation=0)
@@ -132,10 +137,10 @@ if __name__ == "__main__":
     ax.set_ylabel('Pearson Corr')
     ax.set_title(f'benchmark {benchmark} - layerwise')
     fig.show()
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox_{benchmark}_layerwise.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}_layerwise.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_{benchmark}_layerwise.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}_layerwise.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 #%%
     # plot for best layer of Shrimpf study
@@ -150,7 +155,7 @@ if __name__ == "__main__":
     x_coords=[1e5,1e6,10e6,100e6,1000e6]
     for idx, scr in enumerate(scr_layer):
 
-        ax.plot(x_coords[idx], scr, color=all_col[idx, :], linewidth=2, marker='.', markersize=20,
+        ax.plot(x_coords[idx], scr, color=all_col[idx, :], linewidth=2, marker='o', markersize=8,markeredgecolor='k',markeredgewidth=1,
                 label=f'{chkpoints_srt[idx]}', zorder=2)
         ax.errorbar(x_coords[idx], scr, yerr=scr_layer_std[idx], color='k', zorder=1)
     # add precomputed
@@ -191,11 +196,11 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark}')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_for_layer_{benchmark}.png'), dpi=250, format='png',
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox{permuted}_for_layer_{benchmark}.png'), dpi=250, format='png',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_for_layer_{benchmark}.eps'), format='eps',
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox{permuted}_for_layer_{benchmark}.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
@@ -254,11 +259,11 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark}')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_{benchmark}.png'), dpi=250, format='png',
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}.png'), dpi=250, format='png',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_{benchmark}.eps'), format='eps',
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 

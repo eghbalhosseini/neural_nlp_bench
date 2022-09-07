@@ -26,7 +26,7 @@ elif user=='ehoseini':
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
     benchmark='Blank2014fROI-encoding'
-    ylims=(-0.1,0.5)
+    ylims=(.5,0.7)
     #benchmark = 'Fedorenko2016v3-encoding'
     benchmark='Futrell2018-encoding'
     model='mistral-caprica-gpt2-small-x81'
@@ -68,69 +68,34 @@ if __name__ == "__main__":
                 scores_mean.append(x[:,0])
                 scors_std.append(x[:,1])
             else:
-                scores_mean.append(np.nan)
-                scors_std.append(np.nan)
+                scores_mean.append(np.asarray([np.nan]))
+                scors_std.append(np.asarray([np.nan]))
         model_scores.append(scores_mean)
         model_scores_std.append(scors_std)
 
     # read precomputed scores
+
+
     l_names=pd.read_pickle(file)['data'].layer.values
     cmap_all = cm.get_cmap('inferno')
     all_col = cmap_all(np.divide(np.arange(len(model_scores)+1), len(model_scores)+1))
     all_col= all_col[1:,:]
-    fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    ax = plt.axes((.1, .2, .45, .35))
-    for id_mod,scores_mean in enumerate(model_scores):
 
-        scors_std=model_scores_std[id_mod]
-        scr=np.stack(scores_mean).mean(axis=0)
-        scr_std=np.stack(scores_mean).std(axis=0)
-        r3 = np.arange(len(scr))
-        ax.plot(r3, scr, color=all_col[id_mod, :], linewidth=2, marker='.', markersize=10,
-                label=f'ck:{chkpoints_srt[id_mod]}')
-        ax.errorbar(r3,scr,yerr=scr_std,fmt='',color=all_col[id_mod, :],linewidth=2)
-        #ax.fill_between(r3, scr-scors_std[idx],scr+scors_std[idx], facecolor=all_col[id_mod, :],alpha=0.1)
-    # add precomputed
-    ax.axhline(y=0, color='k', linestyle='-')
-    ax.legend(bbox_to_anchor=(1., .8), frameon=True,fontsize=8)
-    ax.set_xlim((0-.5,len(l_names)-.5))
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.set_xticks(np.arange(len(scr)))
-    ax.set_xlabel('Layer')
-    ax.set_ylim(ylims)
-    plt.grid(True, which="both", ls="-", color='0.9')
-    #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
-    ax.set_ylabel('Pearson Corr')
-    ax.set_title(f'benchmark {benchmark} \n model:{model}-permuted')
-    fig.show()
 
-    fig.savefig(os.path.join(analysis_dir,f'mistral_effect_of_initialzation_{benchmark}.png'), dpi=250, format='png', metadata=None,
-        bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
-
-    fig.savefig(os.path.join(analysis_dir, f'mistral_effect_of_initialzation_{benchmark}.eps'), format='eps',metadata=None,
-                bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
-
-    # plot for best layer of Shrimpf study
-    layer_id = np.argmax(model_bench['score'])
-
-    scrs_layer=[]
-    for id_mod, scores_mean in enumerate(model_scores):
-        scr_layer = [x[layer_id] for x in scores_mean]
-        scrs_layer.append(scr_layer)
 
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     ax = plt.axes((.1, .4, .35, .35))
     x_coords = [ 0.01, 0.1, 1, 10,100]
-    scrs_layer_np=np.stack(scrs_layer)
-    for col in scrs_layer_np.transpose():
-        ax.plot(x_coords, col, color=(.3,.3,.3), linewidth=1, zorder=1)
-    for id_mod,scr_layer in enumerate(scrs_layer):
+    scrs_layer_np=np.squeeze(np.stack(model_scores))
+
+    for id_mod,scr_layer in enumerate(scrs_layer_np):
         markers=['o','s','d']
         for idx, scr in enumerate(scr_layer):
             ax.plot(x_coords[id_mod], scr, color=all_col[id_mod, :], linewidth=2, marker=markers[idx], markersize=10,
                 label=f'{models[idx]}', zorder=2,markeredgecolor='k')
-            ax.errorbar(x_coords[id_mod], scr, yerr=scr_layer_std[idx], color='k', zorder=1)
+    for x in scrs_layer_np.transpose():
+        ax.plot(x_coords, x, color='k', linewidth=1, zorder=1)
+            #ax.errorbar(x_coords[id_mod], scr, yerr=scr_layer_std[idx], color='k', zorder=1)
     ax.set_xscale('log')
     ax.axhline(y=0, color='k', linestyle='-')
     ax.spines['top'].set_visible(False)

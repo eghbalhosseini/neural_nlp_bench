@@ -26,7 +26,7 @@ elif user=='ehoseini':
 if __name__ == "__main__":
 
     benchmark='Futrell2018-encoding'
-    benchmark = 'Futrell2018-sentences_encoding'
+    #benchmark = 'Futrell2018-sentences_encoding'
     model='mistral-caprica-gpt2-small-x81'
     chkpnts=[0,40,400,4000,40000,400000]
 
@@ -51,15 +51,17 @@ if __name__ == "__main__":
 
     # read precomputed scores
     l_names = pd.read_pickle(file)['data'].layer.values
-    cmap_all = cm.get_cmap('viridis')
+    cmap_all = cm.get_cmap('plasma')
     all_col = cmap_all(np.divide(np.arange(len(scores_mean)), len(scores_mean)))
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     ax = plt.axes((.1, .4, .45, .35))
     for idx, scr in enumerate(scores_mean):
         r3 = np.arange(len(scr))
-        ax.plot(idx, scr, color=all_col[idx, :], linewidth=2, marker='.', markersize=20,
-                label=f'ck:{chkpoints_srt[idx]},', zorder=2)
-        ax.errorbar(idx, scr, yerr=scors_std[idx], color='k', zorder=1)    # add precomputed
+        ax.plot(idx, scr, color=all_col[idx, :], linewidth=2, marker='o',
+                markersize=8, markeredgecolor='k',
+                markeredgewidth=1, zorder=5)
+        ax.errorbar(idx, scr, yerr=scors_std[idx], linewidth=2,
+                    color=all_col[idx, :], marker='.', markersize=10)
     ax.axhline(y=0, color='k', linestyle='-')
     ax.legend(bbox_to_anchor=(1., .8), frameon=True,fontsize=8)
     ax.set_xlim((-1,len(scores_mean)))
@@ -67,7 +69,7 @@ if __name__ == "__main__":
     ax.spines['right'].set_visible(False)
     ax.set_xticks(np.arange(len(scr)))
     ax.set_xlabel('Layer')
-    ax.set_ylim([-.15, 1.0])
+    ax.set_ylim([.2, 0.9])
     plt.grid(True, which="both", ls="-", color='0.9')
     #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')

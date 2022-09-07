@@ -24,22 +24,22 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    #benchmark='Pereira2018-encoding'
-    benchmark='Blank2014fROI-encoding'
-    #ylims = (-.1, 1.1)
-    ylims=(-.1,.5)
+    benchmark='Pereira2018-encoding'
+    #benchmark='Blank2014fROI-encoding'
+    ylims = (-.1, 1.1)
+    #ylims=(-.1,.5)
     #benchmark = 'Fedorenko2016v3-encoding'
     #benchmark='Futrell2018-encoding'
     model='mistral-caprica-gpt2-small-x81'
     chkpnts=[0,40,400,4000,40000,400000]
     precomputed_model = 'gpt2'
     files_ckpnt=[]
-
+    permuted=''
     for ckpnt in chkpnts:
         if ckpnt==0:
             ckpnt=str(ckpnt)+'-untrained'
         else:
-            ckpnt = str(ckpnt) + ''
+            ckpnt = str(ckpnt) + permuted
         file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model}-ckpnt-{ckpnt},subsample=None.pkl'))
         print(file_c)
@@ -86,41 +86,44 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark} \n model:{model}-permuted')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_through_training_{model}_{benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_through_training_{model}{permuted}_{benchmark}.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}_{benchmark}.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}{permuted}_{benchmark}.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 #%%
     # %%
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    ax = plt.axes((.1, .2, .85, .35))
+    plt.rcParams.update({'font.size': 8})
+    ax = plt.axes((.05, .2, .9, .35))
     scores_mean_np = np.stack(scores_mean).transpose()
     scores_std_np = np.stack(scors_std).transpose()
     for idx, scr in enumerate(scores_mean_np):
         r3 = np.arange(len(scr))
-        r3 = .8 * r3 / len(r3)
+        r3 = .95 * r3 / len(r3)
         r3 = r3 - np.mean(r3)
+        std_v = scores_std_np[idx, :]
         for idy, sc in enumerate(scr):
-            ax.plot(r3[idy] + idx, sc, color=all_col[idy, :], linewidth=2, marker='o', markersize=8,
-                    markeredgecolor='k', zorder=5)
+            ax.plot(r3[idy]+idx, sc, color=all_col[idy, :], linewidth=2, marker='o', markersize=8,markeredgecolor='k',markeredgewidth=1,  zorder=5)
+            ax.errorbar(r3[idy]+idx, sc, yerr=std_v[idy], color='k', zorder=3)
         ax.plot(r3 + idx, scr, color=(.5, .5, .5), linewidth=1, zorder=4)
 
-    ax.axhline(y=0, color='k', linestyle='-', zorder=1)
-    ax.legend(bbox_to_anchor=(1.4, 2), frameon=True, fontsize=8)
+    ax.axhline(y=0, color='k', linestyle='-',zorder=2)
+    #ax.legend(bbox_to_anchor=(1.4, 2), frameon=True, fontsize=8)
     ax.set_xlim((0 - .5, len(l_names) - .5))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_xticks(np.arange(len(scores_mean_np)))
+    plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
     ax.set_ylim(ylims)
     ax.set_ylabel('Pearson Corr')
     ax.set_title(f'benchmark {benchmark} - layerwise')
     fig.show()
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}_{benchmark}_layerwise.png'), dpi=250,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}{permuted}_{benchmark}_layerwise.png'), dpi=250,
                 format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}_{benchmark}_layerwise.eps'), format='eps',
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}{permuted}_{benchmark}_layerwise.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
     #%%
@@ -167,7 +170,7 @@ if __name__ == "__main__":
     chkpoints_label = ['untrained', '0.01%', '0.1%', '1%', '10%',
                      '100%','Schrimpf\n(2021)']
     ax.set_xticklabels(chkpoints_label, rotation=0)
-    ax.set_ylim([-.2, .5])
+    ax.set_ylim(ylims)
 
     # ax.set_xticks((-.5,0,1,2,3,3.5))
     # ax.set_xticks((-.5, 0, 1, 2, 3, 3.5))
@@ -180,12 +183,38 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark}')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_for_schrimpf_layer_through_training_{model}_{benchmark}.png'), dpi=250,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_for_schrimpf_layer_through_training_{model}{permuted}_{benchmark}.png'), dpi=250,
                 format='png',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_for_schrimpf_layer_through_training_{model}_{benchmark}.eps'), format='eps',
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_for_schrimpf_layer_through_training_{model}{permuted}_{benchmark}.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
+#%%
+    score_change=np.diff(scores_mean_np)
+    score_change=np.cumsum(score_change,axis=1)
+    # %%
+    fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
+    ax = plt.axes((.1, .2, .85, .35))
+
+    for idx, scr in enumerate(score_change):
+        r3 = np.arange(len(scr))
+        r3 = .8 * r3 / len(r3)
+        r3 = r3 - np.mean(r3)
+        for idy, sc in enumerate(scr):
+            ax.plot(r3[idy] + idx, sc, color=all_col[idy, :], linewidth=2, marker='o', markersize=8,
+                    markeredgecolor='k', zorder=5)
+        ax.plot(r3 + idx, scr, color=(.5, .5, .5), linewidth=1, zorder=4)
+
+    ax.axhline(y=0, color='k', linestyle='-', zorder=1)
+    ax.legend(bbox_to_anchor=(1.4, 2), frameon=True, fontsize=8)
+    ax.set_xlim((0 - .5, len(l_names) - .5))
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.set_xticks(np.arange(len(scores_mean_np)))
+    ax.set_ylim(ylims)
+    ax.set_ylabel('Pearson Corr')
+    ax.set_title(f'benchmark {benchmark} - layerwise')
+    fig.show()
