@@ -25,21 +25,15 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
-    benchmark='Blank2014fROI-encoding'
-    benchmark='Futrell2018-encoding'
     model='mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained'
-    files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
+    files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}-*.pkl'))
     # order files
-    chkpoints=[re.findall(r'ckpt_\d+',x)[0] for x in files]
-    chkpoints=[int(x.replace('ckpt_','')) for x in chkpoints]
+    chkpoints=[re.findall(r'untrained-\d+',x)[0] for x in files]
+    chkpoints=[int(x.replace('untrained-','')) for x in chkpoints]
     reorder=np.argsort(chkpoints)
     chkpoints_srt=[chkpoints[x] for x in reorder]
     files_srt=[files[x] for x in reorder]
     # remove chekcpoint zero if exist
-    if True in [len(re.findall(r'ckpt_0,', x))>0 for x in files_srt]:
-        chkpoint_0 = [len(re.findall(r'ckpt_0,', x))>0 for x in files_srt].index(True)
-        del files_srt[chkpoint_0]
-        del chkpoints_srt[chkpoint_0]
     scores_mean=[]
     scors_std=[]
     for ix, file in tqdm(enumerate(files_srt)):
@@ -48,16 +42,17 @@ if __name__ == "__main__":
         scors_std.append(x[:,1])
     l_names=pd.read_pickle(file)['data'].layer.values
     cmap_all = cm.get_cmap('plasma')
+    labels=['layerNorm_1','Self Attention Weight','Self Attention Projection','layerNorm_2','Feedforward_1','Feedforward_2','ALL']
     all_col = cmap_all(np.divide(np.arange(len(scores_mean)), len(scores_mean)))
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
     ax = plt.axes((.1, .2, .45, .35))
     for idx,scr in enumerate(scores_mean):
         r3 = np.arange(len(scr))
-        if 'untrained' in files_srt[idx]:
-            label= f'{chkpoints_srt[idx]}-untrained'
-        else:
-            label = f'{chkpoints_srt[idx]}'
-        ax.plot(r3, scr, color=all_col[idx,:],linewidth=2,label=f'ck:{label}')
+    #    if 'untrained' in files_srt[idx]:
+    #       label= f'{chkpoints_srt[idx]}-untrained'
+    #    else:
+    #        label = f'{chkpoints_srt[idx]}'
+        ax.plot(r3, scr, color=all_col[idx,:],linewidth=2,label=f'HuggingFace initialization for {labels[idx]}')
         ax.errorbar(r3, scr, yerr=scors_std[idx], linewidth=2, color=all_col[idx, :],marker='.', markersize=10)
     ax.axhline(y=0, color='k', linestyle='-')
     ax.legend(bbox_to_anchor=(1.4, 2), frameon=True,fontsize=8)
@@ -68,18 +63,13 @@ if __name__ == "__main__":
 
     ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
-    ax = plt.axes((.1, .6, .45, .35))
-    vmax=np.ceil(10*(np.max(np.stack(scores_mean))+.1))/10
-    ax.imshow(np.stack(scores_mean),vmax=vmax,aspect='auto')
-    ax.set_yticks(np.arange(len(scores_mean)))
-    ax.set_yticklabels(chkpoints_srt,fontsize=12)
-    ax.set_title(f'model:{model}, benchmark {benchmark}')
+
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_{model}_{benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'variation_on_untrained_{model}_{benchmark}.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_{model}_{benchmark}.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'variation_on_untrained_{model}_{benchmark}.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
     ''' comparing untrained vs manaul permutation'''

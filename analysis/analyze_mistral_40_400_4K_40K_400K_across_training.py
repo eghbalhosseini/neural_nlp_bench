@@ -37,7 +37,8 @@ if __name__ == "__main__":
     permuted=''
     for ckpnt in chkpnts:
         if ckpnt==0:
-            ckpnt=str(ckpnt)+'-untrained'
+            #ckpnt=str(ckpnt)+'-untrained'
+            ckpnt = str(ckpnt)
         else:
             ckpnt = str(ckpnt) + permuted
         file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
@@ -86,10 +87,10 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark} \n model:{model}-permuted')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_through_training_{model}{permuted}_{benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_through_training_{model}{permuted}_{benchmark}_hf_init.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}{permuted}_{benchmark}.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}{permuted}_{benchmark}_hf_init.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 #%%
     # %%
@@ -183,12 +184,12 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark}')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_for_schrimpf_layer_through_training_{model}{permuted}_{benchmark}.png'), dpi=250,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_for_schrimpf_layer_through_training_{model}{permuted}_{benchmark}_hf_init.png'), dpi=250,
                 format='png',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_for_schrimpf_layer_through_training_{model}{permuted}_{benchmark}.eps'), format='eps',
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_for_schrimpf_layer_through_training_{model}{permuted}_{benchmark}_hf_init.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
