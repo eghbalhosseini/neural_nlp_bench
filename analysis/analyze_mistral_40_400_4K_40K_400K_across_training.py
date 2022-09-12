@@ -25,9 +25,9 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     #benchmark='Pereira2018-encoding'
-    # ylims = (-.1, 1.1)
+    #ylims = (-.1, 1.1)
     benchmark='Blank2014fROI-encoding'
-    ylims=(-.1,.5)
+    ylims=(-.2,.5)
     #benchmark = 'Fedorenko2016v3-encoding'
     #benchmark='Futrell2018-encoding'
     model='mistral-caprica-gpt2-small-x81'
@@ -37,8 +37,8 @@ if __name__ == "__main__":
     permuted=''
     for ckpnt in chkpnts:
         if ckpnt==0:
-            #ckpnt=str(ckpnt)+'-untrained'
-            ckpnt = str(ckpnt)
+            ckpnt=str(ckpnt)+'-untrained'
+            #ckpnt = str(ckpnt)
         else:
             ckpnt = str(ckpnt) + permuted
         file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
@@ -46,6 +46,10 @@ if __name__ == "__main__":
         print(file_c)
         if len(file_c)>0:
             files_ckpnt.append(file_c[0])
+
+    file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                       f'benchmark={benchmark},model={model}-ckpnt-{0},*.pkl'))
+    untrained_hf = pd.read_pickle(file_untrained[0])['data'].values
 
     chkpoints_srt=['untrained (n=0)','0.01% (n=40)','0.1% (n=400)' ,'1% (n=4K)','10% (n=40K)','100% (n=400K)']
     precomputed = pd.read_csv('/om/user/ehoseini/neural-nlp-2022/precomputed-scores.csv')
@@ -162,6 +166,10 @@ if __name__ == "__main__":
             label=f'Schrimpf(2021)', zorder=2)
     ax.errorbar(8e2, np.asarray(model_bench['score'])[layer_id], yerr=np.asarray(model_bench['error'])[layer_id],
                 color='k', zorder=1)
+
+    ax.plot(0.0008, untrained_hf[layer_id][0], color=all_col[0, :], linewidth=2, marker='o', markeredgecolor='w',
+            markersize=10, label=f'HF_untrained', zorder=2)
+    ax.errorbar(0.0008, untrained_hf[layer_id][0], yerr=untrained_hf[layer_id][1], color='k', zorder=1)
 
     ax.set_xticks(np.concatenate([major_ticks, [8e2]]))
     ax.set_xticks(minor_ticks, minor=True)
