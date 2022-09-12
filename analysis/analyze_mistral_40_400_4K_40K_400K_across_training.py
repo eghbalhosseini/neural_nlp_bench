@@ -24,10 +24,10 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
-    #benchmark='Blank2014fROI-encoding'
-    ylims = (-.1, 1.1)
-    #ylims=(-.1,.5)
+    #benchmark='Pereira2018-encoding'
+    # ylims = (-.1, 1.1)
+    benchmark='Blank2014fROI-encoding'
+    ylims=(-.1,.5)
     #benchmark = 'Fedorenko2016v3-encoding'
     #benchmark='Futrell2018-encoding'
     model='mistral-caprica-gpt2-small-x81'
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
     x_coords = [0.001, 0.01, 0.1, 1, 10,100]
     for idx, scr in enumerate(scr_layer):
-        ax.plot(x_coords[idx], scr, color=all_col[idx, :], linewidth=2, marker='.', markersize=20,
+        ax.plot(x_coords[idx], scr, color=all_col[idx, :], linewidth=2, marker='o', markersize=10,markeredgecolor='k',markeredgewidth=1,
                 label=f'{chkpoints_srt[idx]}', zorder=2)
         ax.errorbar(x_coords[idx], scr, yerr=scr_layer_std[idx], color='k', zorder=1)
     # add precomputed
@@ -157,8 +157,8 @@ if __name__ == "__main__":
     major_ticks = x_coords
     minor_ticks = np.concatenate([ np.arange(1, 11) * 1e-3, np.arange(1, 11) * 1e-2,np.arange(1, 11) * 1e-1,np.arange(1, 11) * 1e0,np.arange(1, 11) * 1e1])
 
-    ax.plot(8e2, np.asarray(model_bench['score'])[layer_id], color=(.3, .3, .3, 1), linewidth=2, marker='.',
-            markersize=20,
+    ax.plot(8e2, np.asarray(model_bench['score'])[layer_id], color=(.3, .3, .3, 1), linewidth=2, marker='o',
+            markersize=10,
             label=f'Schrimpf(2021)', zorder=2)
     ax.errorbar(8e2, np.asarray(model_bench['score'])[layer_id], yerr=np.asarray(model_bench['error'])[layer_id],
                 color='k', zorder=1)

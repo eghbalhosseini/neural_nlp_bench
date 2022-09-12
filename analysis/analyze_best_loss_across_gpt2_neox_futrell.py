@@ -26,7 +26,7 @@ elif user=='ehoseini':
 if __name__ == "__main__":
     #benchmark='Futrell2018-encoding'
     #benchmark='Futrell2018-stories_encoding'
-    benchmark = 'Futrell2018-sentences_encoding'
+    benchmark = 'Futrell2018-encoding'
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
     loss_1B_ckpnt='310000'
@@ -55,6 +55,15 @@ if __name__ == "__main__":
 
     files_srt=[file_1B_untrained[0],file_1M[0],file_10M[0],file_100M[0],file_1B[0]]
     chkpoints_srt=['untrained','1M','10M','100M','1B']
+
+    file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                       f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{310000}-untrained,*.pkl'))
+
+    file_untrained_hf = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                          f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{310000}-untrained_hf,*.pkl'))
+    untrained_hf = pd.read_pickle(file_untrained_hf[0])['data'].values
+    untrained_manual = pd.read_pickle(file_untrained[0])['data'].values
+
     # order files
     scores_mean=[]
     scors_std=[]
@@ -77,48 +86,33 @@ if __name__ == "__main__":
     cmap_all = cm.get_cmap('viridis')
     all_col = cmap_all(np.divide(np.arange(len(scores_mean)), len(scores_mean)))
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
-    #ax = plt.axes((.1, .4, .45, .35))
     ax = plt.axes((.1, .4, .35, .35))
     x_coords=[1e5,1e6,10e6,100e6,1000e6]
     for idx,scr in enumerate(scores_mean):
         r3 = np.arange(len(scr))
-        ax.plot(x_coords[idx], scr, color=all_col[idx,:],linewidth=2,marker='.',markersize=20,label=f'{chkpoints_srt[idx]}',zorder=2)
+        ax.plot(x_coords[idx], scr, color=all_col[idx,:],linewidth=2,markersize=10,markeredgecolor='k',markeredgewidth=1,marker='o',label=f'{chkpoints_srt[idx]}',zorder=2)
         ax.errorbar(x_coords[idx], scr,yerr=scors_std[idx],color='k',zorder=1)
-    # add precomputed
-    #ax.errorbar(idx+.5,model_bench['score'],yerr=model_bench['error'],linestyle='--',fmt='.',markersize=20,linewidth=2,color=(0,0,0,1),label='trained(Schrimpf)',zorder=1)
-    #ax.errorbar(-0.5, model_unt_bench['score'], yerr=model_unt_bench['error'], linestyle='--', fmt='.', markersize=20,
-    #            linewidth=2, color=(.5, .5, .5, 1), label='untrained(Schrimpf)', zorder=1)
     ax.set_xscale('log')
     ax.plot(x_coords,scores_mean,color='k',linewidth=2,zorder=1)
     ax.axhline(y=0, color='k', linestyle='-')
-
-    #ax.set_xlim((-1,len(scores_mean)))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     major_ticks = x_coords
     minor_ticks = np.concatenate([np.arange(1,11)*1e5,np.arange(1,11)*1e6,np.arange(1,11)*1e7,np.arange(1,11)*1e8])
-
-    ax.plot(8000e6, np.asarray(model_bench[:,0]), color=(.3,.3,.3,1), linewidth=2, marker='.', markersize=20,
+    ax.plot(8000e6, np.asarray(model_bench[:,0]), color=(.3,.3,.3,1), linewidth=2, marker='o', markersize=10,
             label=f'Schrimpf(2021)', zorder=2)
     ax.errorbar(8000e6, np.asarray(model_bench[:,0]), yerr=np.asarray(model_bench[:,1]), color='k', zorder=1)
-
-
+    ax.plot(.8e5, untrained_hf[0][0], color=all_col[0, :], linewidth=2, marker='o', markeredgecolor='w',
+            markersize=10, label=f'HF_untrained', zorder=2)
+    ax.errorbar(.8e5, untrained_hf[0][0], yerr=untrained_hf[0][1], color='k', zorder=1)
     ax.set_xticks(major_ticks)
     ax.set_xticks(np.concatenate([major_ticks, [8000e6]]))
-
     ax.set_xticks(minor_ticks, minor=True)
     plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
     ax.set_axisbelow(True)
-    #ax.set_xticklabels(['untrained','1M', '10M', '100M', '1B'], rotation=0)
     ax.set_xticklabels(['untrained','1M', '10M', '100M', '1B', 'Schrimpf\n(2021)'], rotation=0)
-    ax.set_ylim([-0.05, .4])
-    #ax.set_xticks((-.5,0,1,2,3,3.5))
-    #ax.set_xticks((-.5, 0, 1, 2, 3, 3.5))
-    #ax.set_xticklabels(['untrained(Shrimpf)','untrained','10M','100M','1B','trained(Schrimpf)'],rotation=90)
-    #ax.set_xticks(np.asarray(x_coords))
+    ax.set_ylim([.2, .9])
     ax.legend(bbox_to_anchor=(1.5, .8), frameon=True, fontsize=8)
-    #ax.set_xlim((min(x_coords),max(x_coords)))
-    #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')
     ax.set_title(f'benchmark {benchmark}')
     fig.show()

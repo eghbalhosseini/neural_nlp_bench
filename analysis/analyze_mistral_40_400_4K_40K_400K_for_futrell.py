@@ -28,11 +28,13 @@ if __name__ == "__main__":
     #benchmark = 'Futrell2018-sentences_encoding'
     model = 'mistral-caprica-gpt2-small-x81'
     precomputed_model = 'gpt2'
+    ylims=(.2,.9)
     chkpnts = [0, 40, 400, 4000, 40000, 400000]
     files_ckpnt = []
     for ckpnt in chkpnts:
         if ckpnt==0:
-            ckpnt=str(ckpnt)+'-untrained'
+            #ckpnt=str(ckpnt)+'-untrained'
+            ckpnt = str(ckpnt)
         file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model}-ckpnt-{ckpnt},subsample=None.pkl'))
         print(file_c)
@@ -69,7 +71,7 @@ if __name__ == "__main__":
 
     x_coords = [0.001, 0.01, 0.1, 1, 10, 100]
     for idx, scr in enumerate(scores_mean):
-        ax.plot(x_coords[idx], scr, color=all_col[idx, :], linewidth=2, marker='.', markersize=20,
+        ax.plot(x_coords[idx], scr, color=all_col[idx, :], linewidth=2, markersize=10,marker='o',markeredgecolor='k',markeredgewidth=1,
                 label=f'{chkpoints_srt[idx]}', zorder=2)
         ax.errorbar(x_coords[idx], scr, yerr=scors_std[idx], color='k', zorder=1)
 
@@ -104,7 +106,7 @@ if __name__ == "__main__":
     chkpoints_label = ['untrained', '0.01%', '0.1%', '1%', '10%',
                        '100%', 'Schrimpf\n(2021)']
     ax.set_xticklabels(chkpoints_label, rotation=0)
-    ax.set_ylim([-.2, 1.1])
+    ax.set_ylim(ylims)
 
 
     ax.legend(bbox_to_anchor=(2, .8), frameon=True, fontsize=8)
