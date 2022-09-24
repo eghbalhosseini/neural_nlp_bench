@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=MISTRAL
-#SBATCH --array=0-7
+#SBATCH --array=0-3
 #SBATCH --time=6-23:00:00
 #SBATCH --mem=60G
 #SBATCH --exclude node017,node018
@@ -17,14 +17,10 @@ overwrite=false
 
 for benchmark in Pereira2018-encoding ; do
 #for benchmark in Futrell2018-encoding Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
-  for model in mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained \
-  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-1 \
-  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-2 \
-  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-3 \
-  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-4 \
-  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-5 \
-  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-6 \
-  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-7 ; do
+for model in mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-std-1 \
+  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-std-2 \
+  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-mu-1 \
+  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-mu-2 ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
  #           activity_list[$i]="${activity_arr[$idx]}"
