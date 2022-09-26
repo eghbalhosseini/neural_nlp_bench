@@ -25,7 +25,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    stimuli_name='Pereira2018-243*'
+    stimuli_name='Pereira2018-*'
     model='bplm-gpt2-hf-init-ckpnt-16750'
     print(model)
     activtiy_folder='neural_nlp.models.wrapper.core.ActivationsExtractorHelper._from_sentences_stored'
