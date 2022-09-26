@@ -26,7 +26,7 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     stimuli_name='Pereira2018-243*'
-    model='bplm-gpt2-gauss-init-ckpnt-0'
+    model='bplm-gpt2-hf-init-ckpnt-16750'
     print(model)
     activtiy_folder='neural_nlp.models.wrapper.core.ActivationsExtractorHelper._from_sentences_stored'
     files=glob(os.path.join(result_caching,activtiy_folder,f'identifier={model},stimuli_identifier={stimuli_name}*.pkl'))
