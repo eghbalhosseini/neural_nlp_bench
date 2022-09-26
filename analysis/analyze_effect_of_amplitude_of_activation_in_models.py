@@ -26,7 +26,7 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     stimuli_name='Pereira2018-243*'
-    model='mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-mu-1'
+    model='mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-mu-2'
     activtiy_folder='neural_nlp.models.wrapper.core.ActivationsExtractorHelper._from_sentences_stored'
     files=glob(os.path.join(result_caching,activtiy_folder,f'identifier={model},stimuli_identifier={stimuli_name}*.pkl'))
     # order files
