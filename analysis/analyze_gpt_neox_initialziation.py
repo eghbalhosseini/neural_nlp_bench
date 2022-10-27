@@ -24,12 +24,12 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
-    ylims = (-0.1, 1)
+    #benchmark='Pereira2018-encoding'
+    #ylims = (-0.1, 1)
     benchmark='Blank2014fROI-encoding'
     ylims = (-0.1, .5)
 
-    #benchmark = 'Fedorenko2016v3-encoding'
+
     benchmark='Futrell2018-encoding'
     ylims = (.2, .8)
 
@@ -58,7 +58,8 @@ if __name__ == "__main__":
                                  f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}*.pkl'))
     file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                 f'benchmark={benchmark},model={model_1M}-v2-ckpnt-{loss_1M_ckpnt}*.pkl'))
-    files_srt_1 = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
+    #files_srt_1 = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
+    files_srt_1 = [ file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
 
 
     model_1B = 'gpt2-neox-pos_learned-1B-v2-init2'
@@ -81,7 +82,8 @@ if __name__ == "__main__":
                                  f'benchmark={benchmark},model={model_10M}-ckpnt-{loss_10M_ckpnt}*.pkl'))
     file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                 f'benchmark={benchmark},model={model_1M}-ckpnt-{loss_1M_ckpnt}*.pkl'))
-    files_srt_2 = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
+    #files_srt_2 = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
+    files_srt_2 = [ file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
 
 
     precomputed_model = 'gpt2'
@@ -93,7 +95,8 @@ if __name__ == "__main__":
                 [files_srt_1[1], files_srt_2[1]],
                 [files_srt_1[2], files_srt_2[2]],
                 [files_srt_1[3], files_srt_2[3]],
-                [files_srt_1[4], files_srt_2[4]]]
+                #[files_srt_1[4], files_srt_2[4]]]
+                   ]
     # order files
     model_scores=[]
     model_scores_std=[]
@@ -110,40 +113,8 @@ if __name__ == "__main__":
     # read precomputed scores
     l_names=pd.read_pickle(file)['data'].layer.values
     cmap_all = cm.get_cmap('viridis')
-    all_col = cmap_all(np.divide(np.arange(len(model_scores)), len(model_scores)))
-
-    # fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    # ax = plt.axes((.1, .2, .45, .35))
-    # for id_mod,scores_mean in enumerate(model_scores):
-    #
-    #     scors_std=model_scores_std[id_mod]
-    #     scr=np.stack(scores_mean).mean(axis=0)
-    #     scr_std=np.stack(scores_mean).std(axis=0)
-    #     r3 = np.arange(len(scr))
-    #     ax.plot(r3, scr, color=all_col[id_mod, :], linewidth=2, marker='.', markersize=10,
-    #             label=f'ck:{chkpoints_srt[id_mod]}')
-    #     ax.errorbar(r3,scr,yerr=scr_std,fmt='',color=all_col[id_mod, :],linewidth=2)
-    #     #ax.fill_between(r3, scr-scors_std[idx],scr+scors_std[idx], facecolor=all_col[id_mod, :],alpha=0.1)
-    # # add precomputed
-    # ax.axhline(y=0, color='k', linestyle='-')
-    # ax.legend(bbox_to_anchor=(1., .8), frameon=True,fontsize=8)
-    # ax.set_xlim((0-.5,len(l_names)-.5))
-    # ax.spines['top'].set_visible(False)
-    # ax.spines['right'].set_visible(False)
-    # ax.set_xticks(np.arange(len(scr)))
-    # ax.set_xlabel('Layer')
-    # ax.set_ylim(ylims)
-    # plt.grid(True, which="both", ls="-", color='0.9')
-    # #ax.set_xticklabels(l_names, rotation=90, fontsize=12)
-    # ax.set_ylabel('Pearson Corr')
-    # ax.set_title(f'benchmark {benchmark} \n model:{model}-permuted')
-    # fig.show()
-    #
-    # fig.savefig(os.path.join(analysis_dir,f'gpt2_neox_effect_of_initialzation_{benchmark}.png'), dpi=250, format='png', metadata=None,
-    #     bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
-    #
-    # fig.savefig(os.path.join(analysis_dir, f'gpt2_neox_effect_of_initialzation_{benchmark}.eps'), format='eps',metadata=None,
-    #             bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
+    all_col = cmap_all(np.divide(np.arange(len(model_scores)+1), len(model_scores)+1))
+    all_col=all_col[1:,:]
 
     # plot for best layer of Shrimpf study
     layer_id = np.argmax(model_bench['score'])
@@ -156,7 +127,8 @@ if __name__ == "__main__":
 
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     ax = plt.axes((.1, .4, .35, .35))
-    x_coords = [1e5, 1e6, 10e6, 100e6, 1000e6]
+    #x_coords = [1e5, 1e6, 10e6, 100e6, 1000e6]
+    x_coords = [ 1e6, 10e6, 100e6, 1000e6]
     scrs_layer_np=np.stack(scrs_layer)
     for col in scrs_layer_np.transpose():
         ax.plot(x_coords, col, color=(.3,.3,.3), linewidth=1, zorder=1)
@@ -173,12 +145,15 @@ if __name__ == "__main__":
     major_ticks = x_coords
     minor_ticks = np.concatenate(
         [np.arange(1, 11) * 1e5, np.arange(1, 11) * 1e6, np.arange(1, 11) * 1e7, np.arange(1, 11) * 1e8])
+    minor_ticks = np.concatenate(
+        [ np.arange(1, 11) * 1e6, np.arange(1, 11) * 1e7, np.arange(1, 11) * 1e8])
 
     ax.set_xticks(np.concatenate([major_ticks]))
     ax.set_xticks(minor_ticks, minor=True)
     plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
     ax.set_axisbelow(True)
-    ax.set_xticklabels(['untrained', '1M', '10M', '100M', '1B'], rotation=0)
+    #ax.set_xticklabels(['untrained', '1M', '10M', '100M', '1B'], rotation=0)
+    ax.set_xticklabels(['1M', '10M', '100M', '1B'], rotation=0)
 
     ax.set_ylim(ylims)
     ax.legend(bbox_to_anchor=(1.6, .8), frameon=True, fontsize=8)

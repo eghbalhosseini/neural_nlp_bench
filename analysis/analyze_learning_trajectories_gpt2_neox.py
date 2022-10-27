@@ -41,7 +41,8 @@ if __name__ == "__main__":
     model_1M = 'gpt2-neox-pos_learned-1M'
     loss_1M_ckpnt = '1000'
     chkpoints_srt = ['1M', '10M', '100M', '1B']
-    train_stoppings=[1000,2000,14250,31000]
+    train_select=[1000,2000,14250,310000]
+    train_stoppings = [2000, 8000, 40000, 320000]
 
     training_results = pd.read_pickle(os.path.join(result_dir, 'data', 'miniberta_train_valid_set.pkl'))
     # find the location of perplexity score closest to checkpoint:
@@ -77,6 +78,7 @@ if __name__ == "__main__":
         #ax.plot(smooth(train_cuts[idx][0],20), smooth(train_cuts[idx][1],20), c=(all_col[idx,:]), zorder=2,label=chkpoints_srt[idx])
         ax.plot(train_cuts[idx][0], gaussian_filter1d(train_cuts[idx][1],10), c=(all_col[idx, :]), zorder=2,
                 label=chkpoints_srt[idx],linewidth=2)
+        ax.axvline(train_select[idx],c=(all_col[idx, :]))
 
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
@@ -91,7 +93,7 @@ if __name__ == "__main__":
         # ax.plot(smooth(train_cuts[idx][0],20), smooth(train_cuts[idx][1],20), c=(all_col[idx,:]), zorder=2,label=chkpoints_srt[idx])
         ax.plot(valid_cuts[idx][0], valid_cuts[idx][1], c=(all_col[idx, :]), zorder=2,
                 label=chkpoints_srt[idx], linewidth=2)
-
+        ax.axvline(train_select[idx], c=(all_col[idx, :]))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_xscale('log')
@@ -105,45 +107,4 @@ if __name__ == "__main__":
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
     fig.savefig(os.path.join(analysis_dir, f'gpt_neox_training_performance.eps'), format='eps',metadata=None,
-                bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
-
-
-    #%% do the same analysis but take the 1b model and find how it behaves
-
-    score_max_1b = np.argmax(scores_mean[-1])
-    scores_max= [scores_mean[x][score_max_1b] for x in range(len(scores_mean))]
-    score_std = [scors_std[x][score_max_1b] for x in range(len(scores_mean))]
-    validation_score = np.asarray(scores_max)
-
-    fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
-    ax = plt.axes((.1, .2, .35, .35))
-    ax.set_xscale('log')
-    ax.plot(validation_perpelxity, validation_score, zorder=1, color=(.5,.5,.5))
-    for idx in range(len(validation_score)):
-        ax.scatter(validation_perpelxity[idx], validation_score[idx],s=50, c=(all_col[idx,:]), zorder=2,label=chkpoints_srt[idx])
-        ax.errorbar(validation_perpelxity[idx], validation_score[idx], yerr=score_std[idx], linewidth=2, color=all_col[idx, :], marker='.', markersize=10)
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-
-    minor_ticks = np.concatenate(
-        [np.arange(2, 11) * 1e1, np.arange(1, 6) * 1e2])
-    ax.set_xticks(minor_ticks, minor=True)
-    plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
-    ax.set_ylabel('Pearson Corr')
-    ax.set_xlabel('perplexity')
-
-    minor_ticks = np.concatenate(
-        [np.arange(2, 11,2) * 1e1, np.arange(1, 6,2) * 1e2])
-
-    ax.set_xticks(np.unique(minor_ticks))
-    ax.set_xticklabels(np.unique(minor_ticks).astype(int))
-    ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
-    ax.set_axisbelow(True)
-    ax.set_ylim([0.4, .9])
-    ax.set_title(f'model:gpt_neox \n benchmark {benchmark} against perplexity \n for best layer in 1B ')
-    fig.show()
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox_{benchmark}_against_perplexity_for_best_layer_in_1b.png'), dpi=250, format='png', metadata=None,
-        bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
-
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_{benchmark}_against_perplexity_in_1b.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
