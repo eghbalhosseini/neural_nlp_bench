@@ -27,6 +27,7 @@ if __name__ == "__main__":
     #benchmark='Futrell2018-encoding'
     #benchmark='Futrell2018-stories_encoding'
     benchmark = 'Futrell2018-encoding'
+    ylims = (-.12, 1.1)
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
     loss_1B_ckpnt='310000'
@@ -67,10 +68,13 @@ if __name__ == "__main__":
     # order files
     scores_mean=[]
     scors_std=[]
+    score_data=[]
     for ix, file in tqdm(enumerate(files_srt)):
-        x=pd.read_pickle(file)['data'].values
-        scores_mean.append(x[:,0])
-        scors_std.append(x[:,1])
+        x=pd.read_pickle(file)['data']
+        score_data.append(x)
+
+        scores_mean.append(x.values[:,0])
+        scors_std.append(x.values[:,1])
 
     # read precomputed scores
     #precomputed=pd.read_csv('/om/user/ehoseini/neural-nlp-2022/precomputed-scores.csv')
@@ -86,7 +90,7 @@ if __name__ == "__main__":
     cmap_all = cm.get_cmap('viridis')
     all_col = cmap_all(np.divide(np.arange(len(scores_mean)), len(scores_mean)))
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
-    ax = plt.axes((.1, .4, .35, .35))
+    ax = plt.axes((.1, .4, .45, .35))
     x_coords=[1e5,1e6,10e6,100e6,1000e6]
     for idx,scr in enumerate(scores_mean):
         r3 = np.arange(len(scr))
@@ -122,3 +126,9 @@ if __name__ == "__main__":
 
     fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_{benchmark}.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
+
+    voxel_scores = [ y.raw.raw.squeeze()  for y in score_data]
+    for idx, x in enumerate(voxel_scores):
+        [h, pval] = ttest_ind(x.mean('split').values, voxel_scores[-1].mean('split').values,
+                              nan_policy='omit')
+        print(f'{idx}, {h}, {pval} \n')

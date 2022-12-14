@@ -67,7 +67,7 @@ if __name__ == "__main__":
     cmap_all = cm.get_cmap('inferno')
     all_col = cmap_all(np.divide(np.arange(len(scores_mean)), len(scores_mean)))
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
-    ax = plt.axes((.1, .4, .35, .35))
+    ax = plt.axes((.1, .4, .45, .35))
 
     x_coords = [0.001, 0.01, 0.1, 1, 10, 100]
     for idx, scr in enumerate(scores_mean):
@@ -87,11 +87,17 @@ if __name__ == "__main__":
          np.arange(1, 11) * 1e1])
     ax.axhline(y=0, color='k', linestyle='-')
 
-    ax.plot(8e2, np.asarray(model_bench['score']), color=(.3, .3, .3, 1), linewidth=2, marker='.',
-            markersize=20,
+    ax.plot(8e2, np.asarray(model_bench['score']), color=(.3, .3, .3, 1), linewidth=2, marker='o',
+            markersize=10,
             label=f'Schrimpf(2021)', zorder=2)
     ax.errorbar(8e2, np.asarray(model_bench['score']), yerr=np.asarray(model_bench['error']),
                 color='k', zorder=1)
+
+    ax.plot(0.0008, model_unt_bench.score.values, color=(0, 0, 0, 1), linewidth=2, marker='o', markeredgecolor='w',
+            markersize=10)
+
+    ax.errorbar(.0008, y=model_unt_bench.score.values, yerr=model_unt_bench.error.values, color='k', zorder=1)
+    ax.set_xticks(major_ticks)
 
     ax.set_xticks(np.concatenate([major_ticks, [8e2]]))
     ax.set_xticks(minor_ticks, minor=True)
@@ -101,7 +107,7 @@ if __name__ == "__main__":
     chkpoints_label = ['untrained', '0.01%', '0.1%', '1%', '10%',
                        '100%', 'Schrimpf\n(2021)']
 
-    ax.legend(bbox_to_anchor=(1.5, .8), frameon=True,fontsize=8)
+    #ax.legend(bbox_to_anchor=(1.5, .8), frameon=True,fontsize=8)
 
     chkpoints_label = ['untrained', '0.01%', '0.1%', '1%', '10%',
                        '100%', 'Schrimpf\n(2021)']
@@ -109,7 +115,7 @@ if __name__ == "__main__":
     ax.set_ylim(ylims)
 
 
-    ax.legend(bbox_to_anchor=(2, .8), frameon=True, fontsize=8)
+    #ax.legend(bbox_to_anchor=(2, .8), frameon=True, fontsize=8)
     # ax.set_xlim((min(x_coords),max(x_coords)))
     # ax.set_xticklabels(l_names, rotation=90, fontsize=12)
     ax.set_ylabel('Pearson Corr')

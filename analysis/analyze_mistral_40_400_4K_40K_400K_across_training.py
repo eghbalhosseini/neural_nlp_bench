@@ -24,10 +24,10 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    #benchmark='Pereira2018-encoding'
-    #ylims = (-.1, 1.1)
-    benchmark='Blank2014fROI-encoding'
-    ylims=(-.2,.5)
+    benchmark='Pereira2018-encoding'
+    ylims = (-.12, 1.1)
+    #benchmark='Blank2014fROI-encoding'
+    #ylims=(-.2,.5)
     #benchmark = 'Fedorenko2016v3-encoding'
     #benchmark='Futrell2018-encoding'
     model='mistral-caprica-gpt2-small-x81'
@@ -60,10 +60,12 @@ if __name__ == "__main__":
     # order files
     scores_mean=[]
     scors_std=[]
+    score_data=[]
     for ix, file in tqdm(enumerate(files_ckpnt)):
-        x=pd.read_pickle(file)['data'].values
-        scores_mean.append(x[:,0])
-        scors_std.append(x[:,1])
+        x=pd.read_pickle(file)['data']
+        scores_mean.append(x.values[:,0])
+        scors_std.append(x.values[:,1])
+        score_data.append(x)
 
     # read precomputed scores
 
@@ -134,13 +136,24 @@ if __name__ == "__main__":
     #%%
     # plot for best layer of Shrimpf study
     layer_id = np.argmax(model_bench['score'])
-
+    layer_name=model_bench['layer'].iloc[layer_id]
     scr_layer = [x[layer_id] for x in scores_mean]
     scr_layer_std = [x[layer_id] for x in scors_std]
 
+
+    if benchmark=='Blank2014fROI-encoding':
+        voxel_scores=[[x for idx, x in y.raw.raw.groupby('layer') if idx ==layer_name] for y in score_data]
+        for idx, x in enumerate(voxel_scores):
+            [h,pval]=ttest_ind(x[0].groupby('subject_UID').median(),voxel_scores[-1][0].groupby('subject_UID').median(),nan_policy='omit',axis=1)
+            print(f'{idx}, {h}, {pval} \n')
+    else:
+        voxel_scores=[[x for idx, x in y.raw.raw.groupby('layer') if idx ==layer_name] for y in score_data]
+        for idx, x in enumerate(voxel_scores):
+            [h,pval]=ttest_ind(x[0].groupby('subject').median(),voxel_scores[-1][0].groupby('subject').median(),nan_policy='omit',axis=1,alternative='less')
+            print(f'{idx}, {h}, {pval} \n')
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     # ax = plt.axes((.1, .4, .45, .35))
-    ax = plt.axes((.1, .4, .35, .35))
+    ax = plt.axes((.1, .4, .45, .35))
 
     x_coords = [0.001, 0.01, 0.1, 1, 10,100]
     for idx, scr in enumerate(scr_layer):

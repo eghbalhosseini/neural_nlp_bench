@@ -15,9 +15,10 @@ print(user)
 import re
 from tqdm import tqdm
 plt.rcdefaults()
-
+from scipy.stats import ttest_ind_from_stats, ttest_ind
 ## Set up LaTeX fonts
 import matplotlib
+from scipy.stats import ttest_ind_from_stats
 from matplotlib.backends.backend_pgf import FigureCanvasPgf
 matplotlib.backend_bases.register_backend('pdf', FigureCanvasPgf)
 
@@ -31,10 +32,10 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    #benchmark='Pereira2018-encoding'
-    #ylims = (-.1, 1)
-    benchmark='Blank2014fROI-encoding'
-    ylims=(-.1,.5)
+    benchmark='Pereira2018-encoding'
+    ylims = (-.12, 1.1)
+    #benchmark='Blank2014fROI-encoding'
+    #ylims=(-.1,.5)
     #benchmark = 'Fedorenko2016v3-encoding'
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
@@ -63,23 +64,28 @@ if __name__ == "__main__":
     files_srt = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
     chkpoints_srt = ['untrained', '1M', '10M', '100M', '1B']
     # order files
-    scores_mean=[]
-    scors_std=[]
+
     file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{310000}-untrained,*.pkl'))
 
     file_untrained_hf = glob(os.path.join(result_caching, 'neural_nlp.score',
                                        f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{310000}-untrained_hf,*.pkl'))
-
+    scores_mean=[]
+    scors_std=[]
+    score_data=[]
     for ix, file in tqdm(enumerate(files_srt)):
-        x=pd.read_pickle(file)['data'].values
-        scores_mean.append(x[:,0])
-        scors_std.append(x[:,1])
+        x=pd.read_pickle(file)['data']
+        score_data.append(x)
+        num_subj=x.raw.raw
+        scores_mean.append(x.values[:,0])
+        scors_std.append(x.values[:,1])
+
 
     # read precomputed scores
     precomputed=pd.read_csv('/om/user/ehoseini/neural-nlp-2022/precomputed-scores.csv')
     precomputed_bench=precomputed[precomputed['benchmark']==benchmark]
     model_bench=precomputed_bench[precomputed_bench['model']==precomputed_model]
+
     model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model+'-untrained']
     # untrained scores
     untrained_hf=pd.read_pickle(file_untrained_hf[0])['data'].values
@@ -152,15 +158,33 @@ if __name__ == "__main__":
     fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}_layerwise.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 #%%
-    # plot for best layer of Shrimpf study
+    # plot for best layer of Schirmpf study
     layer_id=np.argmax(model_bench['score'])
-
+    layer_name=model_bench['layer'].iloc[layer_id]
     scr_layer=[x[layer_id] for x in scores_mean]
     scr_layer_std = [x[layer_id] for x in scors_std]
 
+    #n_sub=len(np.unique(score_data[0].raw.raw.subject))
+
+    #for idx, x in enumerate(scr_layer):
+    #    [h,pval]=ttest_ind_from_stats(x,scr_layer_std[idx],n_sub,scr_layer[-1],scr_layer_std[-1],n_sub)
+    #    print(f'{idx}, {h}, {pval} \n')
+    if benchmark=='Blank2014fROI-encoding':
+        voxel_scores=[[x for idx, x in y.raw.raw.groupby('layer') if idx ==layer_name] for y in score_data]
+        for idx, x in enumerate(voxel_scores):
+            [h,pval]=ttest_ind(x[0].groupby('subject_UID').median(),voxel_scores[-1][0].groupby('subject_UID').median(),nan_policy='omit',axis=1)
+            print(f'{idx}, {h}, {pval} \n')
+    else:
+        voxel_scores=[[x for idx, x in y.raw.raw.groupby('layer') if idx ==layer_name] for y in score_data]
+        for idx, x in enumerate(voxel_scores):
+            [h,pval]=ttest_ind(x[0].groupby('subject').median(),voxel_scores[-1][0].groupby('subject').median(),nan_policy='omit',axis=1,alternative='less')
+            print(f'{idx}, {h}, {pval} \n')
+
+
+
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     # ax = plt.axes((.1, .4, .45, .35))
-    ax = plt.axes((.1, .4, .35, .35))
+    ax = plt.axes((.1, .4, .45, .35))
     x_coords=[1e5,1e6,10e6,100e6,1000e6]
     for idx, scr in enumerate(scr_layer):
 
@@ -216,7 +240,7 @@ if __name__ == "__main__":
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-#%% plot for best layer of Shrimpf study
+#%% plot for best layer of current study
     layer_ids = [np.argmax(x) for x in scores_mean]
 
     scr_layer = [x[layer_ids[idx]] for idx, x in enumerate(scores_mean)]
