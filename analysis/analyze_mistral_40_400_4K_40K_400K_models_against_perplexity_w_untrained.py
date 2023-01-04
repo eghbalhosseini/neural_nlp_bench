@@ -24,12 +24,12 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    #benchmark='Pereira2018-encoding'
-    #ylims = (-.2, 1.1)
-    benchmark = 'Blank2014fROI-encoding'
-    ylims = (-.2, .5)
-    #benchmark = 'Futrell2018-encoding'
-    #ylims = (.2, .9)
+    benchmark='Pereira2018-encoding'
+    ylims = (-.12, 1.1)
+    #benchmark = 'Blank2014fROI-encoding'
+    #ylims = (-.2, .5)
+    benchmark = 'Futrell2018-encoding'
+    ylims = (.2, .9)
 
     model = 'mistral-caprica-gpt2-small-x81'
     precomputed_model = 'gpt2'
@@ -126,12 +126,12 @@ if __name__ == "__main__":
     validation_score = np.asarray(scores_max)
 
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    ax = plt.axes((.1, .2, .35, .35))
+    ax = plt.axes((.1, .2, .45, .45))
     ax.plot(validation_perpelxity, validation_score, zorder=3, color=(0,0,0))
     for idx in range(len(validation_score)):
         #ax.scatter(validation_perpelxity[idx], validation_score[idx],s=50, c=(all_col[idx,:]), zorder=2,label=chkpoints_srt[idx])
         ax.plot(validation_perpelxity[idx], validation_score[idx], color=(all_col[idx, :]), linewidth=2, marker='o',
-                markersize=8, markeredgecolor='k',
+                markersize=10, markeredgecolor='k',
                 markeredgewidth=1, zorder=5)
         ax.errorbar(validation_perpelxity[idx], validation_score[idx], yerr=score_std[idx], linewidth=2, color=all_col[idx, :], marker='.', markersize=10)
     ax.spines['top'].set_visible(False)
@@ -150,7 +150,7 @@ if __name__ == "__main__":
     #ax.set_xticks(np.unique(minor_ticks))
     #ax.set_xticklabels(np.unique(minor_ticks).astype(int))
 
-    ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
+    #ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
     ax.set_axisbelow(True)
     ax.set_ylim(ylims)
 
@@ -171,20 +171,21 @@ if __name__ == "__main__":
     cmap_all = cm.get_cmap('plasma')
     all_col = cmap_all(np.divide(np.arange(len(validation_score)), len(validation_score)))
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    ax = plt.axes((.1, .2, .35, .35))
+    ax = plt.axes((.1, .2, .45, .45))
     ax.plot(validation_perpelxity, validation_score, zorder=1, color=(.5, .5, .5))
     for idx in range(len(validation_score)):
         ax.plot(validation_perpelxity[idx], validation_score[idx], color=(all_col[idx, :]), linewidth=2, marker='o',
-                markersize=8, markeredgecolor='k',
+                markersize=10, markeredgecolor='k',
                 markeredgewidth=1, zorder=5)
         ax.errorbar(validation_perpelxity[idx], validation_score[idx], yerr=score_std[idx], linewidth=2,
-                    color=all_col[idx, :], marker='.', markersize=10)
+                    color='k', marker='.', markersize=10)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_ylabel('Pearson Corr')
     ax.set_xlabel('perplexity')
     ax.set_xscale('log')
     ax.invert_xaxis()
+    ax.set_ylim(ylims)
     # minor_ticks = np.concatenate(
     #    [np.arange(2, 11) * 1e1, np.arange(1, 11) * 1e2,np.arange(1, 5) * 1e3])
     # ax.set_xticks(minor_ticks, minor=True)
@@ -195,7 +196,7 @@ if __name__ == "__main__":
     # ax.set_xticks(np.unique(minor_ticks))
     # ax.set_xticklabels(np.unique(minor_ticks).astype(int))
 
-    ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
+    #ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
     ax.set_axisbelow(True)
 
     ax.set_title(f'model:{model} \n benchmark {benchmark} against \n perplexity {preplex_benchmark}')

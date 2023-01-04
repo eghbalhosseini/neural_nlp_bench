@@ -65,6 +65,10 @@ if __name__ == "__main__":
     untrained_hf = pd.read_pickle(file_untrained_hf[0])['data'].values
     untrained_manual = pd.read_pickle(file_untrained[0])['data'].values
 
+    shcrimpf = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                 f'benchmark={benchmark},model=gpt2,*.pkl'))
+    schirmpf_data = pd.read_pickle(shcrimpf[0])['data']
+
     # order files
     scores_mean=[]
     scors_std=[]
@@ -103,9 +107,9 @@ if __name__ == "__main__":
     ax.spines['right'].set_visible(False)
     major_ticks = x_coords
     minor_ticks = np.concatenate([np.arange(1,11)*1e5,np.arange(1,11)*1e6,np.arange(1,11)*1e7,np.arange(1,11)*1e8])
-    ax.plot(8000e6, np.asarray(model_bench[:,0]), color=(.3,.3,.3,1), linewidth=2, marker='o', markersize=10,
+    ax.plot(8000e6, schirmpf_data.values[0][0], color=(.3,.3,.3,1), linewidth=2, marker='o', markersize=10,
             label=f'Schrimpf(2021)', zorder=2)
-    ax.errorbar(8000e6, np.asarray(model_bench[:,0]), yerr=np.asarray(model_bench[:,1]), color='k', zorder=1)
+    ax.errorbar(8000e6, schirmpf_data.values[0][0], yerr=schirmpf_data.values[0][1], color='k', zorder=1)
     ax.plot(.8e5, untrained_hf[0][0], color=all_col[0, :], linewidth=2, marker='o', markeredgecolor='w',
             markersize=10, label=f'HF_untrained', zorder=2)
     ax.errorbar(.8e5, untrained_hf[0][0], yerr=untrained_hf[0][1], color='k', zorder=1)
@@ -128,7 +132,9 @@ if __name__ == "__main__":
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
     voxel_scores = [ y.raw.raw.squeeze()  for y in score_data]
+    schrimpf_scores = schirmpf_data.raw.raw.squeeze()
+
     for idx, x in enumerate(voxel_scores):
-        [h, pval] = ttest_ind(x.mean('split').values, voxel_scores[-1].mean('split').values,
-                              nan_policy='omit')
+        [h, pval] = ttest_ind(x.mean('split').values, schrimpf_scores.mean('split').values,
+                              nan_policy='omit',alternative='less')
         print(f'{idx}, {h}, {pval} \n')

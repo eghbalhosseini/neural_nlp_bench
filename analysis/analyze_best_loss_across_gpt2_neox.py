@@ -15,7 +15,7 @@ print(user)
 import re
 from tqdm import tqdm
 plt.rcdefaults()
-from scipy.stats import ttest_ind_from_stats, ttest_ind
+from scipy.stats import ttest_ind_from_stats, ttest_ind, ttest_1samp
 ## Set up LaTeX fonts
 import matplotlib
 from scipy.stats import ttest_ind_from_stats
@@ -70,6 +70,12 @@ if __name__ == "__main__":
 
     file_untrained_hf = glob(os.path.join(result_caching, 'neural_nlp.score',
                                        f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{310000}-untrained_hf,*.pkl'))
+
+    shcrimpf= glob(os.path.join(result_caching, 'neural_nlp.score',
+                                       f'benchmark={benchmark},model=gpt2,*.pkl'))
+    schirmpf_data=pd.read_pickle(shcrimpf[0])['data']
+    hf_untrained_data = pd.read_pickle(file_untrained_hf[0])['data']
+
     scores_mean=[]
     scors_std=[]
     score_data=[]
@@ -163,25 +169,34 @@ if __name__ == "__main__":
     layer_name=model_bench['layer'].iloc[layer_id]
     scr_layer=[x[layer_id] for x in scores_mean]
     scr_layer_std = [x[layer_id] for x in scors_std]
+    scr_schirmpf= schirmpf_data.sel(layer=(schirmpf_data.layer==layer_name).values)
 
+
+    scr_hf=hf_untrained_data.sel(layer=(hf_untrained_data.layer==layer_name).values)
+
+    hf_untrained_score = [x for idx, x in scr_hf.raw.raw.groupby('layer') if idx == layer_name]
+    ttest_1samp(hf_untrained_score[0].groupby('subject').median().values,popmean=0)
     #n_sub=len(np.unique(score_data[0].raw.raw.subject))
-
+    ttest_1samp(scr_hf,popmean=0)
     #for idx, x in enumerate(scr_layer):
     #    [h,pval]=ttest_ind_from_stats(x,scr_layer_std[idx],n_sub,scr_layer[-1],scr_layer_std[-1],n_sub)
     #    print(f'{idx}, {h}, {pval} \n')
     if benchmark=='Blank2014fROI-encoding':
         voxel_scores=[[x for idx, x in y.raw.raw.groupby('layer') if idx ==layer_name] for y in score_data]
+        schrimpf_score=[x for idx, x in scr_schirmpf.raw.raw.groupby('layer') if idx ==layer_name]
         for idx, x in enumerate(voxel_scores):
             [h,pval]=ttest_ind(x[0].groupby('subject_UID').median(),voxel_scores[-1][0].groupby('subject_UID').median(),nan_policy='omit',axis=1)
             print(f'{idx}, {h}, {pval} \n')
     else:
         voxel_scores=[[x for idx, x in y.raw.raw.groupby('layer') if idx ==layer_name] for y in score_data]
+        schrimpf_score = [x for idx, x in scr_schirmpf.raw.raw.groupby('layer') if idx == layer_name]
         for idx, x in enumerate(voxel_scores):
-            [h,pval]=ttest_ind(x[0].groupby('subject').median(),voxel_scores[-1][0].groupby('subject').median(),nan_policy='omit',axis=1,alternative='less')
+            #[h,pval]=ttest_ind(x[0].groupby('subject').median(),voxel_scores[-1][0].groupby('subject').median(),nan_policy='omit',axis=1,alternative='less')
+            [h, pval] = ttest_ind(x[0].groupby('subject').median().values.squeeze(), schrimpf_score[0].groupby('subject').median().values,
+                                  nan_policy='omit', axis=0, alternative='less')
             print(f'{idx}, {h}, {pval} \n')
 
-
-
+    ttest_1samp(voxel_scores[0][0].groupby('subject').median().values.squeeze(),popmean=0)
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     # ax = plt.axes((.1, .4, .45, .35))
     ax = plt.axes((.1, .4, .45, .35))
@@ -205,9 +220,13 @@ if __name__ == "__main__":
     major_ticks = x_coords
     minor_ticks = np.concatenate([np.arange(1,11)*1e5,np.arange(1,11)*1e6,np.arange(1,11)*1e7,np.arange(1,11)*1e8])
 
-    ax.plot(8000e6, np.asarray(model_bench['score'])[layer_id], color=(.3,.3,.3,1), linewidth=2, marker='o', markersize=10,
-            label=f'Schrimpf(2021)', zorder=2)
-    ax.errorbar(8000e6, np.asarray(model_bench['score'])[layer_id], yerr=np.asarray(model_bench['error'])[layer_id], color='k', zorder=1)
+    #ax.plot(8000e6, np.asarray(model_bench['score'])[layer_id], color=(.3,.3,.3,1), linewidth=2, marker='o', markersize=10,
+    #        label=f'Schrimpf(2021)', zorder=2)
+    #ax.errorbar(8000e6, np.asarray(model_bench['score'])[layer_id], yerr=np.asarray(model_bench['error'])[layer_id], color='k', zorder=1)
+
+    ax.plot(8000e6, scr_schirmpf.values[0][0], color=(.3,.3,.3,1), linewidth=2, marker='o', markersize=10,
+           label=f'Schrimpf(2021)', zorder=2)
+    ax.errorbar(8000e6, scr_schirmpf.values[0][0], yerr=scr_schirmpf.values[0][1], color='k', zorder=1)
 
     ax.plot(.8e5, untrained_hf[layer_id][0], color=all_col[0, :], linewidth=2, marker='o',markeredgecolor='w',markersize=10,label=f'HF_untrained', zorder=2)
     ax.errorbar(.8e5, untrained_hf[layer_id][0], yerr=untrained_hf[layer_id][1],color='k', zorder=1)

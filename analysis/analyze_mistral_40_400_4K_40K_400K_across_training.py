@@ -14,6 +14,7 @@ user=getpass.getuser()
 print(user)
 import re
 from tqdm import tqdm
+from scipy.stats import ttest_ind_from_stats, ttest_ind
 
 if user=='eghbalhosseini':
     analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
@@ -56,6 +57,10 @@ if __name__ == "__main__":
     precomputed_bench = precomputed[precomputed['benchmark'] == benchmark]
     model_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model]
     model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model + '-untrained']
+
+    shcrimpf = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                 f'benchmark={benchmark},model=gpt2,*.pkl'))
+    schirmpf_data = pd.read_pickle(shcrimpf[0])['data']
 
     # order files
     scores_mean=[]
@@ -139,6 +144,7 @@ if __name__ == "__main__":
     layer_name=model_bench['layer'].iloc[layer_id]
     scr_layer = [x[layer_id] for x in scores_mean]
     scr_layer_std = [x[layer_id] for x in scors_std]
+    scr_schirmpf= schirmpf_data.sel(layer=(schirmpf_data.layer==layer_name).values)
 
 
     if benchmark=='Blank2014fROI-encoding':
@@ -148,9 +154,16 @@ if __name__ == "__main__":
             print(f'{idx}, {h}, {pval} \n')
     else:
         voxel_scores=[[x for idx, x in y.raw.raw.groupby('layer') if idx ==layer_name] for y in score_data]
+        schrimpf_score = [x for idx, x in scr_schirmpf.raw.raw.groupby('layer') if idx == layer_name]
         for idx, x in enumerate(voxel_scores):
-            [h,pval]=ttest_ind(x[0].groupby('subject').median(),voxel_scores[-1][0].groupby('subject').median(),nan_policy='omit',axis=1,alternative='less')
+            [h, pval] = ttest_ind(x[0].groupby('subject').median().values.squeeze(), schrimpf_score[0].groupby('subject').median().values,
+                                  nan_policy='omit', axis=0, alternative='less' )
             print(f'{idx}, {h}, {pval} \n')
+
+    [h, pval] = ttest_ind(voxel_scores[-1][0].groupby('subject').median().values.squeeze(),
+                          voxel_scores[-2][0].groupby('subject').median().values.squeeze(),
+                          nan_policy='omit')
+    print(f'{idx}, {h}, {pval} \n')
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     # ax = plt.axes((.1, .4, .45, .35))
     ax = plt.axes((.1, .4, .45, .35))

@@ -33,8 +33,8 @@ if __name__ == "__main__":
     files_ckpnt = []
     for ckpnt in chkpnts:
         if ckpnt==0:
-            #ckpnt=str(ckpnt)+'-untrained'
-            ckpnt = str(ckpnt)
+            ckpnt=str(ckpnt)+'-untrained'
+            #ckpnt = str(ckpnt)
         file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model}-ckpnt-{ckpnt},subsample=None.pkl'))
         print(file_c)
@@ -49,15 +49,19 @@ if __name__ == "__main__":
     precomputed_bench = precomputed[precomputed['benchmark'] == benchmark]
     model_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model]
     model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model + '-untrained']
-
+    shcrimpf = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                 f'benchmark={benchmark},model=gpt2,*.pkl'))
+    schirmpf_data = pd.read_pickle(shcrimpf[0])['data']
     # order files
     scores_mean=[]
     scors_std=[]
+    score_data=[]
     for ix, file in tqdm(enumerate(files_ckpnt)):
         if len(file)>0:
-            x=pd.read_pickle(file)['data'].values
-            scores_mean.append(x[:,0])
-            scors_std.append(x[:,1])
+            x=pd.read_pickle(file)['data']
+            scores_mean.append(x.values[:,0])
+            scors_std.append(x.values[:,1])
+            score_data.append(x)
         else:
             scores_mean.append(np.nan)
             scors_std.append(np.nan)
@@ -127,3 +131,14 @@ if __name__ == "__main__":
 
     fig.savefig(os.path.join(analysis_dir, f'chpnt_score_{model}_{benchmark}.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
+
+
+
+
+    voxel_scores = [ y.raw.raw.squeeze()  for y in score_data]
+    schrimpf_scores = schirmpf_data.raw.raw.squeeze()
+
+    for idx, x in enumerate(voxel_scores):
+        [h, pval] = ttest_ind(x.mean('split').values, schrimpf_scores.mean('split').values,
+                              nan_policy='omit',alternative='less')
+        print(f'{idx}, {h}, {pval} \n')

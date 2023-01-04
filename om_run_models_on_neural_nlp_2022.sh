@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0
+#SBATCH --array=0-6
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=80G
@@ -9,8 +9,14 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in  Fedorenko2016v3-encoding ; do
-  for model in distilgpt2 ; do
+for benchmark in  ANNSet1fMRI-encoding ; do
+  for model in roberta-base \
+      xlnet-large-cased \
+      bert-large-uncased-whole-word-masking \
+      xlm-mlm-en-2048 \
+      gpt2-xl \
+      albert-xxlarge-v2 \
+      ctrl ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
@@ -30,8 +36,8 @@ echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 echo "cache id " $RESULTCACHING_HOME
 
 
-. ~/.bash_profile
-. ~/.bashrc
+. /om/user/ehoseini/.bash_profile
+. /om/user/ehoseini/.bashrc
 conda activate neural_nlp_2022
 
 which python

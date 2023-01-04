@@ -26,7 +26,7 @@ elif user=='ehoseini':
 if __name__ == "__main__":
     benchmark='Pereira2018-encoding'
     #benchmark = 'Blank2014fROI-encoding'
-    benchmark = 'Futrell2018-encoding'
+    #benchmark = 'Futrell2018-encoding'
     #benchmark = 'Fedorenko2016v3-encoding'
     model = 'mistral-caprica-gpt2-small-x81'
     chkpnts = [40, 400, 4000, 40000, 400000]

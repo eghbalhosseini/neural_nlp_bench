@@ -25,11 +25,11 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     #benchmark='Pereira2018-encoding'
-    #ylims = (-.1, 1.0)
-    benchmark = 'Blank2014fROI-encoding'
-    ylims=(-.1,0.4)
-    #benchmark = 'Futrell2018-encoding'
-    # ylims=(.2,0.9)
+    #ylims = (-.12, 1.1)
+    #benchmark = 'Blank2014fROI-encoding'
+    #ylims=(-.1,0.4)
+    benchmark = 'Futrell2018-encoding'
+    ylims=(.2,0.9)
     #benchmark = 'Fedorenko2016v3-encoding'
     model_1B='gpt2-neox-pos_learned-1B'
     loss_1B_ckpnt='310000'
@@ -154,14 +154,14 @@ if __name__ == "__main__":
     score_std=scr_layer_std
 
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
-    ax = plt.axes((.1, .2, .35, .35))
+    ax = plt.axes((.1, .2, .45, .45))
     ax.set_xscale('log')
     ax.plot(validation_perpelxity, validation_score, zorder=3, color=(0,0,0))
     for idx in range(len(validation_score)):
-        ax.plot(validation_perpelxity[idx],validation_score[idx], color=(all_col[idx,:]), linewidth=2, marker='o', markersize=8, markeredgecolor='k',
+        ax.plot(validation_perpelxity[idx],validation_score[idx], color=(all_col[idx,:]), linewidth=2, marker='o', markersize=10, markeredgecolor='k',
                 markeredgewidth=1, zorder=5)
         #ax.scatter(validation_perpelxity[idx], validation_score[idx],s=50, c=(all_col[idx,:]), zorder=4,label=chkpoints_srt[idx])
-        ax.errorbar(validation_perpelxity[idx], validation_score[idx], yerr=score_std[idx], linewidth=2, color=all_col[idx, :], marker='.', markersize=10)
+        ax.errorbar(validation_perpelxity[idx], validation_score[idx], yerr=score_std[idx], linewidth=2, color='k', marker='.', markersize=10)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.invert_xaxis()
@@ -177,7 +177,7 @@ if __name__ == "__main__":
 
     #ax.set_xticks(np.unique(minor_ticks))
     #ax.set_xticklabels(np.unique(minor_ticks).astype(int))
-    ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
+    #ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
     ax.set_axisbelow(True)
     ax.set_ylim(ylims)
     ax.set_title(f'model:gpt_neox \n benchmark {benchmark} against perplexity \n for schrimpf layer')

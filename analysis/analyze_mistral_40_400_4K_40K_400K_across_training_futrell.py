@@ -14,6 +14,7 @@ user=getpass.getuser()
 print(user)
 import re
 from tqdm import tqdm
+from scipy.stats import ttest_ind_from_stats, ttest_ind
 
 if user=='eghbalhosseini':
     analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
@@ -41,6 +42,11 @@ if __name__ == "__main__":
             files_ckpnt.append(file_c[0])
 
     chkpoints_srt=['untrained-manual (n=0)','0.01% (n=40)','0.1% (n=400)' ,'1% (n=4K)','10% (n=40K)','100% (n=400K)']
+
+    shcrimpf = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                 f'benchmark={benchmark},model=gpt2,*.pkl'))
+    schirmpf_data = pd.read_pickle(shcrimpf[0])['data']
+
     # order files
     scores_mean=[]
     scors_std=[]
@@ -113,8 +119,3 @@ if __name__ == "__main__":
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
 
-    voxel_scores = [ y.raw.raw.squeeze()  for y in score_data]
-    for idx, x in enumerate(voxel_scores):
-        [h, pval] = ttest_ind(x.mean('split').values, voxel_scores[-1].mean('split').values,
-                              nan_policy='omit',alternative='less')
-        print(f'{idx}, {h}, {pval} \n')
