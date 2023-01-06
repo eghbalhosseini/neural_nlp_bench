@@ -9,7 +9,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in  ANNSet1fMRI-encoding ; do
+for benchmark in  ANNSet1fMRI-wordForm-encoding ; do
   for model in roberta-base \
       xlnet-large-cased \
       bert-large-uncased-whole-word-masking \
