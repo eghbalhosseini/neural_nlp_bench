@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-6
+#SBATCH --array=0-30
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=80G
@@ -10,12 +10,12 @@
 
 i=0
 for benchmark in  ANNSet1fMRI-wordForm-encoding ; do
-  for model in roberta-base \
-      xlnet-large-cased \
-      bert-large-uncased-whole-word-masking \
-      xlm-mlm-en-2048 \
-      gpt2-xl \
-      albert-xxlarge-v2 \
+  for model in roberta-base roberta-large distilroberta-base \
+      xlnet-large-cased xlnet-base-cased \
+      bert-base-uncased bert-base-multilingual-cased bert-large-uncased bert-large-uncased-whole-word-masking \
+      xlm-mlm-en-2048 xlm-mlm-enfr-1024 xlm-mlm-xnli15-1024 xlm-clm-enfr-1024 xlm-mlm-100-1280 \
+      openaigpt gpt2 gpt2-medium gpt2-large gpt2-xl distilgpt2 \
+      albert-base-v1 albert-base-v2 albert-large-v1 albert-large-v2 albert-xlarge-v1 albert-xlarge-v2 albert-xxlarge-v1 albert-xxlarge-v2 \
       ctrl ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
