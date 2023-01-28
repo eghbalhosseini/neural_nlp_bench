@@ -9,7 +9,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in  LangLocECoG-encoding ; do
+for benchmark in  LangLocECoGv2-encoding ; do
   for model in roberta-base roberta-large distilroberta-base \
       xlnet-large-cased xlnet-base-cased \
       bert-base-uncased bert-base-multilingual-cased bert-large-uncased bert-large-uncased-whole-word-masking \
