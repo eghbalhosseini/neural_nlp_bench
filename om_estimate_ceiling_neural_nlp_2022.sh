@@ -32,4 +32,4 @@ conda activate neural_nlp_2022
 
 which python
 # run compute_benchamrk_ceiling.py
-/om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural-nlp-2022/compute_benchamrk_ceiling.py --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+/om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural_nlp_bench/compute_benchamrk_ceiling.py --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
