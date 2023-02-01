@@ -7,6 +7,7 @@
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
+#SBATCH --partition=evlab
 
 i=0
 for benchmark in  LangLocECoGv2-encoding ; do
