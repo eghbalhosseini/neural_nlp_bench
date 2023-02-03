@@ -9,7 +9,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     benchmark_name = args.benchmark
     benchmark = benchmark_pool[benchmark_name]
-    benchmark.ceilings
+    benchmark.ceiling
 
 
 
