@@ -15,7 +15,7 @@ print(user)
 import re
 from tqdm import tqdm
 from pathlib import Path
-ROOTDIR = (Path('/om/user/ehoseini/MyData/fmri_DNN/') ).resolve()
+ROOTDIR = (Path('/om/user/ehoseini/MyData/ecog_SN/') ).resolve()
 OUTDIR = (Path(ROOTDIR / 'outputs')).resolve()
 PLOTDIR = (Path(OUTDIR / 'plots')).resolve()
 
@@ -24,12 +24,13 @@ if user=='eghbalhosseini':
     #result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
     True
 elif user=='ehoseini':
-    #analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
+    analysis_dir='/rdma/vast-rdma/vast/evlab/ehoseini/MyData/brain-score-language/analysis/'
     #result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='ANNSet1fMRI-wordForm-encoding'
+    #benchmark='ANNSet1fMRI-wordForm-encoding'
+    benchmark = 'LangLocECoGv2-encoding'
     models=['roberta-base',
       'xlnet-large-cased',
       'bert-large-uncased-whole-word-masking',
@@ -195,91 +196,86 @@ if __name__ == "__main__":
 
 
 
-        """look at all models"""
-        models=['sentence-length','word-position','random-embedding','skip-thoughts','skip-thoughts-untrained','lm_1b','lm_1b-untrained',
- 'word2vec','word2vec-untrained','glove','glove-untrained','transformer','transformer-untrained',
- 'ETM','ETM-untrained','bert-base-uncased','bert-base-multilingual-cased',
- 'bert-large-uncased','bert-large-uncased-whole-word-masking','openaigpt','gpt2','gpt2-medium',
-'gpt2-large','gpt2-xl','distilgpt2','transfo-xl-wt103','xlnet-base-cased','xlnet-large-cased','xlm-mlm-en-2048','xlm-mlm-enfr-1024',
- 'xlm-mlm-xnli15-1024','xlm-clm-enfr-1024','xlm-mlm-100-1280','roberta-base','roberta-large','distilroberta-base','distilbert-base-uncased','ctrl',
- 'albert-base-v1','albert-base-v2','albert-large-v1','albert-large-v2','albert-xlarge-v1','albert-xlarge-v2','albert-xxlarge-v1','albert-xxlarge-v2',
- 't5-small','t5-base','t5-large','t5-3b','t5-11b',
- 'xlm-roberta-base','xlm-roberta-large','bert-base-uncased-untrained','bert-base-multilingual-cased-untrained',
- 'bert-large-uncased-untrained','bert-large-uncased-whole-word-masking-untrained','openaigpt-untrained','gpt2-untrained','gpt2-medium-untrained',
- 'gpt2-large-untrained','gpt2-xl-untrained','distilgpt2-untrained',
- 'transfo-xl-wt103-untrained','xlnet-base-cased-untrained','xlnet-large-cased-untrained','xlm-mlm-en-2048-untrained','xlm-mlm-enfr-1024-untrained',
- 'xlm-mlm-xnli15-1024-untrained','xlm-clm-enfr-1024-untrained','xlm-mlm-100-1280-untrained','roberta-base-untrained',
- 'roberta-large-untrained','distilroberta-base-untrained','distilbert-base-uncased-untrained',
- 'ctrl-untrained','albert-base-v1-untrained','albert-base-v2-untrained',
- 'albert-large-v1-untrained','albert-large-v2-untrained','albert-xlarge-v1-untrained',
- 'albert-xlarge-v2-untrained', 'albert-xxlarge-v1-untrained','albert-xxlarge-v2-untrained',
- 't5-small-untrained','t5-base-untrained','t5-large-untrained','t5-3b-untrained','t5-11b-untrained','xlm-roberta-base-untrained','xlm-roberta-large-untrained']
-        ALL_model_scores=[]
-        for model in models:
-            files = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                      f'benchmark={benchmark},model={model},subsample=None.pkl'))
-            if len(files) > 0:
-            # order files
-                x = pd.read_pickle(files[0])['data']
-                scores_mean = x.values[:, 0]
-                scores_std = x.values[:, 1]
-                best_layer=np.argmax(scores_mean)
-                ALL_model_scores.append([model,scores_mean[best_layer],scores_std[best_layer]])
+    """look at all models"""
+    models=["roberta-base", "roberta-large", "distilroberta-base",
+    "xlnet-large-cased", "xlnet-base-cased",
+    "bert-base-uncased",
+    "bert-base-multilingual-cased",
+    "bert-large-uncased",
+    "bert-large-uncased-whole-word-masking",
+    "xlm-mlm-en-2048", "xlm-mlm-enfr-1024", "xlm-mlm-100-1280",
+    "distilgpt2","gpt2", "gpt2-medium", "gpt2-large", "gpt2-xl",
+     "albert-base-v2", "albert-large-v1", "albert-large-v2", "albert-xlarge-v1",
+    "albert-xxlarge-v2","ctrl"]
+    ALL_model_scores=[]
+    for model in models:
+        files = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                  f'benchmark={benchmark},model={model},subsample=None.pkl'))
+        assert len(files) > 0
+        # order files
+        x = pd.read_pickle(files[0])['data']
+        scores_mean = x.values[:, 0]
+        scores_std = x.values[:, 1]
+        best_layer=np.argmax(scores_mean)
+        ALL_model_scores.append([model,scores_mean[best_layer],scores_std[best_layer],best_layer])
 
 
 
-        model_classes = ['glove', 'ETM', 'word2vec', 'lm_1b', 'skip-thoughts', 'bert-', 'roberta', 'xlm', 'xlm-roberta-'
-            , 'transfo-xl', 'xlnet', 'ctrl', 't5', 'albert-', 'gpt']
-        color_groups = ['Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds', 'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd',
-                        'RdPu', 'BuPu',
-                        'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']
+    model_classes = [ 'bert-', 'roberta', 'xlm','xlnet', 'ctrl', 't5', 'albert-', 'gpt']
+    color_groups = ['Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds', 'YlOrBr', 'PuRd',
+                    'RdPu', 'BuPu',
+                    'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']
 
-        color_ids = []
-        model_set = scores['model'].unique()
-        model_perf = []
-        model_perf_untrained = []
-        model_names = []
-        model_layer_ids = []
-        for model_id in model_set:
-            model_score = scores['score'][scores['model'] == model_id]
-            model_error = scores['error'][scores['model'] == model_id]
-            model_layer_ = scores['layer'][scores['model'] == model_id]
-            if model_id.find('untrained') == -1:
-                model_perf.append([model_score.max(), model_error[model_score.idxmax()]])
-                model_names.append(f"{model_id} ({model_layer_[model_score.idxmax()]})")
-                model_layer_ids.append(model_layer_)
-                # get untrained score
-                model_score_untr = list(scores['score'][scores['model'] == f"{model_id}-untrained"])
-                model_error_untr = list(scores['error'][scores['model'] == f"{model_id}-untrained"])
-                model_perf_untrained.append(
-                    [model_score_untr[np.argmax(model_score)], model_error_untr[np.argmax(model_score)]])
-                if model_id == 'xlm-roberta-base' or model_id == 'xlm-roberta-large':
-                    color_loc = 8
-                else:
-                    color_loc = int(np.argwhere([model_id.find(x) != -1 for x in model_classes])[-1].squeeze())
-                color_ids.append(color_loc)
+    color_ids = []
+    model_set = [x[0] for x in ALL_model_scores]
+    model_perf = []
+    model_perf_untrained = []
+    model_names = []
+    model_layer_ids = []
+    for idx, model_id in enumerate(model_set):
 
-        num_cols = [len(np.where(np.asarray(color_ids) == x)[0]) for idx, x in enumerate(np.unique(color_ids))]
-        h0s = [cm.get_cmap(color_groups[x], num_cols[idx] + 2) for idx, x in enumerate(np.unique(color_ids))]
-        all_colors = [np.flipud(x(np.arange(num_cols[idx]) / (num_cols[idx] + 1))) for idx, x in enumerate(h0s)]
-        # all_colors=[x(np.arange(num_cols[idx])/(num_cols[idx]+1)) for idx, x in enumerate(h0s)],
-        all_colors = [item for sublist in all_colors for item in sublist]
+        model_score = ALL_model_scores[idx][1]
+        model_error = ALL_model_scores[idx][2]
+        model_layer_ = ALL_model_scores[idx][3]
+        if model_id.find('untrained') == -1:
+            model_perf.append((model_score,model_error))
+            model_names.append(f"{model_id} ({model_layer_})")
+            model_layer_ids.append(model_layer_)
+            # get untrained score
+        if model_id == 'xlm-roberta-base' or model_id == 'xlm-roberta-large':
+            color_loc = 8
+        else:
+            color_loc = int(np.argwhere([model_id.find(x) != -1 for x in model_classes])[-1].squeeze())
+            assert color_loc is not None
+            color_ids.append(color_loc)
 
-        y_pos = np.arange(len(model_names))
-        fig = plt.figure(figsize=(8, 10))
-        ax = fig.add_axes((.5, .1, .4, .85))
-        ax.barh(y_pos, np.asarray(model_perf)[:, 0], height=.8, xerr=np.asarray(model_perf)[:, 1], align='center',
-                color=np.asarray(all_colors), edgecolor=(0, 0, 0), linewidth=1, error_kw={'linewidth': 1})
-        # ax.barh(y_pos, np.asarray(model_perf_untrained)[:,0],height=0.8, align='center',color=np.asarray(all_colors),edgecolor=(.2,.2,.2),linewidth=1)
-        ax.barh(y_pos, np.asarray(model_perf_untrained)[:, 0], height=0.8, align='center', color=(.8, .8, .8),
-                edgecolor=(.2, .2, .2), linewidth=1, alpha=.7)
-        # ax.scatter(np.asarray(model_perf_untrained)[:,0],y_pos,s=20,zorder=10)
-        ax.set_yticks(y_pos)
-        ax.set_ylim(y_pos.min() - 1, y_pos.max() + 1)
-        ax.set_yticklabels(model_names, fontsize=8, fontweight='normal')
-        ax.tick_params(axis='x', which='both', labelsize=8)
-        ax.set_xlabel('score', fontsize=8)
-        plt.xticks(fontsize=8)
-        ax.spines['right'].set_visible(False)
-        ax.spines['top'].set_visible(False)
-        fig.savefig(os.path.join(ANALYZE_DIR, 'schrimpf_2021_preira_model_scores.pdf'), transparent=True)
+    model_perf = np.array(model_perf)
+    num_cols = [len(np.where(np.asarray(color_ids) == x)[0]) for idx, x in enumerate(np.unique(color_ids))]
+    h0s = [cm.get_cmap(color_groups[x], num_cols[idx] + 2) for idx, x in enumerate(np.unique(color_ids))]
+    all_colors = [np.flipud(x(np.arange(num_cols[idx]) / (num_cols[idx] + 1))) for idx, x in enumerate(h0s)]
+    # all_colors=[x(np.arange(num_cols[idx])/(num_cols[idx]+1)) for idx, x in enumerate(h0s)],
+    all_colors = [item for sublist in all_colors for item in sublist]
+
+    y_pos = np.arange(len(model_names))
+    fig = plt.figure(figsize=(8, 10))
+    ax = fig.add_axes((.5, .1, .4, .85))
+    ax.barh(y_pos, np.asarray(model_perf)[:, 0], height=.8, xerr=np.asarray(model_perf)[:, 1], align='center',
+            color=np.asarray(all_colors), edgecolor=(0, 0, 0), linewidth=1, error_kw={'linewidth': 1})
+    # ax.barh(y_pos, np.asarray(model_perf_untrained)[:,0],height=0.8, align='center',color=np.asarray(all_colors),edgecolor=(.2,.2,.2),linewidth=1)
+    #ax.barh(y_pos, np.asarray(model_perf_untrained)[:, 0], height=0.8, align='center', color=(.8, .8, .8),
+    #        edgecolor=(.2, .2, .2), linewidth=1, alpha=.7)
+    # ax.scatter(np.asarray(model_perf_untrained)[:,0],y_pos,s=20,zorder=10)
+    # add a vertical line at zero
+    ax.axvline(0, color='k', linewidth=1)
+    ax.axvline(1, color='k',linestyle='--', linewidth=1)
+    ax.set_yticks(y_pos)
+    ax.set_ylim(y_pos.min() - 1, y_pos.max() + 1)
+    ax.set_yticklabels(model_names, fontsize=8, fontweight='normal')
+    ax.tick_params(axis='x', which='both', labelsize=8)
+    ax.set_xlabel('score', fontsize=8)
+    plt.xticks(fontsize=8)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.set_title('Model performance on %s'%benchmark,fontsize=10)
+
+    fig.savefig(os.path.join(analysis_dir, f'scores_{benchmark}.pdf'), transparent=True)

@@ -10,7 +10,7 @@
 #SBATCH --partition=evlab
 
 i=0
-for benchmark in  LangLocECoGv2-encoding ; do
+for benchmark in  ANNSet1ECoG-encoding ; do
     benchmark_list[$i]="$benchmark"
             i=$[$i+1]
     done
