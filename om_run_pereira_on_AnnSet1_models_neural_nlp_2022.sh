@@ -8,7 +8,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Pereira2018-rdm ; do
+for benchmark in Pereira2018-encoding ; do
   for model in xlnet-large-cased \
                 xlm-mlm-en-2048 \
                 albert-xxlarge-v2 \
