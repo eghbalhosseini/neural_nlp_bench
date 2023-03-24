@@ -1,15 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-30
+#SBATCH --array=0-100
 #SBATCH --time=56:00:00
-#SBATCH -c 16
-#SBATCH --mem=80G
+#SBATCH --mem=40G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in  LangLocECoGv2-encoding ; do
+for benchmark in Pereira2018-encoding ANNSet1fMRI-encoding ANNSet1fMRI-wordForm-encoding ; do
   for model in roberta-base roberta-large distilroberta-base \
       xlnet-large-cased xlnet-base-cased \
       bert-base-uncased bert-base-multilingual-cased bert-large-uncased bert-large-uncased-whole-word-masking \
