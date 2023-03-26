@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-6
+#SBATCH --array=0-44
 #SBATCH --time=56:00:00
 #SBATCH -c 16
 #SBATCH --mem=160G
@@ -9,12 +9,16 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Pereira2018-encoding  ; do
+for benchmark in Pereira2018-encoding Pereira2018-max-encoding Pereira2018-min-encoding Pereira2018-rand-encoding  ; do
   for model in bert-large-uncased-whole-word-masking \
                xlnet-large-cased \
                roberta-base \
                xlm-mlm-en-2048 \
                gpt2-xl \
+               distilgpt2 \
+               gpt2 \
+               gpt2-medium \
+               gpt2-large \
                albert-xxlarge-v2 \
                ctrl ; do
 
