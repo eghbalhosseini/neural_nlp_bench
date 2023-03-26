@@ -199,10 +199,10 @@ if __name__ == "__main__":
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     fig.show()
-    fig.savefig(os.path.join(PLOTDIR, f'GPT2_models_scores_{benchmark}_vs_{pereira_benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'GPT2_models_scores_{benchmark}_vs_{pereira_benchmark}.png'), dpi=250, format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(PLOTDIR, f'GPT2_models_scores_{benchmark}_vs_{pereira_benchmark}.eps'), format='eps', metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'GPT2_models_scores_{benchmark}_vs_{pereira_benchmark}.eps'), format='eps', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
     """look at all models"""

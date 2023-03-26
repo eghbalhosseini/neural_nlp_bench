@@ -3,7 +3,7 @@
 #SBATCH --array=0-44
 #SBATCH --time=56:00:00
 #SBATCH -c 16
-#SBATCH --mem=160G
+#SBATCH --mem=60G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
