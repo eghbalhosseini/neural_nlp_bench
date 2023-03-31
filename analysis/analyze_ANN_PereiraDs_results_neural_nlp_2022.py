@@ -29,7 +29,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='ANNSet1fMRI-wordForm-encoding'
+    benchmarks=['Pereira2018-encoding', 'Pereira2018-max-encoding', 'Pereira2018-min-encoding' ,'Pereira2018-rand-encoding']
     #benchmark = 'LangLocECoGv2-encoding'
     models=['roberta-base',
       'xlnet-large-cased',
@@ -38,8 +38,9 @@ if __name__ == "__main__":
       'gpt2-xl',
       'albert-xxlarge-v2',
       'ctrl']
-    for model in models:
-        files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model},*.pkl'))
+    for benchmark in benchmarks:
+        for model in models:
+            files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model},*.pkl'))
         assert len(files)>0
     # order files
 
@@ -79,7 +80,8 @@ if __name__ == "__main__":
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
     '''ANN result across models'''
-    pereira_benchmark = 'Pereira2018-encoding'
+    pereira_benchmark = [ 'Pereira2018-min-encoding' ,'Pereira2018-rand-encoding','Pereira2018-max-encoding','Pereira2018-encoding']
+
     model_layers = [('roberta-base', 'encoder.layer.1'),
                     ('xlnet-large-cased', 'encoder.layer.23'),
                     ('bert-large-uncased-whole-word-masking', 'encoder.layer.11.output'),
@@ -88,44 +90,54 @@ if __name__ == "__main__":
                     ('albert-xxlarge-v2', 'encoder.albert_layer_groups.4'),
                     ('ctrl', 'h.46')]
     layer_ids = (2, 24, 12, 12, 44, 5, 47)
-    models_scores=[]
-    per_models_scores = []
-    for model,layer in model_layers:
-        files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model},*.pkl'))
-        assert len(files)>0
-        # order files
-        per_files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={pereira_benchmark},model={model},*.pkl'))
-        assert len(per_files)>0
-        scores_mean=[]
-        scors_std=[]
-        x=pd.read_pickle(files[0])['data']
-        x_per = pd.read_pickle(per_files[0])['data']
-        scores_mean=x.values[:,0]
-        scores_std=x.values[:,1]
+    benchmark_scores=[]
+    for benchmark in pereira_benchmark:
+        models_scores = []
+        for model,layer in model_layers:
+            files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model},*.pkl'))
+            assert len(files)>0
+            # order files
+            scores_mean=[]
+            scors_std=[]
+            x=pd.read_pickle(files[0])['data']
+            scores_mean=x.values[:,0]
+            scores_std=x.values[:,1]
 
-        per_scores_mean = x_per.values[:,0]
-        per_scores_std = x_per.values[:, 1]
 
-        l_names=x.layer.values
-        ann_layer=int(np.argwhere(l_names ==layer))
-        models_scores.append([scores_mean[ann_layer],scores_std[ann_layer]])
-        per_models_scores.append([per_scores_mean[ann_layer], per_scores_std[ann_layer]])
+            l_names=x.layer.values
+            ann_layer=int(np.argwhere(l_names ==layer))
+            models_scores.append([scores_mean[ann_layer],scores_std[ann_layer]])
+        benchmark_scores.append(models_scores)
 
-    models_scores=np.stack(models_scores)
-    per_models_scores = np.stack(per_models_scores)
-    width = 0.35  # the width of the bars
+    width = 0.15  # the width of the bars
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    fig_length = 0.055 * len(models_scores)
+
+    fig_length = 0.02 * len(benchmark_scores)*len(model_layers)
     ax = plt.axes((.2, .4, fig_length, .35))
-    x = np.arange(models_scores.shape[0])
+    x = np.arange(len(model_layers))
+    colors=[np.divide((188, 80, 144), 255),np.divide((55, 76, 128), 256),np.divide((255, 128, 0), 255),np.divide((55, 76, 128), 256)]
+    model_name = [f'{x[0]}' for x in model_layers]
+    # plot pereira_min
+    y = np.asarray(benchmark_scores[0])[:,0]
+    y_err = np.asarray(benchmark_scores[0])[:,1]
+    rects1 = ax.bar(x -2*width, y, width, color=colors[0], label='Pereira')
+    ax.errorbar(x  -2*width, y, yerr=y_err, linestyle='', color='k')
 
-    model_name = [f'{x[0]} \n {x[1]}' for x in model_layers]
+    y = np.asarray(benchmark_scores[1])[:, 0]
+    y_err = np.asarray(benchmark_scores[1])[:, 1]
+    rects1 = ax.bar(x - 1 * width, y, width, color=colors[1], label='Pereira')
+    ax.errorbar(x - 1 * width, y, yerr=y_err, linestyle='', color='k')
 
-    rects1 = ax.bar(x - width / 2, per_models_scores[:,0], width, color=np.divide((55, 76, 128), 256), label='Pereira')
-    ax.errorbar(x - width / 2, per_models_scores[:, 0], yerr=per_models_scores[:, 1], linestyle='', color='k')
+    y = np.asarray(benchmark_scores[2])[:, 0]
+    y_err = np.asarray(benchmark_scores[2])[:, 1]
+    rects1 = ax.bar(x -0 * width, y, width, color=colors[2], label='Pereira')
+    ax.errorbar(x - 0 * width, y, yerr=y_err, linestyle='', color='k')
 
-    rects2 = ax.bar(x + width / 2, models_scores[:,0], width, label='ANNSet1_fMRI',color=np.divide((188, 80, 144), 255))
-    ax.errorbar(x + width / 2, models_scores[:, 0], yerr=models_scores[:, 1], linestyle='', color='k')
+    y = np.asarray(benchmark_scores[3])[:, 0]
+    y_err = np.asarray(benchmark_scores[3])[:, 1]
+    rects1 = ax.bar(x +1 * width, y, width, color=colors[3], label='Pereira')
+    ax.errorbar(x + 1 * width, y, yerr=y_err, linestyle='', color='k')
+
     ax.axhline(y=0, color='k', linestyle='-')
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('Pearson correlation')
