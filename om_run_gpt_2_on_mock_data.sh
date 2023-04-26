@@ -30,4 +30,4 @@ XDG_CACHE_HOME=/om2/user/`whoami`/st
 export XDG_CACHE_HOME
 
 
-singularity exec -B /om:/om,/om2:/om2,/om5:/om5 /om/user/`whoami`/simg_images/test/neural_nlp_2020 python /om/user/ehoseini/neural-nlp-master/neural-nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+singularity exec -B /om:/om,/om2:/om2,/om5:/om5 /om/user/`whoami`/simg_images/test/neural_nlp_2020 python /om/weka/evlab/ehoseini/neural-nlp-master/neural-nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"

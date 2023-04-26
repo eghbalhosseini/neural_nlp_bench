@@ -10,7 +10,7 @@
 
 
 i=0
-ROOT_DIR=/om/user/ehoseini/neural-nlp-1/
+ROOT_DIR=/om/weka/evlab/ehoseini/neural-nlp-1/
 
 for benchmark in MghLanglocAudioV1-encoding ; do
     for model in gpt2 gpt2-untrained gpt2-medium gpt2-medium-untrained gpt2-large gpt2-large-untrained gpt2-xl gpt2-xl-untrained ; do
@@ -35,6 +35,6 @@ XDG_CACHE_HOME=/om2/user/`whoami`/st
 export XDG_CACHE_HOME
 
 
-singularity exec -B /om:/om,/om2:/om2,/om5:/om5 /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /om/user/ehoseini/neural-nlp-master/neural-nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+singularity exec -B /om:/om,/om2:/om2,/om5:/om5 /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /om/weka/evlab/ehoseini/neural-nlp-master/neural-nlp/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 
 

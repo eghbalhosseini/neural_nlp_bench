@@ -35,6 +35,6 @@ if $do_run; then
   . ~/.bash_profile
   conda activate neural_nlp_2022
   echo $(which python)
-  python /om/user/ehoseini/neural-nlp-2022/neural_nlp/models/gpt_neox_model/convert_ckpt_to_gpt_neox.py --checkpoint_dir "$run_ckpont_dir" --hf_save_dir "$run_ckpont_dir"
+  python /om/weka/evlab/ehoseini/neural-nlp-2022/neural_nlp/models/gpt_neox_model/convert_ckpt_to_gpt_neox.py --checkpoint_dir "$run_ckpont_dir" --hf_save_dir "$run_ckpont_dir"
 
 fi

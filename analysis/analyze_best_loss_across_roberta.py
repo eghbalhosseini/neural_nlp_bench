@@ -23,11 +23,11 @@ matplotlib.backend_bases.register_backend('pdf', FigureCanvasPgf)
 
 
 if user=='eghbalhosseini':
-    analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
-    result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
+    analysis_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022//analysis/'
+    result_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022/'
 elif user=='ehoseini':
-    analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
-    result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
+    analysis_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022//analysis/'
+    result_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022/'
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
@@ -64,7 +64,7 @@ if __name__ == "__main__":
             scores_mean.append(np.nan)
             scors_std.append(np.nan)
     # read precomputed scores
-    precomputed=pd.read_csv('/om/user/ehoseini/neural-nlp-2022/precomputed-scores.csv')
+    precomputed=pd.read_csv('/om/weka/evlab/ehoseini/neural-nlp-2022/precomputed-scores.csv')
     precomputed_bench=precomputed[precomputed['benchmark']==benchmark]
     model_bench=precomputed_bench[precomputed_bench['model']==precomputed_model]
     model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model+'-untrained']

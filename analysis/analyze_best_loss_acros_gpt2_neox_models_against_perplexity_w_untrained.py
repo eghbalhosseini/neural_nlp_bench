@@ -16,11 +16,11 @@ import re
 from tqdm import tqdm
 
 if user=='eghbalhosseini':
-    analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
-    result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
+    analysis_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022//analysis/'
+    result_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022/'
 elif user=='ehoseini':
-    analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
-    result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
+    analysis_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022//analysis/'
+    result_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022/'
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     chkpoints_srt = ['untrained', '1M', '10M', '100M', '1B']
     wikitext_perplexity=[50340.6719,2351.0483,639.1099,206.9432,68.1662]
     precomputed_model = 'gpt2'
-    precomputed = pd.read_csv('/om/user/ehoseini/neural-nlp-2022/precomputed-scores.csv')
+    precomputed = pd.read_csv('/om/weka/evlab/ehoseini/neural-nlp-2022/precomputed-scores.csv')
     precomputed_bench = precomputed[precomputed['benchmark'] == benchmark]
     model_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model]
     model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model + '-untrained']

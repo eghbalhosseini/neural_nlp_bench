@@ -27,10 +27,10 @@ echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 echo "cache id " $RESULTCACHING_HOME
 
 
-. /om/user/ehoseini/.bash_profile
-. /om/user/ehoseini/.bashrc
+. /om/weka/evlab/ehoseini/.bash_profile
+. /om/weka/evlab/ehoseini/.bashrc
 conda activate neural_nlp_2022
 
 which python
 # run compute_benchamrk_ceiling.py
-/om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural_nlp_bench/compute_benchmark_ceiling.py --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+/om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/weka/evlab/ehoseini/neural_nlp_bench/compute_benchmark_ceiling.py --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"

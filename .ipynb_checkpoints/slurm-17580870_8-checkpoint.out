@@ -6,9 +6,10 @@ INFO:neural_nlp:Loading benchmark
 INFO:neural_nlp:Running
 /usr/local/lib/python3.6/site-packages/brainio_base/assemblies.py:213: FutureWarning: The inplace argument has been deprecated and will be removed in a future version of xarray.
   xr_data.set_index(append=True, inplace=True, **coords_d)
-layers:   0%|          | 0/25 [00:00<?, ?it/s]INFO:neural_nlp.benchmarks.neural:Computing activations
+
+layers:   0%|          | 0/25 [00:00<?, ?it/s]INFO:neural_nlp.benchmarks.neural:Computing activations
 INFO:neural_nlp.neural_data.ecog:Neural data directory: /home/ehoseini/neural-nlp/ressources/neural_data/ecog-Fedorenko2016
-INFO:transformers.configuration_utils:loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-config.json from cache at /om/user/ehoseini/st/torch/transformers/98aa65385e18b0efd17acd8bf64dcdf21406bb0c99c801c2d3c9f6bfd1f48f29.250d6dc755ccb17d19c7c1a7677636683aa35f0f6cb5461b3c0587bc091551a0
+INFO:transformers.configuration_utils:loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-config.json from cache at /om/weka/evlab/ehoseini/st/torch/transformers/98aa65385e18b0efd17acd8bf64dcdf21406bb0c99c801c2d3c9f6bfd1f48f29.250d6dc755ccb17d19c7c1a7677636683aa35f0f6cb5461b3c0587bc091551a0
 INFO:transformers.configuration_utils:Model config GPT2Config {
   "activation_function": "gelu_new",
   "architectures": [
@@ -43,9 +44,9 @@ INFO:transformers.configuration_utils:Model config GPT2Config {
   "vocab_size": 50257
 }
 
-INFO:transformers.tokenization_utils_base:loading file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-vocab.json from cache at /om/user/ehoseini/st/torch/transformers/f20f05d3ae37c4e3cd56764d48e566ea5adeba153dcee6eb82a18822c9c731ec.1512018be4ba4e8726e41b9145129dc30651ea4fec86aa61f4b9f40bf94eac71
-INFO:transformers.tokenization_utils_base:loading file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-merges.txt from cache at /om/user/ehoseini/st/torch/transformers/6d882670c55563617571fe0c97df88626fb5033927b40fc18a8acf98dafd4946.70bec105b4158ed9a1747fea67a43f5dee97855c64d62b6ec3742f4cfdb5feda
-INFO:transformers.configuration_utils:loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-config.json from cache at /om/user/ehoseini/st/torch/transformers/98aa65385e18b0efd17acd8bf64dcdf21406bb0c99c801c2d3c9f6bfd1f48f29.250d6dc755ccb17d19c7c1a7677636683aa35f0f6cb5461b3c0587bc091551a0
+INFO:transformers.tokenization_utils_base:loading file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-vocab.json from cache at /om/weka/evlab/ehoseini/st/torch/transformers/f20f05d3ae37c4e3cd56764d48e566ea5adeba153dcee6eb82a18822c9c731ec.1512018be4ba4e8726e41b9145129dc30651ea4fec86aa61f4b9f40bf94eac71
+INFO:transformers.tokenization_utils_base:loading file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-merges.txt from cache at /om/weka/evlab/ehoseini/st/torch/transformers/6d882670c55563617571fe0c97df88626fb5033927b40fc18a8acf98dafd4946.70bec105b4158ed9a1747fea67a43f5dee97855c64d62b6ec3742f4cfdb5feda
+INFO:transformers.configuration_utils:loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-medium-config.json from cache at /om/weka/evlab/ehoseini/st/torch/transformers/98aa65385e18b0efd17acd8bf64dcdf21406bb0c99c801c2d3c9f6bfd1f48f29.250d6dc755ccb17d19c7c1a7677636683aa35f0f6cb5461b3c0587bc091551a0
 INFO:transformers.configuration_utils:Model config GPT2Config {
   "activation_function": "gelu_new",
   "architectures": [
@@ -81,53 +82,74 @@ INFO:transformers.configuration_utils:Model config GPT2Config {
   "vocab_size": 50257
 }
 
-INFO:transformers.modeling_utils:loading weights file https://cdn.huggingface.co/gpt2-medium-pytorch_model.bin from cache at /om/user/ehoseini/st/torch/transformers/64652c50e84ddabb9bad81a37ff82624ab70053f402f8d9a58c0e90fb8289fb6.8769029be4f66a5ae1055eefdd1d11621b901d510654266b8681719fff492d6e
+INFO:transformers.modeling_utils:loading weights file https://cdn.huggingface.co/gpt2-medium-pytorch_model.bin from cache at /om/weka/evlab/ehoseini/st/torch/transformers/64652c50e84ddabb9bad81a37ff82624ab70053f402f8d9a58c0e90fb8289fb6.8769029be4f66a5ae1055eefdd1d11621b901d510654266b8681719fff492d6e
 INFO:transformers.modeling_utils:All model checkpoint weights were used when initializing GPT2Model.
 
 INFO:transformers.modeling_utils:All the weights of GPT2Model were initialized from the model checkpoint at gpt2-medium.
 If your task is similar to the task the model of the ckeckpoint was trained on, you can already use GPT2Model for predictions without further training.
 
-cross-validation:   0%|          | 0/5 [00:00<?, ?it/s][A
-cross-validation:  20%|##        | 1/5 [00:00<00:02,  1.68it/s][A
-cross-validation:  40%|####      | 2/5 [00:01<00:01,  1.68it/s][A
-cross-validation:  60%|######    | 3/5 [00:01<00:01,  1.69it/s][A
-cross-validation:  80%|########  | 4/5 [00:02<00:00,  1.68it/s][A
-cross-validation: 100%|##########| 5/5 [00:02<00:00,  1.68it/s][Across-validation: 100%|##########| 5/5 [00:02<00:00,  1.68it/s]
 
-num subjects:   0%|          | 0/4 [00:00<?, ?it/s][A
+cross-validation:   0%|          | 0/5 [00:00<?, ?it/s][A
 
-selections: 0it [00:00, ?it/s][A[A
+cross-validation:  20%|##        | 1/5 [00:00<00:02,  1.68it/s][A
 
+cross-validation:  40%|####      | 2/5 [00:01<00:01,  1.68it/s][A
 
-heldout subject:   0%|          | 0/2 [00:00<?, ?it/s][A[A[A
+cross-validation:  60%|######    | 3/5 [00:01<00:01,  1.69it/s][A
 
+cross-validation:  80%|########  | 4/5 [00:02<00:00,  1.68it/s][A
 
-
-cross-validation:   0%|          | 0/5 [00:00<?, ?it/s][A[A[A[A
+cross-validation: 100%|##########| 5/5 [00:02<00:00,  1.68it/s][A
+cross-validation: 100%|##########| 5/5 [00:02<00:00,  1.68it/s]
 
 
+num subjects:   0%|          | 0/4 [00:00<?, ?it/s][A
 
-cross-validation:  20%|##        | 1/5 [00:00<00:01,  3.03it/s][A[A[A[A
+
+selections: 0it [00:00, ?it/s][A[A
 
 
 
-cross-validation:  40%|####      | 2/5 [00:00<00:00,  3.03it/s][A[A[A[A
+heldout subject:   0%|          | 0/2 [00:00<?, ?it/s][A[A[A
 
 
 
-cross-validation:  60%|######    | 3/5 [00:00<00:00,  3.03it/s][A[A[A[A
+
+cross-validation:   0%|          | 0/5 [00:00<?, ?it/s][A[A[A[A
 
 
 
-cross-validation:  80%|########  | 4/5 [00:01<00:00,  3.03it/s][A[A[A[A
+
+cross-validation:  20%|##        | 1/5 [00:00<00:01,  3.03it/s][A[A[A[A
 
 
 
-cross-validation: 100%|##########| 5/5 [00:01<00:00,  3.03it/s][A[A[A[Across-validation: 100%|##########| 5/5 [00:01<00:00,  3.03it/s]
-heldout subject:   0%|          | 0/2 [00:01<?, ?it/s]
-selections: 0it [00:01, ?it/s]
-num subjects:   0%|          | 0/4 [00:01<?, ?it/s]
-layers:   0%|          | 0/25 [01:26<?, ?it/s]
+
+cross-validation:  40%|####      | 2/5 [00:00<00:00,  3.03it/s][A[A[A[A
+
+
+
+
+cross-validation:  60%|######    | 3/5 [00:00<00:00,  3.03it/s][A[A[A[A
+
+
+
+
+cross-validation:  80%|########  | 4/5 [00:01<00:00,  3.03it/s][A[A[A[A
+
+
+
+
+cross-validation: 100%|##########| 5/5 [00:01<00:00,  3.03it/s][A[A[A[A
+cross-validation: 100%|##########| 5/5 [00:01<00:00,  3.03it/s]
+
+heldout subject:   0%|          | 0/2 [00:01<?, ?it/s]
+
+selections: 0it [00:01, ?it/s]
+
+num subjects:   0%|          | 0/4 [00:01<?, ?it/s]
+
+layers:   0%|          | 0/25 [01:26<?, ?it/s]
 Traceback (most recent call last):
   File "/usr/local/lib/python3.6/runpy.py", line 193, in _run_module_as_main
     "__main__", mod_spec)

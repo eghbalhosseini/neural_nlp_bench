@@ -11,6 +11,6 @@
 . ~/.bash_profile
 . ~/.bashrc
 conda activate neural_nlp_2022
-/om/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/user/ehoseini/neural_nlp_bench/download_openwebtext.py
+/om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/weka/evlab/ehoseini/neural_nlp_bench/download_openwebtext.py
 
 # save model file for pytorch < 1.6.0

@@ -14,11 +14,11 @@ print(user)
 import re
 from tqdm import tqdm
 if user=='eghbalhosseini':
-    analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
-    result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
+    analysis_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022//analysis/'
+    result_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022/'
 elif user=='ehoseini':
-    analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
-    result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
+    analysis_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022//analysis/'
+    result_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022/'
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 #%%
 if __name__ == "__main__":

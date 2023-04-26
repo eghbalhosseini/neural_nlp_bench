@@ -9,7 +9,7 @@
 
 #!/bin/bash
 i=0
-ROOT_DIR=/om/user/ehoseini/MyData/mistral/
+ROOT_DIR=/om/weka/evlab/ehoseini/MyData/mistral/
 
 CHECKPOINT_FILE="${ROOT_DIR}/mistral_checkpoints.txt"
 rm -f $CHECKPOINT_FILE

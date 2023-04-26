@@ -58,7 +58,7 @@ if __name__ =='__main__':
     state_dict = None
     model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict)
     #list(model.state_dict().keys())
-    mini_dataset = load_dataset('/om/user/ehoseini/MyData/miniBERTa_v2', 'miniBERTa-10M')
+    mini_dataset = load_dataset('/om/weka/evlab/ehoseini/MyData/miniBERTa_v2', 'miniBERTa-10M')
     tokenizer = AutoTokenizer.from_pretrained("gpt2", fast=False)
     tokenizer.pad_token = tokenizer.eos_token
     tokenized_datasets = mini_dataset.map(tokenize_function, batched=True, remove_columns=["text"])

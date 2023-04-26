@@ -1,5 +1,5 @@
 #!/bin/bash
-ROOT_DIR='/om/user/ehoseini/MyData/miniBERTa_training/miniBERTa_1b_v2/gpt2/checkpoints_4/'
+ROOT_DIR='/om/weka/evlab/ehoseini/MyData/miniBERTa_training/miniBERTa_1b_v2/gpt2/checkpoints_4/'
 
 ckpnt_conv_='ckpnt_conv_list'
 i=0

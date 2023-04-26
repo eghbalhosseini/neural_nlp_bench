@@ -15,17 +15,17 @@ print(user)
 import re
 from tqdm import tqdm
 from pathlib import Path
-ROOTDIR = (Path('/om/user/ehoseini/MyData/ecog_SN/') ).resolve()
+ROOTDIR = (Path('/om/weka/evlab/ehoseini/MyData/ecog_SN/') ).resolve()
 OUTDIR = (Path(ROOTDIR / 'outputs')).resolve()
 PLOTDIR = (Path(OUTDIR / 'plots')).resolve()
-
+from glob import glob
 if user=='eghbalhosseini':
-    #analysis_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022//analysis/'
-    #result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
+    #analysis_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022//analysis/'
+    #result_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022/'
     True
 elif user=='ehoseini':
     analysis_dir='/rdma/vast-rdma/vast/evlab/ehoseini/MyData/brain-score-language/analysis/'
-    #result_dir='/om/user/ehoseini/MyData/NeuroBioLang_2022/'
+    #result_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022/'
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
@@ -113,35 +113,36 @@ if __name__ == "__main__":
 
     models_scores=np.stack(models_scores)
     per_models_scores = np.stack(per_models_scores)
-    width = 0.35  # the width of the bars
-    fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    fig_length = 0.055 * len(models_scores)
-    ax = plt.axes((.2, .4, fig_length, .35))
+    width = 0.25  # the width of the bars
+    fig = plt.figure(figsize=(11, 8))
+    #fig_length = 0.055 * len(models_scores)
+    ax = plt.axes((.1, .4, .35, .35))
     x = np.arange(models_scores.shape[0])
 
     model_name = [f'{x[0]} \n {x[1]}' for x in model_layers]
 
-    rects1 = ax.bar(x - width / 2, per_models_scores[:,0], width, color=np.divide((55, 76, 128), 256), label='Pereira')
-    ax.errorbar(x - width / 2, per_models_scores[:, 0], yerr=per_models_scores[:, 1], linestyle='', color='k')
+    rects1 = ax.bar(x , per_models_scores[:,0], width, color=np.divide((55, 76, 128), 256), label='Pereira')
+    ax.errorbar(x , per_models_scores[:, 0], yerr=per_models_scores[:, 1], linestyle='', color='k')
 
-    rects2 = ax.bar(x + width / 2, models_scores[:,0], width, label='ANNSet1_fMRI',color=np.divide((188, 80, 144), 255))
-    ax.errorbar(x + width / 2, models_scores[:, 0], yerr=models_scores[:, 1], linestyle='', color='k')
+    rects2 = ax.bar(x + width , models_scores[:,0], width, label='ANNSet1_fMRI',color=np.divide((188, 80, 144), 255))
+    ax.errorbar(x + width , models_scores[:, 0], yerr=models_scores[:, 1], linestyle='', color='k')
     ax.axhline(y=0, color='k', linestyle='-')
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('Pearson correlation')
     ax.set_title(f'Layer performance for models used ANNSet1 \n on {benchmark}')
     ax.set_xticks(x)
     ax.set_xticklabels(model_name, rotation=90)
-    ax.set_ylim((-.1, 1.1))
+    ax.set_ylim((-.15, 1.15))
+    ax.set_xlim((-.5, 6.5))
     ax.legend()
     ax.legend(bbox_to_anchor=(1.5, .8), frameon=True)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     fig.show()
-    fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_{benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'ANN_models_scores_{benchmark}.png'), dpi=250, format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_{benchmark}.eps'), format='eps', metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'ANN_models_scores_{benchmark}.eps'), format='eps', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
     """compare models from the same class on the data """

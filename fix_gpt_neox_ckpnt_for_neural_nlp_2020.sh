@@ -9,7 +9,7 @@
 
 
 i=0
-ROOT_DIR=/om/user/ehoseini/MyData/miniBERTa_training/
+ROOT_DIR=/om/weka/evlab/ehoseini/MyData/miniBERTa_training/
 
 CHECKPOINT_FILE="${ROOT_DIR}/minberta_checkpoints.txt"
 rm -f $CHECKPOINT_FILE
@@ -41,6 +41,6 @@ echo "Running saving directory ${src_list[$SLURM_ARRAY_TASK_ID]}"
 #python fix_pytorch_version.py --ckpt_dir "${src_list[$SLURM_ARRAY_TASK_ID]}" --ckpt_type "gpt_neox"
 
 echo "Running target directory ${target_loc[$SLURM_ARRAY_TASK_ID]}"
-singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /om/user/ehoseini/neural-nlp-master/neural-nlp/neural_nlp/models/gpt_neox_model/convert_ckpt_to_hf.py --checkpoint_dir "${target_list[$SLURM_ARRAY_TASK_ID]}"
+singularity exec -B /om:/om /om/user/`whoami`/simg_images/neural_nlp_master_fz.simg python /om/weka/evlab/ehoseini/neural-nlp-master/neural-nlp/neural_nlp/models/gpt_neox_model/convert_ckpt_to_hf.py --checkpoint_dir "${target_list[$SLURM_ARRAY_TASK_ID]}"
 
 # save model file for pytorch < 1.6.0
