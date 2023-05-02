@@ -3,13 +3,13 @@
 #SBATCH --array=0-91
 #SBATCH --time=56:00:00
 #SBATCH -c 16
-#SBATCH --mem=80G
+#SBATCH --mem=32G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in  ANNSet1fMRI-wordForm-encoding ; do
+for benchmark in  ANNSet1ECoG-encoding ; do
   for model in sentence-length word-position random-embedding skip-thoughts skip-thoughts-untrained lm_1b lm_1b-untrained \
    word2vec word2vec-untrained glove glove-untrained transformer transformer-untrained ETM ETM-untrained bert-base-uncased \
     bert-base-multilingual-cased bert-large-uncased bert-large-uncased-whole-word-masking openaigpt gpt2 gpt2-medium gpt2-large \
