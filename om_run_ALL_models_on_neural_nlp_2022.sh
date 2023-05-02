@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-91
+#SBATCH --array=0-91%20
 #SBATCH --time=24:00:00
 #SBATCH -c 16
 #SBATCH --mem=20G
