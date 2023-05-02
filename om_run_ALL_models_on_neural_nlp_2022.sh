@@ -2,12 +2,11 @@
 #SBATCH --job-name=nlp2022
 #SBATCH --array=0-91%20
 #SBATCH --time=24:00:00
-#SBATCH -c 16
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
-#SBATCH --partition=evlab
+
 
 i=0
 for benchmark in  ANNSet1ECoG-encoding ; do
