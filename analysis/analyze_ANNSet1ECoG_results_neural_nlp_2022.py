@@ -42,7 +42,6 @@ if __name__ == "__main__":
         files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model},*.pkl'))
         assert len(files)>0
     # order files
-
         scores_mean=[]
         scors_std=[]
         x=pd.read_pickle(files[0])['data']
@@ -79,7 +78,7 @@ if __name__ == "__main__":
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
     '''ANN result across models'''
-    pereira_benchmark = 'Pereira2018-encoding'
+    langloc_benchmark='LangLocECoGv2-encoding'
     model_layers = [('roberta-base', 'encoder.layer.1'),
                     ('xlnet-large-cased', 'encoder.layer.23'),
                     ('bert-large-uncased-whole-word-masking', 'encoder.layer.11.output'),
@@ -94,22 +93,25 @@ if __name__ == "__main__":
         files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model},*.pkl'))
         assert len(files)>0
         # order files
-        per_files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={pereira_benchmark},model={model},*.pkl'))
+        per_files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={langloc_benchmark},model={model},*.pkl'))
         assert len(per_files)>0
         scores_mean=[]
         scors_std=[]
         x=pd.read_pickle(files[0])['data']
         x_per = pd.read_pickle(per_files[0])['data']
         scores_mean=x.values[:,0]
+        max_ann=np.argmax(scores_mean)
         scores_std=x.values[:,1]
 
         per_scores_mean = x_per.values[:,0]
         per_scores_std = x_per.values[:, 1]
-
+        max_per = np.argmax(per_scores_mean)
         l_names=x.layer.values
         ann_layer=int(np.argwhere(l_names ==layer))
-        models_scores.append([scores_mean[ann_layer],scores_std[ann_layer]])
-        per_models_scores.append([per_scores_mean[ann_layer], per_scores_std[ann_layer]])
+        #models_scores.append([scores_mean[ann_layer],scores_std[ann_layer]])
+        models_scores.append([scores_mean[max_ann], scores_std[max_ann]])
+        #per_models_scores.append([per_scores_mean[ann_layer], per_scores_std[ann_layer]])
+        per_models_scores.append([per_scores_mean[max_per], per_scores_std[max_per]])
 
     models_scores=np.stack(models_scores)
     per_models_scores = np.stack(per_models_scores)
@@ -139,10 +141,10 @@ if __name__ == "__main__":
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     fig.show()
-    fig.savefig(os.path.join(analysis_dir, f'ANN_models_scores_{benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'ANN_models_scores_max_layer_{benchmark}.png'), dpi=250, format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'ANN_models_scores_{benchmark}.eps'), format='eps', metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'ANN_models_scores_max_layer_{benchmark}.eps'), format='eps', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
     """compare models from the same class on the data """
@@ -154,7 +156,7 @@ if __name__ == "__main__":
         files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model},*.pkl'))
         assert len(files)>0
         # order files
-        per_files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={pereira_benchmark},model={model},*.pkl'))
+        per_files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={langloc_benchmark},model={model},*.pkl'))
         assert len(per_files)>0
         scores_mean=[]
         scors_std=[]
@@ -181,8 +183,8 @@ if __name__ == "__main__":
 
     model_name = [f'{x[0]} \n {x[1]}' for x in zip(models,model_layers)]
 
-    rects1 = ax.bar(x - width / 2, per_models_scores[:,0], width, color=np.divide((55, 76, 128), 256), label='Pereira')
-    ax.errorbar(x - width / 2, per_models_scores[:, 0], yerr=per_models_scores[:, 1], linestyle='', color='k')
+    #rects1 = ax.bar(x - width / 2, per_models_scores[:,0], width, color=np.divide((55, 76, 128), 256), label='Pereira')
+    #ax.errorbar(x - width / 2, per_models_scores[:, 0], yerr=per_models_scores[:, 1], linestyle='', color='k')
 
     rects2 = ax.bar(x + width / 2, models_scores[:,0], width, label='ANNSet1_fMRI',color=np.divide((188, 80, 144), 255))
     ax.errorbar(x + width / 2, models_scores[:, 0], yerr=models_scores[:, 1], linestyle='', color='k')
@@ -192,26 +194,28 @@ if __name__ == "__main__":
     ax.set_title(f'Layer performance for models used ANNSet1 \n on {benchmark}')
     ax.set_xticks(x)
     ax.set_xticklabels(model_name, rotation=90)
-    ax.set_ylim((-.1, 1.1))
+    ax.set_ylim((-.1, .5))
     ax.legend()
     ax.legend(bbox_to_anchor=(1.5, .8), frameon=True)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     fig.show()
-    fig.savefig(os.path.join(analysis_dir, f'GPT2_models_scores_{benchmark}_vs_{pereira_benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'GPT2_models_scores_{benchmark}_vs_{langloc_benchmark}.png'), dpi=250, format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'GPT2_models_scores_{benchmark}_vs_{pereira_benchmark}.eps'), format='eps', metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'GPT2_models_scores_{benchmark}_vs_{langloc_benchmark}.eps'), format='eps', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
     """look at all models"""
-    all_models=["roberta-large", "distilroberta-base",
-    "xlnet-base-cased",
+    all_models=["roberta-large",'roberta-base', "distilroberta-base",
+    "xlnet-base-cased",'xlnet-large-cased','xlm-mlm-en-2048',
     "bert-base-uncased",
     "bert-base-multilingual-cased",
+    'bert-large-uncased-whole-word-masking',
     "bert-large-uncased",
     "xlm-mlm-enfr-1024", "xlm-mlm-100-1280",
-     "albert-base-v2", "albert-large-v1", "albert-large-v2", "albert-xlarge-v1"]
+    "albert-base-v2", "albert-large-v1", "albert-large-v2", "albert-xlarge-v1",'albert-xxlarge-v2',
+    'gpt2-xl','distilgpt2', 'gpt2', 'gpt2-medium', 'gpt2-large','ctrl']
     all_models_scores = []
     all_per_models_scores = []
     all_model_layers = []
@@ -222,7 +226,7 @@ if __name__ == "__main__":
         assert len(files) > 0
         # order files
         per_files = glob(
-            os.path.join(result_caching, 'neural_nlp.score', f'benchmark={pereira_benchmark},model={model},*.pkl'))
+            os.path.join(result_caching, 'neural_nlp.score', f'benchmark={langloc_benchmark},model={model},*.pkl'))
         assert len(per_files) > 0
         scores_mean = []
         scors_std = []
@@ -272,8 +276,8 @@ if __name__ == "__main__":
     per_models_scores = np.stack(all_per_models_scores)
     width = 0.35  # the width of the bars
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    fig_length = 0.055 * len(models_scores)
-    ax = plt.axes((.2, .4, fig_length, .35))
+    fig_length = 0.04 * len(models_scores)
+    ax = plt.axes((.05, .4, fig_length, .35))
     x = np.arange(models_scores.shape[0])
 
     model_name = [f'{x[0]} \n {x[1]}' for x in zip(all_models,all_model_layers)]
@@ -290,25 +294,25 @@ if __name__ == "__main__":
     ax.set_xticks(x)
     ax.set_xticklabels(model_name, rotation=90)
     ax.set_ylim((-.1, 1.1))
+    ax.set_xlim((-.5, len(models_scores)-.5))
     ax.legend()
     ax.legend(bbox_to_anchor=(1.5, .8), frameon=True)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir, f'ALL_models_scores_{benchmark}_vs_{pereira_benchmark}.png'), dpi=250,
+    fig.savefig(os.path.join(analysis_dir, f'ALL_models_scores_{benchmark}_vs_{langloc_benchmark}.png'), dpi=250,
                 format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'ALL_models_scores_{benchmark}_vs_{pereira_benchmark}.eps'), format='eps',
+    fig.savefig(os.path.join(analysis_dir, f'ALL_models_scores_{benchmark}_vs_{langloc_benchmark}.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
-
 
     #%% plot the response for layers of gpt2-xl and gpt2-large
     model = 'xlnet-large-cased'
     files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={benchmark},model={model},*.pkl'))
-    per_files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={pereira_benchmark},model={model},*.pkl'))
+    per_files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={langloc_benchmark},model={model},*.pkl'))
     scores_mean = []
     scors_std = []
     x = pd.read_pickle(files[0])['data']
@@ -347,17 +351,17 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark} - layerwise')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir, f'layerwise_{model}_scores_{benchmark}_vs_{pereira_benchmark}.png'), dpi=250,
+    fig.savefig(os.path.join(analysis_dir, f'layerwise_{model}_scores_{benchmark}_vs_{langloc_benchmark}.png'), dpi=250,
                 format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'layerwise_{model}_scores_{benchmark}_vs_{pereira_benchmark}.eps'), format='eps',
+    fig.savefig(os.path.join(analysis_dir, f'layerwise_{model}_scores_{benchmark}_vs_{langloc_benchmark}.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
     model = 'distilgpt2'
     files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={benchmark},model={model},*.pkl'))
-    per_files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={pereira_benchmark},model={model},*.pkl'))
+    per_files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={langloc_benchmark},model={model},*.pkl'))
     scores_mean = []
     scors_std = []
     x = pd.read_pickle(files[0])['data']
