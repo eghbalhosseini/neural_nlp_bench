@@ -7,7 +7,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
-i=0
+i=1
 for benchmark in LangLocECoG-sentence-encoding ANNSet1ECoG-Sentence-encoding ; do
   for model in roberta-base roberta-large distilroberta-base \
       xlnet-large-cased xlnet-base-cased \
