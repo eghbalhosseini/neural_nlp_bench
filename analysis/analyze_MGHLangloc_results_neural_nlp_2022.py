@@ -29,7 +29,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='LangLocECoGv2-encoding'
+    benchmark='LangLocECoG-sentence-encoding'
     #benchmark = 'LangLocECoGv2-encoding'
     models=['roberta-base',
       'xlnet-large-cased',
