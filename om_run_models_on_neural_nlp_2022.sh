@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=1-60
+#SBATCH --array=1-42
 #SBATCH --time=32:00:00
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
@@ -8,14 +8,19 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=1
-for benchmark in LangLocECoG-sentence-encoding ANNSet1ECoG-Sentence-encoding ; do
-  for model in roberta-base roberta-large distilroberta-base \
-      xlnet-large-cased xlnet-base-cased \
-      bert-base-uncased bert-base-multilingual-cased bert-large-uncased bert-large-uncased-whole-word-masking \
-      xlm-mlm-en-2048 xlm-mlm-enfr-1024 xlm-mlm-xnli15-1024 xlm-clm-enfr-1024 xlm-mlm-100-1280 \
-      openaigpt gpt2 gpt2-medium gpt2-large gpt2-xl distilgpt2 \
-      albert-base-v1 albert-base-v2 albert-large-v1 albert-large-v2 albert-xlarge-v1 albert-xlarge-v2 albert-xxlarge-v1 albert-xxlarge-v2 \
-      ctrl ; do
+for benchmark in  DsParametricfMRI-max-PLSEncoding \
+                  DsParametricfMRI-min-PLSEncoding \
+                  DsParametricfMRI-rand-PLSEncoding \
+                  DsParametricfMRI-max-RidgeEncoding \
+                  DsParametricfMRI-min-RidgeEncoding \
+                  DsParametricfMRI-rand-RidgeEncoding ; do
+  for model in  roberta-base \
+                xlnet-large-cased \
+                bert-large-uncased-whole-word-masking \
+                xlm-mlm-en-2048 \
+                gpt2-xl \
+                albert-xxlarge-v2 \
+                ctrl ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]

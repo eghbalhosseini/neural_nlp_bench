@@ -29,7 +29,8 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='LangLocECoG-sentence-encoding'
+    #benchmark='LangLocECoG-sentence-encoding'
+    benchmark = 'ANNSet1ECoG-Sentence-encoding'
     #benchmark = 'LangLocECoGv2-encoding'
     models=['roberta-base',
       'xlnet-large-cased',
@@ -68,7 +69,7 @@ if __name__ == "__main__":
         ax.set_title(f'{model} \n performance on {benchmark}')
         ax.set_xticks(x)
         ax.set_xticklabels(layer_name,rotation=90)
-        ax.set_ylim((-.1, 1.1))
+        ax.set_ylim((-.1, .4))
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
         fig.show()
@@ -127,7 +128,7 @@ if __name__ == "__main__":
     ax.set_title(f'Layer performance for models used ANNSet1 \n on {benchmark}')
     ax.set_xticks(x)
     ax.set_xticklabels(model_name, rotation=90)
-    ax.set_ylim((-.15, 1.2))
+    ax.set_ylim((-.15, .3))
     ax.set_xlim((-.5, 6.5))
     ax.legend()
     ax.legend(bbox_to_anchor=(1.5, .8), frameon=True)
@@ -177,7 +178,7 @@ if __name__ == "__main__":
     ax.set_title(f'Layer performance for models used ANNSet1 \n on {benchmark}')
     ax.set_xticks(x)
     ax.set_xticklabels(model_name, rotation=90)
-    ax.set_ylim((-.1, 1.5))
+    ax.set_ylim((-.1, .3))
     #ax.legend()
     ax.legend(bbox_to_anchor=(1.5, .8), frameon=True)
     ax.spines['top'].set_visible(False)
@@ -237,7 +238,7 @@ if __name__ == "__main__":
         ax.set_title(f'{model} \n performance on {benchmark}')
         ax.set_xticks(x)
         ax.set_xticklabels(layer_name, rotation=90)
-        ax.set_ylim((-.1, 1.1))
+        ax.set_ylim((-.1, .6))
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
         fig.show()
@@ -266,7 +267,7 @@ if __name__ == "__main__":
     ax.set_title(f'Layer performance for models on {benchmark}')
     ax.set_xticks(x)
     ax.set_xticklabels(model_name, rotation=90)
-    ax.set_ylim((-.1, 1.1))
+    ax.set_ylim((-.1, 0.2))
     ax.legend()
     ax.legend(bbox_to_anchor=(1.5, .8), frameon=True)
     ax.spines['top'].set_visible(False)
@@ -280,143 +281,3 @@ if __name__ == "__main__":
     fig.savefig(os.path.join(analysis_dir, f'ALL_models_scores_{benchmark}.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
-
-
-    #%% plot the response for layers of gpt2-xl and gpt2-large
-    model = 'xlnet-large-cased'
-    files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={benchmark},model={model},*.pkl'))
-    per_files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={pereira_benchmark},model={model},*.pkl'))
-    scores_mean = []
-    scors_std = []
-    x = pd.read_pickle(files[0])['data']
-    x_per = pd.read_pickle(per_files[0])['data']
-    scores_mean = x.values[:, 0]
-    scores_std = x.values[:, 1]
-    per_scores_mean = x_per.values[:, 0]
-    per_scores_std = x_per.values[:, 1]
-    cmap_all = cm.get_cmap('inferno')
-    all_col = cmap_all(np.divide(np.arange(len(scores_mean)+2), len(scores_mean)+2))
-
-    fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    plt.rcParams.update({'font.size': 8})
-    ax = plt.axes((.05, .2, .5, .2))
-    scores_mean_np = np.stack(scores_mean).transpose()
-    scores_std_np = np.stack(scores_std).transpose()
-    r3 = np.arange(len(scores_mean_np))
-    for i in r3:
-        ax.plot(r3[i], scores_mean_np[i], color=all_col[i,:], linewidth=2, marker='o', markersize=8,markeredgecolor='k',markeredgewidth=1,  zorder=5)
-        ax.plot(r3[i]+.2, per_scores_mean[i], color=all_col[i, :], linewidth=2, marker='s', markersize=8,
-                markeredgecolor='w', markeredgewidth=1, zorder=5)
-        ax.errorbar(r3[i], scores_mean_np[i], yerr=scores_std_np[i], color=all_col[i,:], zorder=3)
-        ax.errorbar(r3[i]+.2, per_scores_mean[i], yerr=per_scores_std[i], color=all_col[i, :], zorder=3)
-    ax.plot(r3 , scores_mean_np, color=(.5, .5, .5), linewidth=1, zorder=4)
-    ax.plot(r3+.2, per_scores_mean, color=(.5, .5, .5), linewidth=1, zorder=4)
-
-    ax.axhline(y=0, color='k', linestyle='-', zorder=2)
-    # ax.legend(bbox_to_anchor=(1.4, 2), frameon=True, fontsize=8)
-    ax.set_xlim((0 - .5, len(l_names) - .5))
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.set_xticks(np.arange(len(scores_mean_np)))
-    #plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
-    ax.set_ylim((-0.1, 1.1))
-    ax.set_ylabel('Pearson Corr')
-    ax.set_title(f'benchmark {benchmark} - layerwise')
-    fig.show()
-
-    fig.savefig(os.path.join(analysis_dir, f'layerwise_{model}_scores_{benchmark}_vs_{pereira_benchmark}.png'), dpi=250,
-                format='png', metadata=None,
-                bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
-
-    fig.savefig(os.path.join(analysis_dir, f'layerwise_{model}_scores_{benchmark}_vs_{pereira_benchmark}.eps'), format='eps',
-                metadata=None,
-                bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
-
-    model = 'distilgpt2'
-    files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={benchmark},model={model},*.pkl'))
-    per_files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={pereira_benchmark},model={model},*.pkl'))
-    scores_mean = []
-    scors_std = []
-    x = pd.read_pickle(files[0])['data']
-    x_per = pd.read_pickle(per_files[0])['data']
-    scores_mean = x.values[:, 0]
-    scores_std = x.values[:, 1]
-    per_scores_mean = x_per.values[:, 0]
-    per_scores_std = x_per.values[:, 1]
-    cmap_all = cm.get_cmap('inferno')
-    all_col = cmap_all(np.divide(np.arange(len(scores_mean)+2), len(scores_mean)+2))
-
-    fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    plt.rcParams.update({'font.size': 8})
-    ax = plt.axes((.05, .2, .9, .35))
-    scores_mean_np = np.stack(scores_mean).transpose()
-    scores_std_np = np.stack(scores_std).transpose()
-    r3 = np.arange(len(scores_mean_np))
-    for i in r3:
-        ax.plot(r3[i], scores_mean_np[i], color=all_col[i,:], linewidth=2, marker='o', markersize=8,markeredgecolor='k',markeredgewidth=1,  zorder=5)
-        ax.plot(r3[i]+.2, per_scores_mean[i], color=all_col[i, :], linewidth=2, marker='s', markersize=8,
-                markeredgecolor='w', markeredgewidth=1, zorder=5)
-        ax.errorbar(r3[i], scores_mean_np[i], yerr=scores_std_np[i], color=all_col[i,:], zorder=3)
-        ax.errorbar(r3[i]+.2, per_scores_mean[i], yerr=per_scores_std[i], color=all_col[i, :], zorder=3)
-    ax.plot(r3 , scores_mean_np, color=(.5, .5, .5), linewidth=1, zorder=4)
-    ax.plot(r3+.2, per_scores_mean, color=(.5, .5, .5), linewidth=1, zorder=4)
-    fig.show()
-
-# model_classes = [ 'bert-', 'roberta', 'xlm','xlnet', 'ctrl', 't5', 'albert-', 'gpt']
-#     color_groups = ['Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds', 'YlOrBr', 'PuRd',
-#                     'RdPu', 'BuPu',
-#                     'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']
-#
-#     color_ids = []
-#     model_set = [x[0] for x in ALL_model_scores]
-#     model_perf = []
-#     model_perf_untrained = []
-#     model_names = []
-#     model_layer_ids = []
-#     for idx, model_id in enumerate(model_set):
-#
-#         model_score = ALL_model_scores[idx][1]
-#         model_error = ALL_model_scores[idx][2]
-#         model_layer_ = ALL_model_scores[idx][3]
-#         if model_id.find('untrained') == -1:
-#             model_perf.append((model_score,model_error))
-#             model_names.append(f"{model_id} ({model_layer_})")
-#             model_layer_ids.append(model_layer_)
-#             # get untrained score
-#         if model_id == 'xlm-roberta-base' or model_id == 'xlm-roberta-large':
-#             color_loc = 8
-#         else:
-#             color_loc = int(np.argwhere([model_id.find(x) != -1 for x in model_classes])[-1].squeeze())
-#             assert color_loc is not None
-#             color_ids.append(color_loc)
-#
-#     model_perf = np.array(model_perf)
-#     num_cols = [len(np.where(np.asarray(color_ids) == x)[0]) for idx, x in enumerate(np.unique(color_ids))]
-#     h0s = [cm.get_cmap(color_groups[x], num_cols[idx] + 2) for idx, x in enumerate(np.unique(color_ids))]
-#     all_colors = [np.flipud(x(np.arange(num_cols[idx]) / (num_cols[idx] + 1))) for idx, x in enumerate(h0s)]
-#     # all_colors=[x(np.arange(num_cols[idx])/(num_cols[idx]+1)) for idx, x in enumerate(h0s)],
-#     all_colors = [item for sublist in all_colors for item in sublist]
-#
-#     y_pos = np.arange(len(model_names))
-#     fig = plt.figure(figsize=(8, 10))
-#     ax = fig.add_axes((.5, .1, .4, .85))
-#     ax.barh(y_pos, np.asarray(model_perf)[:, 0], height=.8, xerr=np.asarray(model_perf)[:, 1], align='center',
-#             color=np.asarray(all_colors), edgecolor=(0, 0, 0), linewidth=1, error_kw={'linewidth': 1})
-#     # ax.barh(y_pos, np.asarray(model_perf_untrained)[:,0],height=0.8, align='center',color=np.asarray(all_colors),edgecolor=(.2,.2,.2),linewidth=1)
-#     #ax.barh(y_pos, np.asarray(model_perf_untrained)[:, 0], height=0.8, align='center', color=(.8, .8, .8),
-#     #        edgecolor=(.2, .2, .2), linewidth=1, alpha=.7)
-#     # ax.scatter(np.asarray(model_perf_untrained)[:,0],y_pos,s=20,zorder=10)
-#     # add a vertical line at zero
-#     ax.axvline(0, color='k', linewidth=1)
-#     ax.axvline(1, color='k',linestyle='--', linewidth=1)
-#     ax.set_yticks(y_pos)
-#     ax.set_ylim(y_pos.min() - 1, y_pos.max() + 1)
-#     ax.set_yticklabels(model_names, fontsize=8, fontweight='normal')
-#     ax.tick_params(axis='x', which='both', labelsize=8)
-#     ax.set_xlabel('score', fontsize=8)
-#     plt.xticks(fontsize=8)
-#     ax.spines['right'].set_visible(False)
-#     ax.spines['top'].set_visible(False)
-#     ax.set_title('Model performance on %s'%benchmark,fontsize=10)
-#
-#     fig.savefig(os.path.join(analysis_dir, f'scores_{benchmark}.pdf'), transparent=True)

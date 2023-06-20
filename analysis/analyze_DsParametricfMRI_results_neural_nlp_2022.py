@@ -134,13 +134,13 @@ if __name__ == "__main__":
     model_name = [f'{x[0]} \n {x[1]}' for x in model_layers]
 
     rects2 = ax.bar(x -0.25 , models_scores[:,0,0], width, label='min',color=colors[0],linewidth=.5,edgecolor='k')
-    #ax.errorbar(x -0.25, models_scores[:,0,0], yerr=models_scores[:,0,1], linestyle='', color='k')
+    ax.errorbar(x -0.25, models_scores[:,0,0], yerr=models_scores[:,0,1], linestyle='', color='k')
     # plot the second item
     rects2 = ax.bar(x , models_scores[:,1,0], width, label='rand',color=colors[1],linewidth=.5,edgecolor='k')
-    #ax.errorbar(x , models_scores[:,1,0], yerr=models_scores[:,1,1], linestyle='', color='k')
+    ax.errorbar(x , models_scores[:,1,0], yerr=models_scores[:,1,1], linestyle='', color='k')
     # plot the third item
     rects3 = ax.bar(x +0.25, models_scores[:,2,0], width, label='max',color=colors[2],linewidth=.5,edgecolor='k')
-    #ax.errorbar(x +0.25, models_scores[:,2,0], yerr=models_scores[:,2,1], linestyle='', color='k')
+    ax.errorbar(x +0.25, models_scores[:,2,0], yerr=models_scores[:,2,1], linestyle='', color='k')
 
     #ax.errorbar(x  , models_scores[:, 0], yerr=models_scores[:, 1], linestyle='', color='k')
     ax.axhline(y=0, color='k', linestyle='-')
@@ -149,17 +149,17 @@ if __name__ == "__main__":
     ax.set_title(f'Layer performance for models used ANNSet1 \n on DsParametric')
     ax.set_xticks(x)
     ax.set_xticklabels(model_name, rotation=90)
-    ax.set_ylim((-.1, 0.1))
+    ax.set_ylim((-.175, 0.175))
     ax.set_xlim((-.5, 6.5))
     ax.legend()
     ax.legend(bbox_to_anchor=(1.5, .8), frameon=True)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     fig.show()
-    fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_DsParametric.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_DsParametric_err.png'), dpi=250, format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_DsParametric.eps'), format='eps', metadata=None,
+    fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_DsParametric_err.eps'), format='eps', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
     """compare models from the same class on the data """
@@ -168,6 +168,19 @@ if __name__ == "__main__":
     per_models_scores = []
     model_layers=[]
     for model in models:
+        benchmark_score = []
+        for benchmark in benchmarks:
+            files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={benchmark},model={model},*.pkl'))
+            assert len(files) > 0
+            scores_mean = []
+            scors_std = []
+            x = pd.read_pickle(files[0])['data']
+            scores_mean = x.values[:, 0]
+            scores_std = x.values[:, 1]
+            l_names = x.layer.values
+            ann_layer = int(np.argwhere(l_names == layer))
+            benchmark_score.append([scores_mean[ann_layer], scores_std[ann_layer]])
+        models_scores.append(benchmark_score)
         files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model},*.pkl'))
         assert len(files)>0
         # order files
