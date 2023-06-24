@@ -8,9 +8,9 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=1
-for benchmark in  DsParametricfMRI-max-RidgeEncoding \
-                  DsParametricfMRI-min-RidgeEncoding \
-                  DsParametricfMRI-rand-RidgeEncoding ; do
+for benchmark in  DsParametricfMRI_v1-max-RidgeEncoding \
+                  DsParametricfMRI_v1-min-RidgeEncoding \
+                  DsParametricfMRI_v1-rand-RidgeEncoding ; do
   for model in  roberta-base \
                 xlnet-large-cased \
                 bert-large-uncased-whole-word-masking \
