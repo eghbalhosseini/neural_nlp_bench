@@ -29,7 +29,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmarks=['DsParametricfMRI-min-encoding', 'DsParametricfMRI-rand-encoding','DsParametricfMRI-max-encoding']
+    benchmarks=['DsParametricfMRI_v1-min-RidgeEncoding', 'DsParametricfMRI_v1-rand-RidgeEncoding','DsParametricfMRI_v1-max-RidgeEncoding']
     #benchmark = 'LangLocECoGv2-encoding'
     models=['roberta-base',
       'xlnet-large-cased',
@@ -92,11 +92,12 @@ if __name__ == "__main__":
         #ax.set_ylim((-.1, 1.1))
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
-        #fig.show()
-        fig.savefig(os.path.join(PLOTDIR,f'score_{model}_DsParametricfMRI.png'), dpi=250, format='png', metadata=None,
+        ax.set_title(f'{model}')
+        fig.show()
+        fig.savefig(os.path.join(PLOTDIR,f'score_{model}_DsParametricfMRI_{benchmark}.png'), dpi=250, format='png', metadata=None,
             bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-        fig.savefig(os.path.join(PLOTDIR, f'score_{model}_DsParametricfMRI.eps'), format='eps',metadata=None,
+        fig.savefig(os.path.join(PLOTDIR, f'score_{model}_DsParametricfMRI_{benchmark}.eps'), format='eps',metadata=None,
                     bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
     '''ANN result across models'''
@@ -156,10 +157,10 @@ if __name__ == "__main__":
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     fig.show()
-    fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_DsParametric_err.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_DsParametric_{benchmark}_err.png'), dpi=250, format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_DsParametric_err.eps'), format='eps', metadata=None,
+    fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_DsParametric_{benchmark}_err.eps'), format='eps', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
     """compare models from the same class on the data """

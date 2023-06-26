@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=1-21
+#SBATCH --array=1-33
 #SBATCH --time=32:00:00
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
@@ -17,7 +17,11 @@ for benchmark in  DsParametricfMRI_v1-max-RidgeEncoding \
                 xlm-mlm-en-2048 \
                 gpt2-xl \
                 albert-xxlarge-v2 \
-                ctrl ; do
+                ctrl \
+                distilgpt2 \
+                gpt2 \
+                gpt2-medium \
+                gpt2-large ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
