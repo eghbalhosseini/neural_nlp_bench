@@ -37,7 +37,7 @@ if __name__ == "__main__":
       'xlm-mlm-en-2048',
       'gpt2-xl',
       'albert-xxlarge-v2',
-      'ctrl']
+      'ctrl','distilgpt2', 'gpt2', 'gpt2-medium', 'gpt2-large'  ]
     colors = [np.divide((188, 80, 144), 255), np.divide((55, 76, 128), 256), np.divide((255, 128, 0), 255),
               np.divide((55, 76, 128), 256)]
     for model in models:
@@ -163,76 +163,3 @@ if __name__ == "__main__":
     fig.savefig(os.path.join(PLOTDIR, f'ANN_models_scores_DsParametric_{benchmark}_err.eps'), format='eps', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    """compare models from the same class on the data """
-    models = ['distilgpt2', 'gpt2', 'gpt2-medium', 'gpt2-large' ,'gpt2-xl' ]
-    models_scores = []
-    per_models_scores = []
-    model_layers=[]
-    for model in models:
-        benchmark_score = []
-        for benchmark in benchmarks:
-            files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={benchmark},model={model},*.pkl'))
-            assert len(files) > 0
-            scores_mean = []
-            scors_std = []
-            x = pd.read_pickle(files[0])['data']
-            scores_mean = x.values[:, 0]
-            scores_std = x.values[:, 1]
-            l_names = x.layer.values
-            ann_layer = int(np.argwhere(l_names == layer))
-            benchmark_score.append([scores_mean[ann_layer], scores_std[ann_layer]])
-        models_scores.append(benchmark_score)
-        files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model},*.pkl'))
-        assert len(files)>0
-        # order files
-        per_files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={pereira_benchmark},model={model},*.pkl'))
-        assert len(per_files)>0
-        scores_mean=[]
-        scors_std=[]
-        x=pd.read_pickle(files[0])['data']
-        x_per = pd.read_pickle(per_files[0])['data']
-        scores_mean=x.values[:,0]
-        scores_std=x.values[:,1]
-        per_scores_mean = x_per.values[:,0]
-        per_scores_std = x_per.values[:, 1]
-        l_names=x.layer.values
-        l_max=np.argmax(x_per.values[:, 0])
-        model_layers.append(l_max)
-        ann_layer=int(l_max)
-        models_scores.append([scores_mean[ann_layer],scores_std[ann_layer]])
-        per_models_scores.append([per_scores_mean[ann_layer], per_scores_std[ann_layer]])
-
-    models_scores=np.stack(models_scores)
-    per_models_scores = np.stack(per_models_scores)
-    width = 0.35  # the width of the bars
-    fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
-    fig_length = 0.055 * len(models_scores)
-    ax = plt.axes((.2, .4, fig_length, .35))
-    x = np.arange(models_scores.shape[0])
-
-    model_name = [f'{x[0]} \n {x[1]}' for x in zip(models,model_layers)]
-
-    rects1 = ax.bar(x - width / 2, per_models_scores[:,0], width, color=np.divide((55, 76, 128), 256), label='Pereira')
-    ax.errorbar(x - width / 2, per_models_scores[:, 0], yerr=per_models_scores[:, 1], linestyle='', color='k')
-
-    rects2 = ax.bar(x + width / 2, models_scores[:,0], width, label='ANNSet1_fMRI',color=np.divide((188, 80, 144), 255))
-    ax.errorbar(x + width / 2, models_scores[:, 0], yerr=models_scores[:, 1], linestyle='', color='k')
-    ax.axhline(y=0, color='k', linestyle='-')
-    # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('Pearson correlation')
-    ax.set_title(f'Layer performance for models used ANNSet1 \n on {benchmark}')
-    ax.set_xticks(x)
-    ax.set_xticklabels(model_name, rotation=90)
-    ax.set_ylim((-.1, 1.1))
-    ax.legend()
-    ax.legend(bbox_to_anchor=(1.5, .8), frameon=True)
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    fig.show()
-    fig.savefig(os.path.join(analysis_dir, f'GPT2_models_scores_{benchmark}_vs_{pereira_benchmark}.png'), dpi=250, format='png', metadata=None,
-                bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
-
-    fig.savefig(os.path.join(analysis_dir, f'GPT2_models_scores_{benchmark}_vs_{pereira_benchmark}.eps'), format='eps', metadata=None,
-                bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
-
-    """look at all models"""
