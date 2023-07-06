@@ -38,7 +38,7 @@ if __name__ == "__main__":
       'gpt2-xl',
       'albert-xxlarge-v2',
       'ctrl','distilgpt2', 'gpt2', 'gpt2-medium', 'gpt2-large'  ]
-    colors = [np.divide((188, 80, 144), 255), np.divide((55, 76, 128), 256), np.divide((255, 128, 0), 255),
+    colors = [np.divide((51, 153, 255), 255), np.divide((160, 160, 160), 256), np.divide((255, 153, 51), 255),
               np.divide((55, 76, 128), 256)]
     for model in models:
         x_list=[]
@@ -109,6 +109,7 @@ if __name__ == "__main__":
                     ('albert-xxlarge-v2', 'encoder.albert_layer_groups.4'),
                     ('ctrl', 'h.46')]
     layer_ids = (2, 24, 12, 12, 44, 5, 47)
+    model_sh = ['RoBERTa', 'XLNet-L', 'BERT-L', 'XLM', 'GPT2-XL', 'ALBERT-XXL', 'CTRL']
     models_scores=[]
     for model,layer in model_layers:
         benchmark_score=[]
@@ -132,7 +133,7 @@ if __name__ == "__main__":
     ax = plt.axes((.1, .4, .35, .35))
     x = np.arange(models_scores.shape[0])
 
-    model_name = [f'{x[0]} \n {x[1]}' for x in model_layers]
+    model_name = model_sh
 
     rects2 = ax.bar(x -0.25 , models_scores[:,0,0], width, label='min',color=colors[0],linewidth=.5,edgecolor='k')
     ax.errorbar(x -0.25, models_scores[:,0,0], yerr=models_scores[:,0,1], linestyle='', color='k')
@@ -149,7 +150,7 @@ if __name__ == "__main__":
     ax.set_ylabel('Pearson correlation (un-normalized)')
     ax.set_title(f'Layer performance for models used ANNSet1 \n on DsParametric')
     ax.set_xticks(x)
-    ax.set_xticklabels(model_name, rotation=90)
+    ax.set_xticklabels(model_name, rotation=45)
     ax.set_ylim((-.175, 0.175))
     ax.set_xlim((-.5, 6.5))
     ax.legend()

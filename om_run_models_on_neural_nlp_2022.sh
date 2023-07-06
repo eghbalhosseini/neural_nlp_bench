@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=1-99
+#SBATCH --array=1-22
 #SBATCH --time=32:00:00
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
@@ -8,15 +8,8 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=1
-for benchmark in  DsParametricfMRI_v1-max-RidgeEncoding \
-                  DsParametricfMRI_v1-min-RidgeEncoding \
-                  DsParametricfMRI_v1-rand-RidgeEncoding  \
-                  DsParametricfMRI_v2-max-RidgeEncoding \
-                  DsParametricfMRI_v2-min-RidgeEncoding \
-                  DsParametricfMRI_v2-rand-RidgeEncoding \
-                  DsParametricfMRI_v3-max-RidgeEncoding \
-                  DsParametricfMRI_v3-min-RidgeEncoding \
-                  DsParametricfMRI_v3-rand-RidgeEncoding ; do
+for benchmark in  Pereira2023aud-pass-passage-RidgeEncoding \
+                  Pereira2023aud-pass-sentence-RidgeEncoding; do
   for model in  roberta-base \
                 xlnet-large-cased \
                 bert-large-uncased-whole-word-masking \
