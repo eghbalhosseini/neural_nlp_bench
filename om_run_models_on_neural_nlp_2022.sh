@@ -8,8 +8,8 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=1
-for benchmark in  Pereira2023aud-pass-passage-RidgeEncoding \
-                  Pereira2023aud-pass-sentence-RidgeEncoding; do
+for benchmark in  Pereira2023aud-sent-passage-RidgeEncoding \
+                  Pereira2023aud-sent-sentence-RidgeEncoding; do
   for model in  roberta-base \
                 xlnet-large-cased \
                 bert-large-uncased-whole-word-masking \
