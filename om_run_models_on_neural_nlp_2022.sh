@@ -9,8 +9,8 @@
 
 i=1
 for benchmark in Pereira2018-norm-encoding ; do
-  for model in  gpt2 \
-                gpt2-untrained  ; do
+  for model in  distilgpt2 \
+                distilgpt2-untrained  ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
