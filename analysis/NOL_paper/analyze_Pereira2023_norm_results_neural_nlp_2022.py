@@ -32,8 +32,8 @@ if __name__ == "__main__":
     benchmarks=['Pereira2018-norm-sentence-encoding']#,
                 #'Pereira2023aud-sent-passage-RidgeEncoding', 'Pereira2023aud-sent-sentence-RidgeEncoding']
     #benchmark = 'LangLocECoGv2-encoding'
-    models=['distilgpt2',
-      'distilgpt2-untrained',]
+    models=['gpt2',
+      'gpt2-untrained',]
     colors = [np.divide((51, 153, 255), 255), np.divide((160, 160, 160), 256), np.divide((255, 153, 51), 255),
               np.divide((55, 76, 128), 256)]
 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     ax.axhline(y=0, color='k', linestyle='-', linewidth=.5)
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('Pearson correlation')
-    ax.legend(loc='upper center', bbox_to_anchor=(1.2, .8),
+    ax.legend( bbox_to_anchor=(1.1, .8),
               ncol=1, fancybox=False, shadow=False)
     ax.set_xticks(x)
     ax.set_xticklabels(layer_name, rotation=90)
@@ -91,7 +91,78 @@ if __name__ == "__main__":
     ax.spines['right'].set_visible(False)
     ax.set_title(f'Pereira benchmark')
     fig.show()
-    fig.savefig(os.path.join(PLOTDIR, f'score_Pereira2018_regular_vs_norm_{models[0]}.png'), dpi=250, format='png',
+    fig.savefig(os.path.join(PLOTDIR, f'score_Pereira2018_regular_{benchmarks[0]}_{models[0]}.png'), dpi=250, format='png',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
+
+
+    # look at all models
+    model_layers = ['distilgpt2',
+                    'gpt2',
+                    'gpt2-medium',
+                    'gpt2-large',
+                    'gpt2-xl',
+                    ]
+    models_scores = []
+    for benchmark in benchmarks:
+
+        for model in model_layers:
+            benchmark_score = []
+            files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={benchmark},model={model}-untrained,*.pkl'))
+            assert len(files) > 0
+            x = pd.read_pickle(files[0])['data']
+            scores_mean = x.values[:, 0]
+            # find index with max score
+            max_index = np.argmax(scores_mean)
+            scores_std = x.values[:, 1]
+            benchmark_score.append([scores_mean[max_index], scores_std[max_index]])
+
+            files = glob(os.path.join(result_caching, 'neural_nlp.score', f'benchmark={benchmark},model={model},*.pkl'))
+            assert len(files) > 0
+            x = pd.read_pickle(files[0])['data']
+            scores_mean = x.values[:, 0]
+            # find index with max score
+            max_index = np.argmax(scores_mean)
+            scores_std = x.values[:, 1]
+            benchmark_score.append([scores_mean[max_index], scores_std[max_index]])
+            models_scores.append(benchmark_score)
+
+    models_scores = np.stack(models_scores)
+
+    width = 0.25  # the width of the bars
+    fig = plt.figure(figsize=(11, 8))
+    # fig_length = 0.055 * len(models_scores)
+    ax = plt.axes((.1, .4, .35, .35))
+    x = np.arange(models_scores.shape[0])
+
+    model_name = model_layers
+
+    rects2 = ax.bar(x - 0.25, models_scores[:, 0, 0], width, label='untrained', color=colors[1], linewidth=.5, edgecolor='k')
+    ax.errorbar(x - 0.25, models_scores[:, 0, 0], yerr=models_scores[:, 0, 1], linestyle='', color='k')
+    # plot the second item
+    rects2 = ax.bar(x, models_scores[:, 1, 0], width, label='trained', color=colors[0], linewidth=.5, edgecolor='k')
+    ax.errorbar(x, models_scores[:, 1, 0], yerr=models_scores[:, 1, 1], linestyle='', color='k')
+    # plot the third item
+
+    # ax.errorbar(x  , models_scores[:, 0], yerr=models_scores[:, 1], linestyle='', color='k')
+    ax.axhline(y=0, color='k', linestyle='-')
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel('Pearson correlation (un-normalized)')
+    ax.set_title(f'Best performance for models \n on {benchmarks[0]}')
+    ax.set_xticks(x)
+    ax.set_xticklabels(model_name, rotation=45)
+    ax.set_ylim((-.1, 1.1))
+    ax.set_xlim((-.5, 4.5))
+    ax.legend()
+    ax.legend(bbox_to_anchor=(1.8, .8), frameon=True)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    # fig.show()
+    fig.savefig(os.path.join(PLOTDIR, f'models_scores_{benchmarks[0]}.png'), dpi=250, format='png',
+                metadata=None,
+                bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
+
+    fig.savefig(os.path.join(PLOTDIR, f'models_scores_{benchmarks[0]}.eps'), format='eps',
+                metadata=None,
+                bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
