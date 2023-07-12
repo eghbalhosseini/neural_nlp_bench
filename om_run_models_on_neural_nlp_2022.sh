@@ -8,7 +8,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=1
-for benchmark in Futrell2018-encoding ; do
+for benchmark in Futrell2018-norm-encoding ; do
   for model in  distilgpt2 gpt2 gpt2-medium gpt2-large gpt2-xl \
                 distilgpt2-untrained gpt2-untrained gpt2-medium-untrained gpt2-large-untrained gpt2-xl-untrained ; do
             model_list[$i]="${model}"
