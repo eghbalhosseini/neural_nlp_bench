@@ -29,7 +29,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmarks=['Pereira2023aud-pass-passage-RidgeEncoding', 'Pereira2023aud-pass-sentence-RidgeEncoding']#,
+    benchmarks=['Pereira2023aud-pass-passage-RidgeEncoding', 'Pereira2023aud-pass-passage-sample-RidgeEncoding']#,
                 #'Pereira2023aud-sent-passage-RidgeEncoding', 'Pereira2023aud-sent-sentence-RidgeEncoding']
     #benchmark = 'LangLocECoGv2-encoding'
     models=['roberta-base',
@@ -104,7 +104,7 @@ if __name__ == "__main__":
         #rects1 = ax.bar(x-width, y, width, color=colors[0],linewidth=.5,label='passage')
 
         rects1 = ax.plot(x, y, color=colors[0],linewidth=2,marker='.',markersize=10,markerfacecolor='k',
-                         markeredgecolor='k',label='Pass,passage')
+                         markeredgecolor='k',label='Pass,192 samples')
         #ax.errorbar(x-width, y, yerr=y_err, linestyle='', color='k')
         ax.fill_between(x, y - y_err, y+y_err, facecolor=colors[0], alpha=0.1)
 
@@ -112,7 +112,7 @@ if __name__ == "__main__":
         y = scores_means[1]
         y_err = scores_stds[1]
         rects1 = ax.plot(x, y, color=colors[1], linewidth=2, marker='.', markersize=10, markerfacecolor='k',
-                         markeredgecolor='k', label='Pass,sentence')
+                         markeredgecolor='k', label='Pass,80 samples')
         # ax.errorbar(x-width, y, yerr=y_err, linestyle='', color='k')
         ax.fill_between(x, y - y_err, y + y_err, facecolor=colors[1], alpha=0.1)
 
@@ -150,8 +150,8 @@ if __name__ == "__main__":
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.set_title(f'{model}')
-        #fig.show()
-        fig.savefig(os.path.join(PLOTDIR,f'score_Pereira2023aud-pass_{model}_{benchmark}.png'), dpi=250, format='png', metadata=None,
+        fig.show()
+        fig.savefig(os.path.join(PLOTDIR,f'score_Pereira2023aud-pass_vs_sample_{model}_{benchmark}.png'), dpi=250, format='png', metadata=None,
             bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
         fig.savefig(os.path.join(PLOTDIR, f'score_Pereira2023aud-pass_{model}_{benchmark}.eps'), format='eps',metadata=None,
