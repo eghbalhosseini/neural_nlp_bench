@@ -32,7 +32,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-norm-encoding'
+    benchmark='Pereira2018-norm-v2-encoding'
     ylims = (-.12, 1.1)
     #benchmark='Blank2014fROI-encoding'
     #ylims=(-.1,.5)
@@ -56,11 +56,11 @@ if __name__ == "__main__":
                                           f'benchmark={benchmark},model={model_1B}-v3-ckpnt-{310000}-untrained*.pkl'))
     file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-v3-ckpnt-{loss_1B_ckpnt}{permuted}*.pkl'))
     file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                f'benchmark={benchmark},model={model_100M}-v3-ckpnt-{loss_100M_ckpnt}{permuted}*.pkl'))
+                                f'benchmark={benchmark},model={model_100M}-v3-ckpnt-{loss_100M_ckpnt}{permuted},*.pkl'))
     file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                   f'benchmark={benchmark},model={model_10M}-v3-ckpnt-{loss_10M_ckpnt}{permuted}*.pkl'))
     file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                 f'benchmark={benchmark},model={model_1M}-v3-ckpnt-{loss_1M_ckpnt}{permuted}*.pkl'))
+                                 f'benchmark={benchmark},model={model_1M}-v3-ckpnt-{loss_1M_ckpnt}{permuted},*.pkl'))
     files_srt = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
     chkpoints_srt = ['untrained', '1M', '10M', '100M', '1B']
     # order files
