@@ -9,11 +9,11 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Pereira2018-norm-encoding Futrell2018-norm-v2-encoding Futrell2018-norm-encoding ; do
-  for model in  gpt2-neox-pos_learned-1M-v2-ckpnt-1000 gpt2-neox-pos_learned-1M-v2-ckpnt-1000-untrained gpt2-neox-pos_learned-1M-v2-ckpnt-1000-untrained_hf \
-                gpt2-neox-pos_learned-10M-v2-ckpnt-2000 gpt2-neox-pos_learned-10M-v2-ckpnt-2000-untrained gpt2-neox-pos_learned-10M-v2-ckpnt-2000-untrained_hf \
-                gpt2-neox-pos_learned-100M-v2-ckpnt-14250 gpt2-neox-pos_learned-100M-v2-ckpnt-14250-untrained gpt2-neox-pos_learned-100M-v2-ckpnt-14250-untrained_hf \
-                gpt2-neox-pos_learned-1B-v2-ckpnt-310000 gpt2-neox-pos_learned-1B-v2-ckpnt-310000-untrained gpt2-neox-pos_learned-1B-v2-ckpnt-310000-untrained_hf ; do
+for benchmark in  Futrell2018-norm-v2-encoding ; do
+  for model in  gpt2-neox-pos_learned-1M-v3-ckpnt-1000 gpt2-neox-pos_learned-1M-v3-ckpnt-1000-untrained gpt2-neox-pos_learned-1M-v3-ckpnt-1000-untrained_hf \
+                gpt2-neox-pos_learned-10M-v3-ckpnt-2000 gpt2-neox-pos_learned-10M-v3-ckpnt-2000-untrained gpt2-neox-pos_learned-10M-v3-ckpnt-2000-untrained_hf \
+                gpt2-neox-pos_learned-100M-v3-ckpnt-14250 gpt2-neox-pos_learned-100M-v3-ckpnt-14250-untrained gpt2-neox-pos_learned-100M-v3-ckpnt-14250-untrained_hf \
+                gpt2-neox-pos_learned-1B-v3-ckpnt-310000 gpt2-neox-pos_learned-1B-v3-ckpnt-310000-untrained gpt2-neox-pos_learned-1B-v3-ckpnt-310000-untrained_hf ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
