@@ -9,7 +9,7 @@ from tqdm.auto import tqdm
 
 if __name__ == "__main__":
     data = '1B'
-    mini_dataset = load_dataset('/Users/eghbalhosseini/MyData/miniBERTa_v2', f'miniBERTa-{data}')
+    mini_dataset = load_dataset('/om/user/ehoseini/MyData/miniBERTa_v2', f'miniBERTa-{data}')
 
     mb_len = len(mini_dataset['train'])
     mb_sample_rel_num = ((0.05 * 0.8 / 2), (0.05 * 0.67 / 2))
@@ -32,7 +32,7 @@ if __name__ == "__main__":
         num_words_50m += len(x['text'].split(' '))
 
 
-    dataset_10m = load_dataset('/Users/eghbalhosseini/MyData/miniBERTa_v2', f'miniBERTa-10M')
+    dataset_10m = load_dataset('/om/user/ehoseini/MyData/miniBERTa_v2', f'miniBERTa-10M')
     dataset_10m = dataset_10m.map(lambda x: tokenizer(x['text']), batched=True)
 
     num_words_10m = 0

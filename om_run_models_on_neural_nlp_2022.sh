@@ -12,8 +12,6 @@ for benchmark in Pereira2018-norm-encoding Pereira2018-encoding ; do
   #for model in roberta-base xlnet-large-cased bert-large-uncased-whole-word-masking xlm-mlm-en-2048 gpt2-xl albert-xxlarge-v2 ctrl distilgpt2 gpt2 gpt2-medium gpt2-large  ; do
 
   for model in gpt2-untrained-ln-hf ; do
-
-
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
@@ -21,7 +19,7 @@ for benchmark in Pereira2018-norm-encoding Pereira2018-encoding ; do
 done
 
 #Blank2014fROI-encoding
-module add openmind/singularity
+
 export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
 RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
 export RESULTCACHING_HOME
