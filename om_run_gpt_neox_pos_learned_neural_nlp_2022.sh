@@ -1,17 +1,19 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-7
-#SBATCH --time=56:00:00
+#SBATCH --array=1-36
+#SBATCH --time=12:00:00
 #SBATCH -c 16
-#SBATCH --mem=160G
+#SBATCH --mem=60G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Fedorenko2016v3-encoding Pereira2018-encoding ; do
-  for model in gpt2-neox-pos_learned-100M-v2 gpt2-neox-pos_learned-100M-v2-untrained \
-                gpt2-neox-pos_learned-1B-v2 gpt2-neox-pos_learned-1B-v2-untrained ; do
+for benchmark in Pereira2018-norm-encoding Futrell2018-norm-v2-encoding Futrell2018-norm-encoding ; do
+  for model in  gpt2-neox-pos_learned-1M-v2 gpt2-neox-pos_learned-1M-v2-untrained gpt2-neox-pos_learned-1M-v2-untrained_hf \
+                gpt2-neox-pos_learned-10M-v2 gpt2-neox-pos_learned-10M-v2-untrained gpt2-neox-pos_learned-10M-v2-untrained_hf \
+                gpt2-neox-pos_learned-100M-v2 gpt2-neox-pos_learned-100M-v2-untrained gpt2-neox-pos_learned-100M-v2-untrained_hf \
+                gpt2-neox-pos_learned-1B-v2 gpt2-neox-pos_learned-1B-v2-untrained gpt2-neox-pos_learned-1B-v2-untrained_hf ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
