@@ -26,7 +26,7 @@ elif user=='ehoseini':
 if __name__ == "__main__":
     #benchmark='Futrell2018-encoding'
     #benchmark='Futrell2018-stories_encoding'
-    benchmark = 'Futrell2018-encoding'
+    benchmark = 'Futrell2018-norm-encoding'
     ylims = (-.12, 1.1)
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
@@ -40,28 +40,28 @@ if __name__ == "__main__":
 
     model_1M = 'gpt2-neox-pos_learned-1M'
     loss_1M_ckpnt = '1000'
-
+    version='v3'
 
 
     file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                          f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{2500}-untrained*.pkl'))
-    file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{loss_1B_ckpnt}*.pkl'))
+                                          f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{310000}-untrained,*.pkl'))
+    file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{loss_1B_ckpnt},*.pkl'))
     file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                f'benchmark={benchmark},model={model_100M}-v2-ckpnt-{loss_100M_ckpnt}*.pkl'))
+                                f'benchmark={benchmark},model={model_100M}-{version}-ckpnt-{loss_100M_ckpnt},*.pkl'))
     file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                  f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}*.pkl'))
+                                  f'benchmark={benchmark},model={model_10M}-{version}-ckpnt-{loss_10M_ckpnt},*.pkl'))
 
     file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                f'benchmark={benchmark},model={model_1M}-v2-ckpnt-{loss_1M_ckpnt}*.pkl'))
+                                f'benchmark={benchmark},model={model_1M}-{version}-ckpnt-{loss_1M_ckpnt},*.pkl'))
 
     files_srt=[file_1B_untrained[0],file_1M[0],file_10M[0],file_100M[0],file_1B[0]]
     chkpoints_srt=['untrained','1M','10M','100M','1B']
 
     file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                       f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{310000}-untrained,*.pkl'))
+                                       f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{310000}-untrained,*.pkl'))
 
     file_untrained_hf = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                          f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{310000}-untrained_hf,*.pkl'))
+                                          f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{310000}-untrained_hf,*.pkl'))
     untrained_hf = pd.read_pickle(file_untrained_hf[0])['data'].values
     untrained_manual = pd.read_pickle(file_untrained[0])['data'].values
 
