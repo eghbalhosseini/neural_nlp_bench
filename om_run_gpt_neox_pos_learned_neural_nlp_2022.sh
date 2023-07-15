@@ -10,8 +10,8 @@
 
 i=0
 for benchmark in  Pereira2018-encoding Pereira2018-norm-encoding Pereira2018-norm-v2-encoding  Futrell2018-norm-v2-encoding Futrell2018-norm-encoding ; do
-  for model in  gpt2-neox-pos_learned-1B-v3-ckpnt-310000-untrained-ln-hf \
-                gpt2-untrained-ln-hf; do
+  for model in  gpt2-neox-pos_learned-1B-v3-ckpnt-310000-untrained-ln-uniform \
+                gpt2-untrained-untrained-ln-uniform ; do
                 #gpt2-neox-pos_learned-10M-v3-ckpnt-2000 gpt2-neox-pos_learned-10M-v3-ckpnt-2000-untrained gpt2-neox-pos_learned-10M-v3-ckpnt-2000-untrained_hf \
                 #gpt2-neox-pos_learned-100M-v3-ckpnt-14250 gpt2-neox-pos_learned-100M-v3-ckpnt-14250-untrained gpt2-neox-pos_learned-100M-v3-ckpnt-14250-untrained_hf \
                 #gpt2 gpt2-untrained gpt2-untrained_hf
