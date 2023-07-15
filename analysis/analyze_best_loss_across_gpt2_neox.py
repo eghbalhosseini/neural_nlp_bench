@@ -32,7 +32,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-norm-v2-encoding'
+    benchmark='Pereira2018-norm-encoding'
     ylims = (-.12, 1.1)
     #benchmark='Blank2014fROI-encoding'
     #ylims=(-.1,.5)
@@ -51,31 +51,33 @@ if __name__ == "__main__":
     loss_1M_ckpnt = '1000'
     #permuted='-permuted'
     permuted=''
+    version='v2'
     #loss_10M_ckpnt = '2000'
     file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                          f'benchmark={benchmark},model={model_1B}-v3-ckpnt-{310000}-untrained*.pkl'))
-    file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-v3-ckpnt-{loss_1B_ckpnt}{permuted}*.pkl'))
+                                          f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{310000}-untrained*.pkl'))
+    file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{loss_1B_ckpnt}{permuted},*.pkl'))
     file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                f'benchmark={benchmark},model={model_100M}-v3-ckpnt-{loss_100M_ckpnt}{permuted},*.pkl'))
+                                f'benchmark={benchmark},model={model_100M}-{version}-ckpnt-{loss_100M_ckpnt}{permuted},*.pkl'))
     file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                  f'benchmark={benchmark},model={model_10M}-v3-ckpnt-{loss_10M_ckpnt}{permuted}*.pkl'))
+                                  f'benchmark={benchmark},model={model_10M}-{version}-ckpnt-{loss_10M_ckpnt}{permuted}*.pkl'))
     file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                 f'benchmark={benchmark},model={model_1M}-v3-ckpnt-{loss_1M_ckpnt}{permuted},*.pkl'))
+                                 f'benchmark={benchmark},model={model_1M}-{version}-ckpnt-{loss_1M_ckpnt}{permuted},*.pkl'))
     files_srt = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
     chkpoints_srt = ['untrained', '1M', '10M', '100M', '1B']
     # order files
 
     file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                          f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{310000}-untrained,*.pkl'))
+                                          f'benchmark={benchmark},model={model_1B}-v3-ckpnt-{310000}-untrained,*.pkl'))
 
     file_untrained_hf = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                       f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{310000}-untrained_hf,*.pkl'))
+                                       f'benchmark={benchmark},model={model_1B}-v3-ckpnt-{310000}-untrained_hf,*.pkl'))
 
     shcrimpf= glob(os.path.join(result_caching, 'neural_nlp.score',
                                        f'benchmark={benchmark},model=gpt2,*.pkl'))
     schirmpf_data=pd.read_pickle(shcrimpf[0])['data']
     hf_untrained_data = pd.read_pickle(file_untrained_hf[0])['data']
-
+    schrimpf_mean=schirmpf_data.values[:,0]
+    schrimpf_std=schirmpf_data.values[:,1]
     scores_mean=[]
     scors_std=[]
     score_data=[]
@@ -88,11 +90,11 @@ if __name__ == "__main__":
 
 
     # read precomputed scores
-    precomputed=pd.read_csv('/om/weka/evlab/ehoseini/neural-nlp-2022/precomputed-scores.csv')
-    precomputed_bench=precomputed[precomputed['benchmark']==benchmark]
-    model_bench=precomputed_bench[precomputed_bench['model']==precomputed_model]
+    #precomputed=pd.read_csv('/om/weka/evlab/ehoseini/neural-nlp-2022/precomputed-scores.csv')
+    #precomputed_bench=precomputed[precomputed['benchmark']==benchmark]
+    #model_bench=precomputed_bench[precomputed_bench['model']==precomputed_model]
 
-    model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model+'-untrained']
+    #model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model+'-untrained']
     # untrained scores
     untrained_hf=pd.read_pickle(file_untrained_hf[0])['data'].values
     untrained_manual = pd.read_pickle(file_untrained[0])['data'].values
@@ -107,8 +109,10 @@ if __name__ == "__main__":
         ax.plot(r3, scr, color=all_col[idx,:],linewidth=2,marker='.',markersize=10,label=f'{chkpoints_srt[idx]}')
         ax.fill_between(r3, scr-scors_std[idx],scr+scors_std[idx], facecolor=all_col[idx, :],alpha=0.1)
     # add precomputed
-    ax.plot(r3,model_bench['score'],linestyle='-',linewidth=2,color=(.5,.5,.5,1),label='trained(Schrimpf)',zorder=1)
-    ax.plot(r3, model_unt_bench['score'], linestyle='--',linewidth=2, color=(.5,.5,.5,1), label='untrained(Schrimpf)',zorder=1)
+    ax.plot(r3,schrimpf_mean,linestyle='-',linewidth=2,color=(.5,.5,.5,1),label='trained(Schrimpf)',zorder=1)
+    ax.fill_between(r3, schrimpf_mean - schrimpf_std, schrimpf_mean + schrimpf_std, facecolor=(.5,.5,.5,1), alpha=0.1)
+    # ax.plot(r3,model_bench['score'],linestyle='-',linewidth=2,color=(.5,.5,.5,1),label='trained(Schrimpf)',zorder=1)
+    #ax.plot(r3, model_unt_bench['score'], linestyle='--',linewidth=2, color=(.5,.5,.5,1), label='untrained(Schrimpf)',zorder=1)
     ax.axhline(y=0, color='k', linestyle='-')
     ax.legend(bbox_to_anchor=(1.3, .8), frameon=True,fontsize=8)
     ax.set_xlim((0-.5,len(l_names)-.5))
@@ -123,10 +127,10 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark}')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}_v3.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox{permuted}_{benchmark}_v3.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
     #%%
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
