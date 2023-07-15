@@ -51,7 +51,7 @@ if __name__ == "__main__":
     loss_1M_ckpnt = '1000'
     #permuted='-permuted'
     permuted=''
-    version='v2'
+    version='v3'
     #loss_10M_ckpnt = '2000'
     file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{310000}-untrained*.pkl'))
@@ -59,7 +59,7 @@ if __name__ == "__main__":
     file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                 f'benchmark={benchmark},model={model_100M}-{version}-ckpnt-{loss_100M_ckpnt}{permuted},*.pkl'))
     file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                  f'benchmark={benchmark},model={model_10M}-{version}-ckpnt-{loss_10M_ckpnt}{permuted}*.pkl'))
+                                  f'benchmark={benchmark},model={model_10M}-{version}-ckpnt-{loss_10M_ckpnt}{permuted},*.pkl'))
     file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                  f'benchmark={benchmark},model={model_1M}-{version}-ckpnt-{loss_1M_ckpnt}{permuted},*.pkl'))
     files_srt = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
@@ -74,6 +74,9 @@ if __name__ == "__main__":
 
     shcrimpf= glob(os.path.join(result_caching, 'neural_nlp.score',
                                        f'benchmark={benchmark},model=gpt2,*.pkl'))
+    shcrimpf_unt = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                 f'benchmark={benchmark},model=gpt2-untrained_hf,*.pkl'))
+    schirmpf_data_unt = pd.read_pickle(shcrimpf_unt[0])['data']
     schirmpf_data=pd.read_pickle(shcrimpf[0])['data']
     hf_untrained_data = pd.read_pickle(file_untrained_hf[0])['data']
     schrimpf_mean=schirmpf_data.values[:,0]
@@ -169,8 +172,9 @@ if __name__ == "__main__":
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 #%%
     # plot for best layer of Schirmpf study
-    layer_id=np.argmax(model_bench['score'])
-    layer_name=model_bench['layer'].iloc[layer_id]
+    #layer_id=np.argmax(model_bench['score'])
+    layer_id = np.argmax(schrimpf_mean)
+    layer_name=schirmpf_data['layer'][layer_id]
     scr_layer=[x[layer_id] for x in scores_mean]
     scr_layer_std = [x[layer_id] for x in scors_std]
     scr_schirmpf= schirmpf_data.sel(layer=(schirmpf_data.layer==layer_name).values)
