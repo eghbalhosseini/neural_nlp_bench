@@ -29,7 +29,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmarks=['Pereira2018-norm-encoding','Pereira2018-encoding']#,
+    benchmarks=['Pereira2018-norm-encoding']#,
                 #'Pereira2023aud-sent-passage-RidgeEncoding', 'Pereira2023aud-sent-sentence-RidgeEncoding']
     #benchmark = 'LangLocECoGv2-encoding'
     models=['gpt2',
