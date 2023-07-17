@@ -29,11 +29,11 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmarks=['Pereira2018-encoding']#,
+    benchmarks=['Pereira2018-norm-encoding']#,
                 #'Pereira2023aud-sent-passage-RidgeEncoding', 'Pereira2023aud-sent-sentence-RidgeEncoding']
     #benchmark = 'LangLocECoGv2-encoding'
     models=['gpt2',
-      'gpt2-untrained','gpt2-untrained-ln-uniform']
+      'gpt2-untrained','gpt2-untrained-ln-uniform','gpt2-untrained-ln-hf']
     colors = [np.divide((51, 153, 255), 255), np.divide((160, 160, 160), 256), np.divide((255, 153, 51), 255),
               np.divide((55, 76, 128), 256)]
 
@@ -58,24 +58,13 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(11, 8), dpi=250, frameon=False)
     fig_length = 0.018 * len(model_bench[0])
     ax = plt.axes((.1, .4, fig_length, .35))
-    for k in [0,1]:
-        x = np.arange(model_bench[0]['score'].shape[0])
-        y = model_bench[k]['score'].values
-        y_err = model_bench[k]['error'].values
-        layer_name = model_bench[k]['layer'].values
-    # rects1 = ax.bar(x-width, y, width, color=colors[0],linewidth=.5,label='passage')
-        rects1 = ax.plot(x, y, color=colors[k], linewidth=2, marker='s', markersize=5, markerfacecolor='r',
-                     markeredgecolor='r', label=f'{models[k]}-regular')
-    # ax.errorbar(x-width, y, yerr=y_err, linestyle='', color='k')
-        ax.fill_between(x, y - y_err, y + y_err, facecolor=colors[k], alpha=0.2)
-
-
-    for k in [0,1]:
+    for k in range(len(models_scores)):
         y = models_scores[k][0][0]
         y_err = models_scores[k][0][1]
+        x=np.arange(len(y))
     # rects1 = ax.bar(x-width, y, width, color=colors[0],linewidth=.5,label='passage')
         rects1 = ax.plot(x, y, color=colors[k], linewidth=2, marker='o', markersize=5, markerfacecolor='k',
-                     markeredgecolor='k', label=f'{models[k]}-norm')
+                     markeredgecolor='k', label=f'{models[k]}')
     # ax.errorbar(x-width, y, yerr=y_err, linestyle='', color='k')
         ax.fill_between(x, y - y_err, y + y_err, facecolor=colors[k], alpha=0.2)
 
@@ -85,13 +74,15 @@ if __name__ == "__main__":
     ax.legend( bbox_to_anchor=(1.1, .8),
               ncol=1, fancybox=False, shadow=False)
     ax.set_xticks(x)
-    ax.set_xticklabels(layer_name, rotation=90)
+    #ax.set_xticklabels(layer_name, rotation=90)
     ax.set_ylim((-.1, 1.1))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_title(f'Pereira benchmark')
     fig.show()
-    fig.savefig(os.path.join(PLOTDIR, f'score_Pereira2018_regular_{benchmarks[0]}_{models[0]}.png'), dpi=250, format='png',
+
+
+    fig.savefig(os.path.join(PLOTDIR, f'score_{benchmarks[0]}_untrained_{models[0]}.png'), dpi=250, format='png',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
