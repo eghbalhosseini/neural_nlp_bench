@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-8
+#SBATCH --array=0-15
 #SBATCH --time=12:00:00
 #SBATCH -c 16
 #SBATCH --mem=60G
@@ -10,11 +10,11 @@
 
 i=0
 for benchmark in  Pereira2018-encoding Pereira2018-norm-encoding Pereira2018-norm-v2-encoding  Futrell2018-norm-v2-encoding Futrell2018-norm-encoding ; do
-  for model in  gpt2-untrained-ln-uniform ; do
+  for model in  gpt2 gpt2-untrained gpt2-untrained_hf ; do
     #gpt2-neox-pos_learned-1B-v3-ckpnt-310000-untrained-ln-uniform \
                 #gpt2-neox-pos_learned-10M-v3-ckpnt-2000 gpt2-neox-pos_learned-10M-v3-ckpnt-2000-untrained gpt2-neox-pos_learned-10M-v3-ckpnt-2000-untrained_hf \
                 #gpt2-neox-pos_learned-100M-v3-ckpnt-14250 gpt2-neox-pos_learned-100M-v3-ckpnt-14250-untrained gpt2-neox-pos_learned-100M-v3-ckpnt-14250-untrained_hf \
-                #gpt2 gpt2-untrained gpt2-untrained_hf
+
                   #gpt2-neox-pos_learned-1M-v3-ckpnt-1000 gpt2-neox-pos_learned-1M-v3-ckpnt-1000-untrained gpt2-neox-pos_learned-1M-v3-ckpnt-1000-untrained_hf \
                   #gpt2-neox-pos_learned-1B-v3-ckpnt-310000 gpt2-neox-pos_learned-1B-v3-ckpnt-310000-untrained gpt2-neox-pos_learned-1B-v3-ckpnt-310000-untrained_hf
             model_list[$i]="${model}"

@@ -29,11 +29,11 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmarks=['Pereira2018-norm-sentence-encoding']#,
+    benchmarks=['Pereira2018-norm-encoding','Pereira2018-encoding']#,
                 #'Pereira2023aud-sent-passage-RidgeEncoding', 'Pereira2023aud-sent-sentence-RidgeEncoding']
     #benchmark = 'LangLocECoGv2-encoding'
     models=['gpt2',
-      'gpt2-untrained',]
+      'gpt2-untrained','gpt2-untrained-ln-uniform ']
     colors = [np.divide((51, 153, 255), 255), np.divide((160, 160, 160), 256), np.divide((255, 153, 51), 255),
               np.divide((55, 76, 128), 256)]
 
