@@ -31,8 +31,7 @@ done <"${GRAND_FILE}"
 if $do_run; then
   echo "run_ckpoint_name:${run_ckpoint_name}"
   echo "run_ckpont_dir:${run_ckpont_dir}"
-
-  . ~/.bash_profile
+  . /home/ehoseini/.bash_profile
   conda activate neural_nlp_2022
   echo $(which python)
   python /om/weka/evlab/ehoseini/neural-nlp-2022/neural_nlp/models/gpt_neox_model/convert_ckpt_to_gpt_neox.py --checkpoint_dir "$run_ckpont_dir" --hf_save_dir "$run_ckpont_dir"
