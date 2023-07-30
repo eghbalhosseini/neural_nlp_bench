@@ -32,19 +32,15 @@ echo "Running model ${model_id_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running checkpoint ${checkpoint_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running saving directory ${saving_list[$SLURM_ARRAY_TASK_ID]}"
 
+module load openmind/git-lfs/2.13.2
 
-if [ -d "${saving_list[$SLURM_ARRAY_TASK_ID]}" ]
-then
-  true
-else
   git clone "https://huggingface.co/stanford-crfm/${model_id_list[$SLURM_ARRAY_TASK_ID]}" --branch "checkpoint-${checkpoint_list[$SLURM_ARRAY_TASK_ID]}" --single-branch "${saving_list[$SLURM_ARRAY_TASK_ID]}"
   cd "${saving_list[$SLURM_ARRAY_TASK_ID]}"
   git lfs pull
-fi
 
 #copy config file from the main branch in to the checkpoint folder ( not needed anymore )
 Model_config_file="${ROOT_DIR}/${model_id_list[$SLURM_ARRAY_TASK_ID]}/config.json"
-p "${Model_config_file}" "${saving_list[$SLURM_ARRAY_TASK_ID]}"
+cp "${Model_config_file}" "${saving_list[$SLURM_ARRAY_TASK_ID]}"
 
 . ~/.bash_profile
 conda activate base
