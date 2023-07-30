@@ -42,14 +42,13 @@ else
   git lfs pull
 fi
 
-# copy config file from the main branch in to the checkpoint folder ( not needed anymore )
-#Model_config_file="${ROOT_DIR}/${model_id_list[$SLURM_ARRAY_TASK_ID]}/config.json"
-#p "${Model_config_file}" "${saving_list[$SLURM_ARRAY_TASK_ID]}"
+#copy config file from the main branch in to the checkpoint folder ( not needed anymore )
+Model_config_file="${ROOT_DIR}/${model_id_list[$SLURM_ARRAY_TASK_ID]}/config.json"
+p "${Model_config_file}" "${saving_list[$SLURM_ARRAY_TASK_ID]}"
 
-#. ~/.bash_profile
-#. ~/.bashrc
-#conda activate base
+. ~/.bash_profile
+conda activate base
 
-#python fix_pytorch_version.py "${saving_list[$SLURM_ARRAY_TASK_ID]}"
+python fix_pytorch_version.py "${saving_list[$SLURM_ARRAY_TASK_ID]}"
 
 # save model file for pytorch < 1.6.0
