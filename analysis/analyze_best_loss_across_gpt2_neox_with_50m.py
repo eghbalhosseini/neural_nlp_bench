@@ -32,7 +32,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
+    benchmark='Pereira2018-norm-encoding'
     ylims = (-.12, 1.1)
     #benchmark='Blank2014fROI-encoding'
     #ylims=(-.1,.5)
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     file_50M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                  f'benchmark={benchmark},model={model_50M}-{version}-ckpnt-{loss_50M_ckpnt}{permuted},*.pkl'))
 
-    version='v2'
+    version='v3'
     file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                 f'benchmark={benchmark},model={model_100M}-{version}-ckpnt-{loss_100M_ckpnt}{permuted},*.pkl'))
 

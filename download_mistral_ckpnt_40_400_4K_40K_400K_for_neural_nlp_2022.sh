@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=download_
-#SBATCH --array=0-5
+#SBATCH --array=0-6
 #SBATCH --time=2:00:00
 #SBATCH --ntasks=1
 #SBATCH --mem=20G
@@ -16,8 +16,8 @@ rm -f $CHECKPOINT_FILE
 touch $CHECKPOINT_FILE
 printf "%s,%s,%s,%s\n" "row" "model_id" "checkpoint_id" "save_dir"    >> $CHECKPOINT_FILE
 
-for model_id in expanse-gpt2-small-x777 ; do
-    for checkpoint in 0 40 400 4000 40000 400000 ; do
+for model_id in caprica-gpt2-small-x81 ; do
+    for checkpoint in 0 20 200 2000 20000 200000 ; do
             model_id_list[$i]="$model_id"
             checkpoint_list[$i]="$checkpoint"
             save_loc="${ROOT_DIR}/${model_id}/ckpt_${checkpoint}"
