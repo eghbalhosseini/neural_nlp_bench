@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=MISTRAL
-#SBATCH --array=0
-#SBATCH --time=6-23:00:00
-#SBATCH --mem=60G
+#SBATCH --array=0-2
+#SBATCH --time=23:00:00
+#SBATCH --mem=128G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
@@ -15,11 +15,10 @@ overwrite=true
 activity_id_list="naturalStories naturalStories naturalStories"
 activity_arr=($activity_id_list)
 
-for benchmark in Futrell2018-encoding ; do
+for benchmark in Futrell2018-encoding  Futrell2018-norm-encoding; do
 #for benchmark in Futrell2018-encoding Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
   for model in mistral-caprica-gpt2-small-x81-ckpnt-0 ; do
       #for checkpoint in 400 4000 40000 400000; do
-
             #model_list[$i]="${model}-ckpnt-${checkpoint}"
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
@@ -65,7 +64,6 @@ then
 fi
 
 . ~/.bash_profile
-. ~/.bashrc
 conda activate neural_nlp_2022
 
 /om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/weka/evlab/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
