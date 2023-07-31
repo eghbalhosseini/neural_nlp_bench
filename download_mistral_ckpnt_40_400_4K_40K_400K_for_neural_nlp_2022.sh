@@ -16,7 +16,7 @@ rm -f $CHECKPOINT_FILE
 touch $CHECKPOINT_FILE
 printf "%s,%s,%s,%s\n" "row" "model_id" "checkpoint_id" "save_dir"    >> $CHECKPOINT_FILE
 
-for model_id in caprica-gpt2-small-x81 ; do
+for model_id in expanse-gpt2-small-x777 ; do
     for checkpoint in 0 20 200 2000 20000 200000 ; do
             model_id_list[$i]="$model_id"
             checkpoint_list[$i]="$checkpoint"

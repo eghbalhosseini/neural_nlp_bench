@@ -8,7 +8,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Pereira2018-encoding Pereira2018-norm-encoding  Futrell2018-encoding Futrell2018-norm-encoding ; do
+for benchmark in  Futrell2018-encoding Futrell2018-norm-encoding ; do
   for model in mistral-caprica-gpt2-small-x81  ; do
       for checkpoint in 0 20 200 2000 20000 200000 ; do
             model_list[$i]="${model}-ckpnt-${checkpoint}"
