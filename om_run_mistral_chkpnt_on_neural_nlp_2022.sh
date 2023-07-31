@@ -6,7 +6,6 @@
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
-
 i=1
 for benchmark in  Futrell2018-encoding Futrell2018-norm-encoding ; do
   for model in mistral-caprica-gpt2-small-x81  ; do
