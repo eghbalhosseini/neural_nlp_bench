@@ -24,7 +24,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
+    benchmark='Pereira2018-norm-encoding'
     ylims = (-.12, 1.1)
     #benchmark = 'Blank2014fROI-encoding'
     #ylims = (-.2, .5)
@@ -104,7 +104,7 @@ if __name__ == "__main__":
         ax.plot(validation_perpelxity[idx], validation_score[idx], color=(all_col[idx, :]), linewidth=2, marker='o',
                 markersize=8, markeredgecolor='k',
                 markeredgewidth=1, zorder=5)
-        ax.errorbar(validation_perpelxity[idx], validation_score[idx], yerr=score_std[idx], linewidth=2,
+        ax.errorbar(validation_perpelxity[idx], validation_score[idx], yerr=scr_layer_std[idx], linewidth=2,
                     color=all_col[idx, :], marker='.', markersize=10)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
@@ -174,10 +174,10 @@ if __name__ == "__main__":
     ax.legend(bbox_to_anchor=(1.6, .8), frameon=True, fontsize=8)
     ax.set_title(f'model:{model} \n benchmark {benchmark} against \n perplexity {preplex_benchmark}')
     fig.show()
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_{model}_{benchmark}_against_perplexity_{preplex_benchmark}_for_best_layer_in_model_w_untrained.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_{model}_20_{benchmark}_against_perplexity_{preplex_benchmark}_for_best_layer_in_model_w_untrained.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_{model}_{benchmark}_against_perplexity_{preplex_benchmark}_for_best_layer_in_model_w_untrainend.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_{model}_20_{benchmark}_against_perplexity_{preplex_benchmark}_for_best_layer_in_model_w_untrainend.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 #%% analysis based on Schrimpf
     layer_id = np.argmax(model_bench['score'])
@@ -219,11 +219,11 @@ if __name__ == "__main__":
     ax.set_title(f'model:{model} \n benchmark {benchmark} against \n perplexity {preplex_benchmark}')
     fig.show()
     fig.savefig(
-        os.path.join(analysis_dir, f'chpnt_score_{model}_{benchmark}_against_perplexity_{preplex_benchmark}_schrimpf_layer.png'),
+        os.path.join(analysis_dir, f'chpnt_score_{model}_20_{benchmark}_against_perplexity_{preplex_benchmark}_schrimpf_layer.png'),
         dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
     fig.savefig(
-        os.path.join(analysis_dir, f'chpnt_score_{model}_{benchmark}_against_perplexity_{preplex_benchmark}_schrimpf_layer.eps'),
+        os.path.join(analysis_dir, f'chpnt_score_{model}_20_{benchmark}_against_perplexity_{preplex_benchmark}_schrimpf_layer.eps'),
         format='eps', metadata=None,
         bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)

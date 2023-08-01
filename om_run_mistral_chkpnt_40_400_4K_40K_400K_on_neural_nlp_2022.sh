@@ -9,7 +9,7 @@
 
 
 i=0
-overwrite=true
+overwrite=false
 
 #activity_id_list="Fedorenko2016.ecog"
 activity_id_list="naturalStories naturalStories naturalStories"
