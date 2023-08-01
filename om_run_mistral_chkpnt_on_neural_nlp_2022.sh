@@ -1,18 +1,20 @@
 #!/bin/bash
 #SBATCH --job-name=MISTRAL
-#SBATCH --array=1-12
+#SBATCH --array=1-6
 #SBATCH --time=40:00:00
 #SBATCH --mem=40G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 i=1
-for benchmark in  Futrell2018-encoding Futrell2018-norm-encoding ; do
+for benchmark in  Pereira2018-norm-encoding ; do
   for model in mistral-caprica-gpt2-small-x81  ; do
-      for checkpoint in 0 20 200 2000 20000 200000 ; do
+      for checkpoint in 0 ; do
+        for train in '' '-untrained' '-untrained_hf' ; do
             model_list[$i]="${model}-ckpnt-${checkpoint}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
+          done
       done
     done
 done

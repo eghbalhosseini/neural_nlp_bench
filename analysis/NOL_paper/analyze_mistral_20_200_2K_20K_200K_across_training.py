@@ -25,7 +25,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-norm-encoding'
+    benchmark='Pereira2018-encoding'
     ylims = (-.12, 1.1)
     #benchmark='Blank2014fROI-encoding'
     #ylims=(-.2,.5)
@@ -38,9 +38,12 @@ if __name__ == "__main__":
     permuted=''
     for ckpnt in chkpnts:
         if ckpnt==0:
-            ckpnt='gpt2-untrained'
+            #ckpnt='gpt2-untrained'
+            #file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
+            #                           f'benchmark={benchmark},model={ckpnt},subsample=None.pkl'))
+            ckpnt = str(ckpnt) + '-untrained'
             file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                       f'benchmark={benchmark},model={ckpnt},subsample=None.pkl'))
+                                   f'benchmark={benchmark},model={model}-ckpnt-{ckpnt},subsample=None.pkl'))
 
             #ckpnt = str(ckpnt)
         else:
@@ -53,8 +56,8 @@ if __name__ == "__main__":
 
     file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
                                        f'benchmark={benchmark},model={model}-ckpnt-{0},*.pkl'))
-    file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                       f'benchmark={benchmark},model=gpt2-untrained,*.pkl'))
+    #file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
+    #                                   f'benchmark={benchmark},model=gpt2-untrained,*.pkl'))
     untrained_hf = pd.read_pickle(file_untrained[0])['data'].values
 
     chkpoints_srt=['n=0','n=20','n=200' ,'n=2K','n=20K','n=200K']
@@ -137,11 +140,11 @@ if __name__ == "__main__":
     ax.set_ylabel('Pearson Corr')
     ax.set_title(f'benchmark {benchmark} - layerwise')
     fig.show()
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}{permuted}_{benchmark}_layerwise.png'), dpi=250,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}_20_{permuted}_{benchmark}_layerwise.png'), dpi=250,
                 format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}{permuted}_{benchmark}_layerwise.eps'), format='eps',
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_through_training_{model}_20_{permuted}_{benchmark}_layerwise.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
     #%%

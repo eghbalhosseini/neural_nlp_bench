@@ -135,7 +135,7 @@ if __name__ == "__main__":
     ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
     ax.set_axisbelow(True)
     ax.set_ylim([.4, .9])
-
+    fig.show()
     ax.legend(bbox_to_anchor=(1.6, .8), frameon=True, fontsize=8)
     ax.set_title(f'model:{model} \n benchmark {benchmark} against \n perplexity {preplex_benchmark}')
     fig.show()
