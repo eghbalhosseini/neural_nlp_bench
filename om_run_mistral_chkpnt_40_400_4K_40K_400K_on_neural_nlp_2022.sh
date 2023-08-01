@@ -9,7 +9,7 @@
 
 
 i=0
-overwrite=false
+overwrite=true
 
 #activity_id_list="Fedorenko2016.ecog"
 activity_id_list="naturalStories naturalStories naturalStories"
@@ -17,7 +17,7 @@ activity_arr=($activity_id_list)
 
 for benchmark in Futrell2018-encoding  Futrell2018-norm-encoding; do
 #for benchmark in Futrell2018-encoding Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
-  for model in mistral-caprica-gpt2-small-x81-ckpnt-0 mistral-caprica-gpt2-small-x81-ckpnt-0-untrained ; do
+  for model in mistral-caprica-gpt2-small-x81-ckpnt-0-untrained ; do
       #for checkpoint in 400 4000 40000 400000; do
             #model_list[$i]="${model}-ckpnt-${checkpoint}"
             model_list[$i]="${model}"
