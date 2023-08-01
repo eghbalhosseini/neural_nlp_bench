@@ -41,7 +41,7 @@ if __name__ == "__main__":
             #ckpnt='gpt2-untrained'
             #file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
             #                           f'benchmark={benchmark},model={ckpnt},subsample=None.pkl'))
-            ckpnt = str(ckpnt) + '-untrained'
+            ckpnt = str(ckpnt) + '-untrained-std-1'
             file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
                                    f'benchmark={benchmark},model={model}-ckpnt-{ckpnt},subsample=None.pkl'))
 
@@ -55,7 +55,7 @@ if __name__ == "__main__":
             files_ckpnt.append(file_c[0])
 
     file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                       f'benchmark={benchmark},model={model}-ckpnt-{0},*.pkl'))
+                                       f'benchmark=Pereira2018-encoding,model={model}-ckpnt-{0},*.pkl'))
     #file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
     #                                   f'benchmark={benchmark},model=gpt2-untrained,*.pkl'))
     untrained_hf = pd.read_pickle(file_untrained[0])['data'].values
