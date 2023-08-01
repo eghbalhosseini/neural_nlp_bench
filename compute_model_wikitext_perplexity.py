@@ -66,18 +66,18 @@ EVAL_BATCH_SIZE=32
 
 if __name__ == "__main__":
     device = "cuda"
-    device='cpu'
+    #device='cpu'
     config_names = [x['weight_identifier'] for x in transformer_configurations]
-    model_config = transformer_configurations[config_names.index('mistral-caprica-gpt2-small-x81-ckpnt-400000')]
+    model_config = transformer_configurations[config_names.index('mistral-caprica-gpt2-small-x81-ckpnt-200000')]
 
 
     model_conf = AutoConfig.from_pretrained(model_config['config_file'])
     model_ctr = AutoModelWithLMHead
     state_dict = None
     model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict)
-    model.state_dict().keys()
-    state_dict_permute=initialize_gpt2_weights(model,permute=True)
-    model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict_permute)
+    #model.state_dict().keys()
+    #state_dict_permute=initialize_gpt2_weights(model,permute=True)
+    #model = model_ctr.from_pretrained(model_config['weight_file'], config=model_conf, state_dict=state_dict_permute)
     model.to(device)
 
     #model_id = "gpt2"

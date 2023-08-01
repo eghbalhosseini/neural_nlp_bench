@@ -35,11 +35,11 @@ if __name__ == "__main__":
     precomputed_model = 'gpt2'
 
 
-    chkpnts=[0,40,400,4000,40000,400000]
+    chkpnts=[0,20,200,2000,20000,200000]
     files_ckpnt = []
     for ckpnt in chkpnts:
         if ckpnt == 0:
-            ckpnt = str(ckpnt) + '-untrained_hf'
+            ckpnt = str(ckpnt) + '-untrained'
             file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
                                    f'benchmark={benchmark},model={model}-ckpnt-{ckpnt},subsample=None.pkl'))
             #file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
@@ -52,7 +52,7 @@ if __name__ == "__main__":
             files_ckpnt.append(file_c[0])
         else:
             files_ckpnt.append([])
-    chkpoints_srt = ['untrained (n=0)', '0.01% (n=40)', '0.1% (n=400)', '1% (n=4K)', '10% (n=40K)', '100% (n=400K)']
+    chkpoints_srt=['n=0','n=20','n=200' ,'n=2K','n=20K','n=200K']
 
     precomputed = pd.read_csv('/om/weka/evlab/ehoseini/neural-nlp-2022/precomputed-scores.csv')
     precomputed_bench = precomputed[precomputed['benchmark'] == benchmark]
@@ -71,17 +71,29 @@ if __name__ == "__main__":
             scores_mean.append(np.nan)
             scors_std.append(np.nan)
     # get perplexity results:
-    score_max=[max(x) for x in scores_mean]
-    score_loc=[np.argmax(x) for x in scores_mean]
-    score_std=[scors_std[x][score_loc[x]] for x in range(len(score_loc))]
+    layer_id = np.argmax(model_bench['score'])
+    layer_name = model_bench['layer'].iloc[layer_id]
+    score_loc = [x[layer_id] for x in scores_mean]
+    scr_layer_std = [x[layer_id] for x in scors_std]
+
+    #score_max=[max(x) for x in scores_mean]
+    #score_loc=[np.argmax(x) for x in scores_mean]
+    #scr_layer_std=[scors_std[x][score_loc[x]] for x in range(len(score_loc))]
     #
     preplex_benchmark='wikitext-103-raw-v1-test'
-    training_perplex=[50324.4453,4392.1587,885.9544,61.31,42.1,32.75]
+    training_perplex=[54000.9102,   #0
+                      21383.7090,   #20
+                      1439.5457,    #200
+                      75.1746,      #2000
+                      43.0601,      #20000
+                      35.9569       #200000
+                     ]
+    #training_perplex=[50324.4453,4392.1587,885.9544,61.31,42.1,32.75]
 
     #training_perplex = [4392.1587, 885.9544, 42.1, 32.75]
 
     validation_perpelxity=np.asarray(training_perplex)
-    validation_score=np.asarray(score_max)
+    validation_score=np.asarray(score_loc)
 
     cmap_all = cm.get_cmap('plasma')
     all_col = cmap_all(np.divide(np.arange(len(validation_score)), len(validation_score)))
@@ -115,10 +127,10 @@ if __name__ == "__main__":
 
     ax.set_title(f'model:{model} \n benchmark {benchmark} against \n perplexity {preplex_benchmark}')
     fig.show()
-    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_{model}_{benchmark}_against_perplexity_{preplex_benchmark}.png'), dpi=250, format='png', metadata=None,
+    fig.savefig(os.path.join(analysis_dir,f'chpnt_score_{model}_20_{benchmark}_against_perplexity_{preplex_benchmark}.png'), dpi=250, format='png', metadata=None,
         bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_{model}_{benchmark}_against_perplexity_{preplex_benchmark}.eps'), format='eps',metadata=None,
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_{model}_20_{benchmark}_against_perplexity_{preplex_benchmark}.eps'), format='eps',metadata=None,
                 bbox_inches=None, pad_inches=0.1,facecolor='auto', edgecolor='auto',backend=None)
 
 

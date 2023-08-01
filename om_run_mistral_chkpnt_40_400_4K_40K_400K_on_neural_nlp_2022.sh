@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=MISTRAL
-#SBATCH --array=0-2
+#SBATCH --array=0-4
 #SBATCH --time=23:00:00
 #SBATCH --mem=128G
 #SBATCH --exclude node017,node018
@@ -17,7 +17,7 @@ activity_arr=($activity_id_list)
 
 for benchmark in Futrell2018-encoding  Futrell2018-norm-encoding; do
 #for benchmark in Futrell2018-encoding Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
-  for model in mistral-caprica-gpt2-small-x81-ckpnt-0 ; do
+  for model in mistral-caprica-gpt2-small-x81-ckpnt-0 mistral-caprica-gpt2-small-x81-ckpnt-0-untrained ; do
       #for checkpoint in 400 4000 40000 400000; do
             #model_list[$i]="${model}-ckpnt-${checkpoint}"
             model_list[$i]="${model}"
