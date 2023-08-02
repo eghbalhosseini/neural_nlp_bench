@@ -24,15 +24,12 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
-    model='mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained'
-    files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}-*.pkl'))
-    file_order=['untrained,','untrained_hf','untrained-1,','untrained-2,','untrained-3,','untrained-4,','untrained-5,','untrained-6,','untrained-7,','untrained-std-1,','untrained-mu-1,','untrained-ln-hf,','untrained-ln-uniform']
-    # find the string in each element of filer_order in files
-    reorder=[]
-    for y in file_order:
-        reorder.append([y in x for x in files].index(True))
-
+    benchmark='Pereira2018-v2-encoding'
+    model='mistral-caprica-gpt2-small-x81-ckpnt-0-untrained'
+    files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
+    # order files
+    # find
+    chkpoints=[re.findall(r'untrained-\d+',x) for x in files]
 
     # order files
     files_srt=[files[x] for x in reorder]
