@@ -41,7 +41,7 @@ if __name__ == "__main__":
             #ckpnt='gpt2-untrained'
             #file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
             #                           f'benchmark={benchmark},model={ckpnt},subsample=None.pkl'))
-            ckpnt = str(ckpnt) + '-untrained-std-1'
+            ckpnt = str(ckpnt) + '-untrained'
             file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
                                    f'benchmark={benchmark},model={model}-ckpnt-{ckpnt},subsample=None.pkl'))
 
@@ -163,11 +163,12 @@ if __name__ == "__main__":
             print(f'{idx}, {h}, {pval} \n')
     else:
         voxel_scores=[[x for idx, x in y.raw.raw.groupby('layer') if idx ==layer_name] for y in score_data]
+        voxel_name = [y.attrs['model'] for y in score_data]
         schrimpf_score = [x for idx, x in scr_schirmpf.raw.raw.groupby('layer') if idx == layer_name]
         for idx, x in enumerate(voxel_scores):
             [h, pval] = ttest_ind(x[0].groupby('subject').median().values.squeeze(), schrimpf_score[0].groupby('subject').median().values,
                                   nan_policy='omit', axis=0, alternative='less' )
-            print(f'{idx}, {h}, {pval} \n')
+            print(f'{voxel_name[idx]},{idx}, {h}, {pval*6} \n')
 
     [h, pval] = ttest_ind(voxel_scores[-1][0].groupby('subject').median().values.squeeze(),
                           voxel_scores[-2][0].groupby('subject').median().values.squeeze(),

@@ -32,7 +32,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-norm-encoding'
+    benchmark='Pereira2018-encoding'
     ylims = (-.12, 1.1)
     #benchmark='Blank2014fROI-encoding'
     #ylims=(-.1,.5)
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     loss_1M_ckpnt = '1000'
     #permuted='-permuted'
     permuted=''
-    version='v3'
+    version='v2'
     #loss_10M_ckpnt = '2000'
     file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{310000}-untrained*.pkl'))
@@ -197,12 +197,13 @@ if __name__ == "__main__":
             print(f'{idx}, {h}, {pval} \n')
     else:
         voxel_scores=[[x for idx, x in y.raw.raw.groupby('layer') if idx ==layer_name] for y in score_data]
+        score_name=[x.attrs['model'] for x in score_data]
         schrimpf_score = [x for idx, x in scr_schirmpf.raw.raw.groupby('layer') if idx == layer_name]
         for idx, x in enumerate(voxel_scores):
             #[h,pval]=ttest_ind(x[0].groupby('subject').median(),voxel_scores[-1][0].groupby('subject').median(),nan_policy='omit',axis=1,alternative='less')
             [h, pval] = ttest_ind(x[0].groupby('subject').median().values.squeeze(), schrimpf_score[0].groupby('subject').median().values,
-                                  nan_policy='omit', axis=0, alternative='less')
-            print(f'{idx}, {h}, {pval} \n')
+                                   nan_policy='omit', axis=0, alternative='less')
+            print(f'{score_name[idx]},vs 1B {idx}, {h}, {pval*4} \n')
 
     ttest_1samp(voxel_scores[0][0].groupby('subject').median().values.squeeze(),popmean=0)
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)

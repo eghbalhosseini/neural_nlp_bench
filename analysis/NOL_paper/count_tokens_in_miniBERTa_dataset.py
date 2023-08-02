@@ -41,3 +41,6 @@ if __name__ == "__main__":
     #Number of words in 1B dataset: 101,205,621
     #Number of tokens in 1B dataset: 139503529
 
+    #Number of words in 1B dataset: 977702371
+    #Number of tokens in 1B dataset: 1349855240
+

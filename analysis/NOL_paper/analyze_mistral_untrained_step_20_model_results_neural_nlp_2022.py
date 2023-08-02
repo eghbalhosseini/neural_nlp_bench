@@ -24,13 +24,19 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-norm-encoding'
-    model='mistral-caprica-gpt2-small-x81-ckpnt-200000'
+    benchmark='Pereira2018-v2-encoding'
+    #model='mistral-caprica-gpt2-small-x81-ckpnt-200000'
+    model='gpt2'
     files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
     # order files
     # find
-    file_order = ['-ckpnt-200000,','permuted,','untrained,', 'untrained_hf', 'untrained-1,', 'untrained-2,', 'untrained-3,', 'untrained-4,',
-                  'untrained-5,', 'untrained-6,', 'untrained-7,', 'untrained-std-1,', 'untrained-mu-1,','untrained-mu-2,',
+    # file_order = ['-ckpnt-200000,','permuted,','untrained,', 'untrained_hf', 'untrained-1,', 'untrained-2,', 'untrained-3,', 'untrained-4,',
+    #               'untrained-5,', 'untrained-6,', 'untrained-7,', 'untrained-std-1,', 'untrained-mu-1,','untrained-mu-2,',
+    #               'untrained-ln-hf,', 'untrained-ln-uniform']
+    file_order = ['gpt2,', 'permuted,', 'untrained,', 'untrained_hf', 'untrained-1,', 'untrained-2,',
+                  'untrained-3,', 'untrained-4,',
+                  'untrained-5,', 'untrained-6,', 'untrained-7,', 'untrained-std-1,', 'untrained-mu-1,',
+                  'untrained-mu-2,',
                   'untrained-ln-hf,', 'untrained-ln-uniform']
     # find the string in each element of filer_order in files
     reorder = []

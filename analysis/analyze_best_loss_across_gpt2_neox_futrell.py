@@ -14,6 +14,7 @@ user=getpass.getuser()
 print(user)
 import re
 from tqdm import tqdm
+from scipy.stats import ttest_ind_from_stats, ttest_ind, ttest_1samp
 
 if user=='eghbalhosseini':
     analysis_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022//analysis/'
@@ -135,6 +136,11 @@ if __name__ == "__main__":
     schrimpf_scores = schirmpf_data.raw.raw.squeeze()
 
     for idx, x in enumerate(voxel_scores):
-        [h, pval] = ttest_ind(x.mean('split').values, schrimpf_scores.mean('split').values,
+        [h, pval] = ttest_ind(x.mean('split').values, schrimpf_scores.mean('split').values,equal_var=False,
                               nan_policy='omit',alternative='less')
-        print(f'{idx}, {h}, {pval} \n')
+        print(f'{idx}, {h}, {pval*5} \n')
+
+    for idx, x in enumerate(voxel_scores):
+        [h, pval] = ttest_ind(x.mean('split').values, voxel_scores[-1].mean('split').values,equal_var=False,
+                              nan_policy='omit',alternative='less')
+        print(f'{idx}, {h}, {pval*4} \n')

@@ -16,6 +16,7 @@ import re
 from tqdm import tqdm
 import joblib
 import pickle5
+from scipy.stats import ttest_ind_from_stats, ttest_ind
 if user=='eghbalhosseini':
     analysis_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022//analysis/'
     result_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022/'
@@ -58,17 +59,17 @@ if __name__ == "__main__":
     scors_std=[]
     score_data=[]
     for ix, file in tqdm(enumerate(files_ckpnt)):
-        if ix ==0:
-            scores_mean.append(np.asarray([0.4551865]))
-            scors_std.append(np.asarray([0.15719434]))
-        elif len(file)>0 and ix>0:
+        #if ix ==0:
+            #scores_mean.append(np.asarray([0.4551865]))
+            #scors_std.append(np.asarray([0.15719434]))
+        #elif len(file)>0 and ix>0:
             x=pd.read_pickle(file)['data']
             scores_mean.append(x.values[:,0])
             scors_std.append(x.values[:,1])
             score_data.append(x)
-        else:
-            scores_mean.append(np.nan)
-            scors_std.append(np.nan)
+        # else:
+        #     scores_mean.append(np.nan)
+        #     scors_std.append(np.nan)
 
     # read precomputed scores
     l_names = pd.read_pickle(file)['data'].layer.values
@@ -141,4 +142,4 @@ if __name__ == "__main__":
     for idx, x in enumerate(voxel_scores):
         [h, pval] = ttest_ind(x.mean('split').values, schrimpf_scores.mean('split').values,
                               nan_policy='omit',alternative='less')
-        print(f'{idx}, {h}, {pval} \n')
+        print(f'{idx}, {h}, {pval*6} \n')
