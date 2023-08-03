@@ -30,15 +30,11 @@ if __name__ == "__main__":
     files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
     # order files
     # find
-    # file_order = ['-ckpnt-200000,','permuted,','untrained,', 'untrained_hf', 'untrained-1,', 'untrained-2,', 'untrained-3,', 'untrained-4,',
-    #               'untrained-5,', 'untrained-6,', 'untrained-7,', 'untrained-std-1,', 'untrained-mu-1,','untrained-mu-2,',
-    #               'untrained-ln-hf,', 'untrained-ln-uniform']
-    file_order = ['gpt2,', 'permuted,', 'untrained,', 'untrained_hf', 'untrained-1,', 'untrained-2,',
-                  'untrained-3,', 'untrained-4,',
-                  'untrained-5,', 'untrained-6,', 'untrained-7,', 'untrained-std-1,', 'untrained-mu-1,',
-                  'untrained-mu-2,',
+    file_order = ['-ckpnt-200000,','permuted,','untrained,', 'untrained_hf', 'untrained-1,', 'untrained-2,', 'untrained-3,', 'untrained-4,',
+                  'untrained-5,', 'untrained-6,', 'untrained-7,', 'untrained-std-1,', 'untrained-mu-1,','untrained-mu-2,',
                   'untrained-ln-hf,', 'untrained-ln-uniform']
-    # find the string in each element of filer_order in files
+    file_order = ['gpt2,', 'untrained,', 'untrained_hf', 'untrained-std-1,','untrained-ln-uniform']
+    # # find the string in each element of filer_order in files
     reorder = []
     for y in file_order:
         reorder.append([y in x for x in files].index(True))

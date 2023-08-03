@@ -47,10 +47,10 @@ if __name__ == "__main__":
     chkpoints_srt = ['untrained-manual (n=0)', '(n=20)', '(n=200)', '1% (n=2K)', '(n=20K)',
                      '(n=200K)']
 
-    precomputed = pd.read_csv('/om/weka/evlab/ehoseini/neural-nlp-2022/precomputed-scores.csv')
-    precomputed_bench = precomputed[precomputed['benchmark'] == benchmark]
-    model_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model]
-    model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model + '-untrained']
+
+    file_unt = glob(os.path.join(result_caching, 'neural_nlp.score',
+                               f'benchmark={benchmark},model=gpt2-untrained_hf*'))
+    untrained_data = pd.read_pickle(file_unt[0])['data']
     shcrimpf = glob(os.path.join(result_caching, 'neural_nlp.score',
                                  f'benchmark={benchmark},model=gpt2,*.pkl'))
     schirmpf_data = pd.read_pickle(shcrimpf[0])['data']
@@ -96,16 +96,14 @@ if __name__ == "__main__":
          np.arange(1, 11) * 1e1])
     ax.axhline(y=0, color='k', linestyle='-')
 
-    ax.plot(8e2, np.asarray(model_bench['score']), color=(.3, .3, .3, 1), linewidth=2, marker='o',
+    ax.plot(8e2, np.asarray(schirmpf_data[0].values[0]), color=(.3, .3, .3, 1), linewidth=2, marker='o',
             markersize=10,
             label=f'Schrimpf(2021)', zorder=2)
-    ax.errorbar(8e2, np.asarray(model_bench['score']), yerr=np.asarray(model_bench['error']),
+    ax.errorbar(8e2, schirmpf_data[0].values[0], yerr=schirmpf_data[0].values[1],
                 color='k', zorder=1)
-
-    ax.plot(0.0008, model_unt_bench.score.values, color=(0, 0, 0, 1), linewidth=2, marker='o', markeredgecolor='w',
+    ax.plot(0.0008, untrained_data[0].values[0], color=(0, 0, 0, 1), linewidth=2, marker='o', markeredgecolor='w',
             markersize=10)
-
-    ax.errorbar(.0008, y=model_unt_bench.score.values, yerr=model_unt_bench.error.values, color='k', zorder=1)
+    ax.errorbar(.0008, y=untrained_data[0].values[0], yerr=untrained_data[0].values[1], color='k', zorder=1)
     ax.set_xticks(major_ticks)
 
     ax.set_xticks(np.concatenate([major_ticks, [8e2]]))
