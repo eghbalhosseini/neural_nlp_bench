@@ -31,7 +31,6 @@ DsParametricfMRI_v3-max-RidgeEncoding DsParametricfMRI_v3-min-RidgeEncoding DsPa
     done
 done
 
-module add openmind/singularity
 export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
 RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
 export RESULTCACHING_HOME
@@ -42,9 +41,7 @@ echo "Running model ${model_list[$SLURM_ARRAY_TASK_ID]}"
 echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 echo "cache id " $RESULTCACHING_HOME
 
-s
 . ~/.bash_profile
-. ~/.bashrc
 conda activate neural_nlp_2022
 
 which python
