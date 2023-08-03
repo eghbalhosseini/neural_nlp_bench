@@ -9,10 +9,10 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in DsParametricfMRI-max-encoding DsParametricfMRI-min-encoding DsParametricfMRI-rand-encoding  \
-DsParametricfMRI_v3-max-RidgeEncoding DsParametricfMRI_v3-min-RidgeEncoding DsParametricfMRI_v3-rand-RidgeEncoding \
- DsParametricfMRI_v2-max-RidgeEncoding DsParametricfMRI_v2-min-RidgeEncoding DsParametricfMRI_v2-rand-RidgeEncoding \
- DsParametricfMRI_v1_max-RidgeEncoding DsParametricfMRI_v1-min-RidgeEncoding DsParametricfMRI_v1-rand-RidgeEncoding ; do
+for benchmark in DsParametricfMRI-max-encoding DsParametricfMRI-min-encoding DsParametricfMRI-rand-encoding \
+DsParametricfMRI_v1_max-RidgeEncoding DsParametricfMRI_v1-min-RidgeEncoding DsParametricfMRI_v1-rand-RidgeEncoding \
+DsParametricfMRI_v2_max-RidgeEncoding DsParametricfMRI_v2-min-RidgeEncoding DsParametricfMRI_v2-rand-RidgeEncoding \
+DsParametricfMRI_v3_max-RidgeEncoding DsParametricfMRI_v3-min-RidgeEncoding DsParametricfMRI_v3-rand-RidgeEncoding ; do
   for model in bert-large-uncased-whole-word-masking \
                xlnet-large-cased \
                roberta-base \
