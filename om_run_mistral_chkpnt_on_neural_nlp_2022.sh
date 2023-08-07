@@ -8,7 +8,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 i=1
 for benchmark in  Pereira2018-v2-encoding ; do
-  for model in expanse-gpt2-small-x777 alias-gpt2-small-x21  ; do
+  for model in expanse-gpt2-small-x777 alias-gpt2-small-x21 ; do
       for checkpoint in 0 20 200 2000 20000 200000 ; do
         for train in '' ; do
             model_list[$i]="${model}-ckpnt-${checkpoint}${train}"

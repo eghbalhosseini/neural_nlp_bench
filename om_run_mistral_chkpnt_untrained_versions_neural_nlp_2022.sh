@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=MISTRAL
-#SBATCH --array=0-3
-#SBATCH --time=6-23:00:00
+#SBATCH --array=0-16
+#SBATCH --time=23:00:00
 #SBATCH --mem=60G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
@@ -15,12 +15,12 @@ overwrite=false
 #activity_id_list="naturalStories naturalStories naturalStories"
 #activity_arr=($activity_id_list)
 
-for benchmark in Pereira2018-encoding ; do
+for benchmark in Pereira2018-v2-encoding Pereira2018-norm-encoding Futrell2018-encoding Futrell2018-norm-encoding ; do
 #for benchmark in Futrell2018-encoding Futrell2018-stories_encoding Futrell2018-sentences_encoding ; do
-for model in mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-std-1 \
-  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-std-2 \
-  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-mu-1 \
-  mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-mu-2 ; do
+for model in mistral-caprica-gpt2-small-x81-ckpnt-200000-untrained_hf \
+              mistral-caprica-gpt2-small-x81-ckpnt-0-untrained_hf \
+              mistral-caprica-gpt2-small-x81-ckpnt-0-untrained-ln-uniform \
+              mistral-caprica-gpt2-small-x81-ckpnt-200000-untrained-ln-uniform ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
  #           activity_list[$i]="${activity_arr[$idx]}"
@@ -68,7 +68,5 @@ echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 #fi
 
 . ~/.bash_profile
-. ~/.bashrc
 conda activate neural_nlp_2022
-
 /om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/weka/evlab/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
