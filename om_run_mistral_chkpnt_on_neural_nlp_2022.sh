@@ -10,27 +10,16 @@ i=1
 for benchmark in  Pereira2018-v2-encoding ; do
   for model in expanse-gpt2-small-x777 alias-gpt2-small-x21 ; do
       for checkpoint in 0 20 200 2000 20000 200000 ; do
-        for train in '' ; do
-            model_list[$i]="${model}-ckpnt-${checkpoint}${train}"
+
+            model_list[$i]="${model}-ckpnt-${checkpoint}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
-          done
       done
     done
 done
 
 
-#for benchmark in  Pereira2018-v2-encoding ; do
-#  for model in gpt2  ; do
-#
-#        for train in '' '-untrained' '-untrained_hf' '-permuted' '-untrained-1' '-untrained-2' '-untrained-3' '-untrained-4' '-untrained-5' '-untrained-6' '-untrained-7' '-untrained-std-1' \
-#           '-untrained-std-2' '-untrained-mu-1' '-untrained-mu-2' '-untrained-ln-hf' '-untrained-ln-uniform' ; do
-#            model_list[$i]="${model}${train}"
-#            benchmark_list[$i]="$benchmark"
-#            i=$[$i+1]
-#      done
-#    done
-#done
+
 
 
 
