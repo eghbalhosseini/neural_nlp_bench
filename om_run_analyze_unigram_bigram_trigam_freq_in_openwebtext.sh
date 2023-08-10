@@ -19,8 +19,8 @@ done
 
 
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
-echo "Running ngram ${data_list[$SLURM_ARRAY_TASK_ID]}"
-echo "Running data ${data_list[$SLURM_ARRAY_TASK_ID]}"
+echo "Running ngram ${ngram_list[$SLURM_ARRAY_TASK_ID]}"
+echo "Running data ${data_id_list[$SLURM_ARRAY_TASK_ID]}"
 
 
 
@@ -30,4 +30,4 @@ conda activate neural_nlp_2022
 
 which python
 
-/om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/weka/evlab/ehoseini/neural_nlp_bench/analysis/NOL_paper/analyze_unigram_bigram_trigram_freq_in_openwebtext_dataset.py --data "${data_list[$SLURM_ARRAY_TASK_ID]}"
+/om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/weka/evlab/ehoseini/neural_nlp_bench/analysis/NOL_paper/analyze_unigram_bigram_trigram_freq_in_openwebtext_dataset.py --ngram "${ngram_list[$SLURM_ARRAY_TASK_ID]}" --data_id "${data_id_list[$SLURM_ARRAY_TASK_ID]}"
