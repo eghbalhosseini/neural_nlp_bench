@@ -1,16 +1,16 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-16
+#SBATCH --array=0-52
 #SBATCH --time=24:00:00
 #SBATCH -c 16
-#SBATCH --mem=80G
+#SBATCH --mem=256G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
 for ngram in 1 2 3 4  ; do
-  for data_id in 0 1 2 3 ; do
+  for data_id in 0 1 2 3 4 5 6 7 8 9 10 11 12 ; do
             ngram_list[$i]="${ngram}"
             data_id_list[$i]="${data_id}"
             i=$[$i+1]

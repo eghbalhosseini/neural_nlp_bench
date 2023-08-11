@@ -19,8 +19,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--ngram', type=int, default=2)
 parser.add_argument('--data_id', type=int, default=0)
 
-def decode_encoded(encoded):
-     return tokenizer.decode([encoded['input_ids']])
+
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -53,14 +52,30 @@ if __name__ == "__main__":
     # indices_10=np.arange(line_1,line_10)
     # # line_10 to line_100
     # indices_100=np.arange(line_10,line_100)
-    # indieces_list=[indices_01,indices_1,indices_10,indices_100]
+    # devide up list 100 to 10 chuncks
+    # indices_100_split=np.array_split(indices_100,10)
+    # make it a list of lists
+
+    # indieces_list=[indices_01,indices_1,indices_10]
+    # add indices_100 to indieces_list
+    #indieces_list_1=[indieces_list,indices_100_split]
+    # flatten the indieces_list as a new list
+    #indieces_list_flat = [item for sublist in indieces_list_1 for item in sublist]
     #
     #
     # # split the data to 4 parts from 0 to line_01, from line_01 to line_1, from line_1 to line_10, from line_10 to line_100
     # # 0 to line_01
     # # save the openwebtext_dataset in the following path f'/om2/user/ehoseini/MyData/miniBERTa_v2/openwebtext-tokenized/train_data_id_{data_id}_01' as a text file
     # data_id = 3
-    # openwebtext_dataset_sample=openwebtext_dataset.select(indieces_list[data_id])
+    # for data_id in range(len(indieces_list_flat)):
+    #     openwebtext_dataset_sample=openwebtext_dataset.select(indieces_list_flat[data_id])
+    #     text_list=[]
+    #     for x in tqdm(openwebtext_dataset_sample,total=len(openwebtext_dataset_sample)):
+    #          text_list.append(x['text'])
+    #     with open(f'/om2/user/ehoseini/MyData/openwebtext/train_data_id_{data_id}.txt', 'w') as f:
+    #         for item in tqdm(text_list,total=len(text_list)):
+    #             f.write("%s\n" % item)
+
     # # do map tokenize_decode on the openwebtext_dataset_sample using a lampda function
     # text_list=[]
     # for x in tqdm(openwebtext_dataset_sample,total=len(openwebtext_dataset_sample)):
