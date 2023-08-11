@@ -33,7 +33,6 @@ disable_progress_bar()
 if __name__ == "__main__":
     args = parser.parse_args()
     data=args.data
-    ngram=int(args.ngram)
     #data = '10M'
     # check if pickle file exists
     mini_dataset = load_dataset('/om2/user/ehoseini/MyData/miniBERTa_v2', f'miniBERTa-{data}')
