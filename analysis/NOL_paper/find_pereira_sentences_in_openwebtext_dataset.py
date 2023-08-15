@@ -59,8 +59,21 @@ if __name__ == "__main__":
     # save the dictionary of counts as a pickle file
     # print the total number of occurance
     print(f'total occurance: {np.sum(string_occurance)}')
-    with open(f'/om2/user/ehoseini/MyData/openwebtext-tokenized/pereira_occurance_data_id_{data_id}_chunk_id_{chunk_id}.txt', 'w') as handle:
+    with open(f'/om2/user/ehoseini/MyData/openwebtext-tokenized/pereira_occurance_data_id_{data_id}_chunk_id_{chunk_id}.pkl', 'w') as handle:
         pickle.dump(string_occurance, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+    # find files that match the pattern
+
+    # files=glob(f'//om2/user/ehoseini/MyData/openwebtext-tokenized/pereira_occurance_data_id_*.txt')
+    # # assert there are 50 files
+    # assert len(files)==50
+    # # load the files
+    occurance_list=[]
+    for file in files:
+        with open(file, 'rb') as handle:
+            occurance_list.append(pickle.load(handle))
+
+    # np.sum(np.sum(np.stack(occurance_list),axis=0)>0)
 
 
 

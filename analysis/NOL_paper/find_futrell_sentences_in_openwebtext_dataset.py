@@ -67,7 +67,7 @@ if __name__ == "__main__":
     # save the dictionary of counts as a pickle file
     # print the total number of occurance
     print(f'total occurance: {np.sum(string_occurance)}')
-    with open(f'/om2/user/ehoseini/MyData/openwebtext-tokenized/futrell_occurance_data_id_{data_id}_chunk_id_{chunk_id}.txt', 'w') as handle:
+    with open(f'/om2/user/ehoseini/MyData/openwebtext-tokenized/futrell_occurance_data_id_{data_id}_chunk_id_{chunk_id}.pkl', 'w') as handle:
         pickle.dump(string_occurance, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
