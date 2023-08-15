@@ -9,9 +9,8 @@
 
 i=0
 for data_id in 0 1 2 3 4 5 6 7 8 9 10 11 12 ; do
-  # create a sequence of 50 numbers
-  for chunk in $(seq 0 49); do
-            data_list[$i]="${data}"
+      for chunk in $(seq 0 49); do
+            data_list[$i]="${data_id}"
             chunk_list[$i]="${chunk}"
             i=$[$i+1]
   done
