@@ -2,7 +2,6 @@
 #SBATCH --job-name=nlp2022
 #SBATCH --array=0-52
 #SBATCH --time=24:00:00
-#SBATCH -c 16
 #SBATCH --mem=256G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
