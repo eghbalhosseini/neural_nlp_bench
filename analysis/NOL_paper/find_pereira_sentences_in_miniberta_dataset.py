@@ -18,7 +18,10 @@ import pickle
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--data', type=str, default='10M')
+parser.add_argument('--chunk_id', type=int, default=0)
 import re
+from datasets.utils.logging import disable_progress_bar
+disable_progress_bar()
 def search_string_in_example(example, search_string):
     # make sure that example is not empty
     if isinstance(example['text'], (str, bytes)):
@@ -33,16 +36,19 @@ disable_progress_bar()
 if __name__ == "__main__":
     args = parser.parse_args()
     data=args.data
+    chunk_id=int(args.chunk_id)
     #data = '10M'
     # check if pickle file exists
     mini_dataset = load_dataset('/om2/user/ehoseini/MyData/miniBERTa_v2', f'miniBERTa-{data}')
     pereira_set=pd.read_csv('/net/storage001.ib.cluster/om2/group/evlab/u/ehoseini/.result_caching/.neural_nlp/Pereira2018-stimulus_set.csv')
+    indices = np.arange(len(mini_dataset['train']))
+    indices_split = np.array_split(indices, 50)
+    mini_dataset_sample = mini_dataset['train'].select(indices_split[chunk_id])
 
     search_string=pereira_set.sentence.values[1]
-    split='train'
     string_occurance=[]
     for search_string in tqdm(pereira_set.sentence.values,total=len(pereira_set.sentence.values)):
-        occurance=mini_dataset[split].map(lambda example: search_string_in_example(example, search_string),remove_columns='text',batched=False,num_proc=10,keep_in_memory=False,load_from_cache_file=False)
+        occurance=mini_dataset_sample.map(lambda example: search_string_in_example(example, search_string),remove_columns='text',batched=False,num_proc=10,keep_in_memory=False,load_from_cache_file=False)
         string_occurance.append(np.sum(occurance['occur']))
 
 
@@ -50,6 +56,6 @@ if __name__ == "__main__":
     # print the total number of occurance
     print(f'total occurance: {np.sum(string_occurance)}')
 
-    with open(f'/om2/user/ehoseini/MyData/miniBERTa_v2/miniBERTa-{data}/pereira_occurance.pkl', 'wb') as handle:
+    with open(f'/om2/user/ehoseini/MyData/miniBERTa_v2/miniBERTa-{data}/pereira_occurance_chunk_{chunk_id}.pkl', 'wb') as handle:
         pickle.dump(string_occurance, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
