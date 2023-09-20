@@ -274,6 +274,7 @@ if __name__ == "__main__":
     fig.savefig(os.path.join(PLOTDIR, f'score_vs_similarity_DsParametric_{benchmark}_err.png'), dpi=250, format='png', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
     # save as eps
+
     fig.savefig(os.path.join(PLOTDIR, f'score_vs_similarity_DsParametric_{benchmark}_err.eps'), format='eps', metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
