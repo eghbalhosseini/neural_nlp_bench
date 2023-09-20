@@ -8,7 +8,9 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=1
-for benchmark in DsParametricRDM-max-encoding DsParametricRDM-rand-encoding DsParametricRDM-min-encoding ; do
+for benchmark in DsParametricRDM-max-encoding \
+DsParametricRDM-rand-encoding \
+DsParametricRDM-min-encoding ; do
   #for model in roberta-base xlnet-large-cased bert-large-uncased-whole-word-masking xlm-mlm-en-2048 gpt2-xl albert-xxlarge-v2 ctrl distilgpt2 gpt2 gpt2-medium gpt2-large  ; do
 
   for model in roberta-base xlnet-large-cased bert-large-uncased-whole-word-masking xlm-mlm-en-2048 \
