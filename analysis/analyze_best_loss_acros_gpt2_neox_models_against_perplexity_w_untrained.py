@@ -24,8 +24,8 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    #benchmark='Pereira2018-encoding'
-    #ylims = (-.12, 1.1)
+    benchmark='Pereira2018-encoding'
+    ylims = (-.12, 1.1)
     #benchmark = 'Blank2014fROI-encoding'
     #ylims=(-.1,0.4)
     benchmark = 'Futrell2018-encoding'
@@ -41,17 +41,22 @@ if __name__ == "__main__":
     loss_10M_ckpnt = '2000'
     model_1M = 'gpt2-neox-pos_learned-1M'
     loss_1M_ckpnt = '1000'
-    file_1B_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                          f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{2500}-untrained*.pkl'))
-    file_1B=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model_1B}-v2-ckpnt-{loss_1B_ckpnt}*.pkl'))
-    file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                f'benchmark={benchmark},model={model_100M}-v2-ckpnt-{loss_100M_ckpnt}*.pkl'))
-    file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                  f'benchmark={benchmark},model={model_10M}-v2-ckpnt-{loss_10M_ckpnt}*.pkl'))
-    file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
-                                f'benchmark={benchmark},model={model_1M}-v2-ckpnt-{loss_1M_ckpnt}*.pkl'))
+    version = 'v3'
 
-    files_srt = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
+
+    file_1B = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{loss_1B_ckpnt},*.pkl'))
+    file_100M = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                  f'benchmark={benchmark},model={model_100M}-{version}-ckpnt-{loss_100M_ckpnt},*.pkl'))
+    file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                 f'benchmark={benchmark},model={model_10M}-{version}-ckpnt-{loss_10M_ckpnt},*.pkl'))
+    version='v2'
+    file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
+                                f'benchmark={benchmark},model={model_1M}-{version}-ckpnt-{loss_1M_ckpnt},*.pkl'))
+
+    files_srt = [ file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
+    chkpoints_srt = ['untrained', '1M', '10M', '100M', '1B']
+
     chkpoints_srt = ['untrained', '1M', '10M', '100M', '1B']
     wikitext_perplexity=[50340.6719,2351.0483,639.1099,206.9432,68.1662]
     precomputed_model = 'gpt2'
@@ -60,19 +65,38 @@ if __name__ == "__main__":
     model_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model]
     model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model + '-untrained']
 
+
+    file_1B_untrained_hf = glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark=Futrell2018-encoding,model=gpt2-neox-pos_learned-1B-v2-ckpnt-310000-untrained,subsample=None.pkl'))
+    file_1B_untrained=file_1B_untrained_hf[0].replace('_hf','')
+    with open(file_1B_untrained_hf[0], 'rb') as f:
+        score_un_hf=pickle.load(f)
+    with open(file_1B_untrained, 'rb') as f:
+        score_un=pickle.load(f)
+
     # order files
     scores_mean=[]
     scors_std=[]
     for ix, file in tqdm(enumerate(files_srt)):
-        x=pd.read_pickle(file)['data'].values
+        #x=pd.read_pickle(file)['data'].values
+        with open(file, 'rb') as f:
+            x=pickle.load(f)
         scores_mean.append(x[:,0])
         scors_std.append(x[:,1])
     # get perplexity results:
-    score_max=[max(x) for x in scores_mean]
-    score_loc=[np.argmax(x) for x in scores_mean]
-    score_std=[scors_std[x][score_loc[x]] for x in range(len(score_loc))]
+    layer_id = np.argmax(model_bench['score'])
+    layer_name = model_bench['layer'].iloc[layer_id]
+    score_loc = [x[layer_id] for x in scores_mean]
+    score_std = [x[layer_id] for x in scors_std]
+
+
     validation_perpelxity=np.asarray(wikitext_perplexity)
-    validation_score=np.asarray(score_max)
+    validation_score=np.asarray(score_loc)
+
+    gpt2_unt_hg=56145.7422
+    score_bench=precomputed_bench[precomputed_bench['layer']==layer_name]['score'].values[0]
+    score_bench_unt=score_untrained_hf[layer_id][0].values
+    score_bench_unt_std=score_untrained_hf[layer_id][1].values
+
 
     cmap_all = cm.get_cmap('viridis')
     all_col = cmap_all(np.divide(np.arange(len(validation_score)), len(validation_score)))
@@ -93,7 +117,12 @@ if __name__ == "__main__":
     ax.set_xlabel('perplexity')
     ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
     ax.set_axisbelow(True)
+    ax.plot(gpt2_unt_hg, score_bench_unt, color=all_col[0, :], linewidth=2, marker='o', markeredgecolor='w',
+            markersize=10, label=f'HF_untrained', zorder=2)
+    ax.errorbar(gpt2_unt_hg, score_bench_unt, yerr=score_bench_unt_std, color='k', zorder=1)
     ax.set_ylim(ylims)
+
+
     plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
     ax.set_title(f'model:gpt_neox \n benchmark {benchmark} against perplexity')
     fig.show()

@@ -62,7 +62,7 @@ if __name__ == "__main__":
     #
     preplex_benchmark='wikitext-103-raw-v1-test'
     training_perplex=[4392.1587,885.9544,61.31,42.1,32.75]
-
+    gpt2_perp=29.17378
     #training_perplex = [4392.1587, 885.9544, 42.1, 32.75]
 
     validation_perpelxity=np.asarray(training_perplex)

@@ -32,7 +32,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-norm-encoding'
+    benchmark='Pereira2018-encoding'
     ylims = (-.12, 1.1)
     #benchmark='Blank2014fROI-encoding'
     #ylims=(-.1,.5)
@@ -68,6 +68,7 @@ if __name__ == "__main__":
 
     file_10M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                   f'benchmark={benchmark},model={model_10M}-{version}-ckpnt-{loss_10M_ckpnt}{permuted},*.pkl'))
+    version='v2'
     file_1M = glob(os.path.join(result_caching, 'neural_nlp.score',
                                  f'benchmark={benchmark},model={model_1M}-{version}-ckpnt-{loss_1M_ckpnt}{permuted},*.pkl'))
     files_srt = [file_1B_untrained[0], file_1M[0], file_10M[0],file_50M[0], file_100M[0], file_1B[0]]
@@ -328,11 +329,11 @@ if __name__ == "__main__":
     ax.set_title(f'benchmark {benchmark}')
     fig.show()
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_50M_{permuted}_{benchmark}.png'), dpi=250, format='png',
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_50M_{permuted}_{benchmark}_for_best_layer.png'), dpi=250, format='png',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_50M_{permuted}_{benchmark}.eps'), format='eps',
+    fig.savefig(os.path.join(analysis_dir, f'chpnt_score_best_loss_gpt_neox_50M_{permuted}_{benchmark}_for_best_layer.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 

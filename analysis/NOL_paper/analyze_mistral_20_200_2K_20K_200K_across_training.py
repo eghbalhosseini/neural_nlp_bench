@@ -174,7 +174,7 @@ if __name__ == "__main__":
                           voxel_scores[-2][0].groupby('subject').median().values.squeeze(),
                           nan_policy='omit')
     print(f'{idx}, {h}, {pval} \n')
-    fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
+    fig =  plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     # ax = plt.axes((.1, .4, .45, .35))
     ax = plt.axes((.1, .4, .45, .35))
 

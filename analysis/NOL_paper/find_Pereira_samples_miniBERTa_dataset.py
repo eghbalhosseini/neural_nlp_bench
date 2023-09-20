@@ -11,17 +11,6 @@ from tqdm.auto import tqdm
 import jsonlines
 import pandas as pd
 
-import spacy
-from pysbd.utils import PySBDFactory
-
-nlp = spacy.blank('en')
-
-# explicitly adding component to pipeline
-# (recommended - makes it more readable to tell what's going on)
-nlp.add_pipe(PySBDFactory(nlp))
-import pysbd
-
-
 import mmap
 import multiprocessing
 
@@ -63,11 +52,9 @@ def search_pattern_in_large_file(file_path, pattern, num_processes=8):
 
 if __name__ == "__main__":
     data = '1B'
-    file_path = f'/Users/eghbalhosseini/MyData/miniBERTa_v2/miniBERTa-{data}/proc_data_train_for_{data}.raw'
-
-    Pereira_stim=pd.read_csv('/Users/eghbalhosseini/.neural_nlp/Pereira2018-stimulus_set.csv')
+    file_path = f'/om2/user/ehoseini/MyData/miniBERTa_v2/miniBERTa-{data}/proc_data_train_for_{data}.raw'
+    Pereira_stim=pd.read_csv('/net/storage001.ib.cluster/om2/group/evlab/u/ehoseini/.neural_nlp/Pereira2018-stimulus_set.csv')
     pereira_sentences=Pereira_stim['sentence'].tolist()
-
     sentence_exist={}
     for idx, per_sent in tqdm(enumerate(pereira_sentences),total=len(pereira_sentences)):
         pattern_to_search=per_sent
@@ -82,10 +69,4 @@ if __name__ == "__main__":
     np.sum([len(sentence_exist[key]) for key in sentence_exist.keys()])
 
 
-    dataset_train = mini_dataset['train']
-    seg=pysbd.Segmenter(language="en", clean=False)
-    sentence_list=[]
-    for id, x in tqdm(enumerate(dataset_train),total=len(dataset_train)):
-        sentences=seg.segment(x['text'])
-        for s in sentences:
-            sentence_list.append(s)
+

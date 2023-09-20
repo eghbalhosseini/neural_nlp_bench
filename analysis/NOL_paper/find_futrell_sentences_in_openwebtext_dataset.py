@@ -71,5 +71,20 @@ if __name__ == "__main__":
         pickle.dump(string_occurance, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
+# find files that match the pattern
+    #
+    files=glob(f'//om2/user/ehoseini/MyData/openwebtext-tokenized/pereira_occurance_data_id_*.pkl')
+    # # # assert there are 50 files
+    # # assert len(files)==50
+    # # # load the files
+    occurance_list=[]
+    for file in files:
+         with open(file, 'rb') as handle:
+             occurance_list.append(pickle.load(handle))
+
+    np.sum(np.sum(np.stack(occurance_list),axis=0)>0)
+
+
+
 
 

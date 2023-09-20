@@ -24,7 +24,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-norm-encoding'
+    benchmark='Pereira2018-encoding'
     ylims = (-.12, 1.1)
     #benchmark = 'Blank2014fROI-encoding'
     #ylims = (-.2, .5)
@@ -58,6 +58,9 @@ if __name__ == "__main__":
     precomputed_bench = precomputed[precomputed['benchmark'] == benchmark]
     model_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model]
     model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model + '-untrained']
+    # load checkpoint 0
+    files_ckpnt_0=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}-ckpnt-0,subsample=None.pkl'))
+    score_data_chkpnt_0=pd.read_pickle(files_ckpnt_0[0])['data'].values
 
     # order files
     scores_mean=[]
@@ -81,7 +84,7 @@ if __name__ == "__main__":
     #scr_layer_std=[scors_std[x][score_loc[x]] for x in range(len(score_loc))]
     #
     preplex_benchmark='wikitext-103-raw-v1-test'
-    training_perplex=[54000.9102,   #0
+    training_perplex=[53099.7070,   #0
                       21383.7090,   #20
                       1439.5457,    #200
                       75.1746,      #2000
@@ -89,7 +92,15 @@ if __name__ == "__main__":
                       35.9569       #200000
                      ]
     #training_perplex=[50324.4453,4392.1587,885.9544,61.31,42.1,32.75]
+    gpt2_perp=29.17378
+    gpt2_unt_hg=56145.7422
+    ckpnt_0_per=54000.9102
+    score_bench=precomputed_bench[precomputed_bench['layer']==layer_name]['score'].values[0]
+    score_bench_unt=precomputed_bench[precomputed_bench['layer']==layer_name]['score'].values[1]
+    score_bench_unt_std=precomputed_bench[precomputed_bench['layer']==layer_name]['error'].values[1]
 
+    score_chkpnt_0=score_data_chkpnt_0[layer_id][0]
+    score_chkpnt_0_std=score_data_chkpnt_0[layer_id][0]
     #training_perplex = [4392.1587, 885.9544, 42.1, 32.75]
 
     validation_perpelxity=np.asarray(training_perplex)
@@ -112,6 +123,11 @@ if __name__ == "__main__":
     ax.set_xlabel('perplexity')
     ax.set_xscale('log')
     ax.invert_xaxis()
+    ax.set_ylim(ylims)
+
+    ax.plot(ckpnt_0_per, score_chkpnt_0, color=all_col[0, :], linewidth=2, marker='o', markeredgecolor='w',
+            markersize=10, label=f'HF_untrained', zorder=2)
+    ax.errorbar(ckpnt_0_per, score_chkpnt_0, yerr=score_chkpnt_0_std, color='k', zorder=1)
     #minor_ticks = np.concatenate(
     #    [np.arange(2, 11) * 1e1, np.arange(1, 11) * 1e2,np.arange(1, 5) * 1e3])
     #ax.set_xticks(minor_ticks, minor=True)
@@ -121,6 +137,7 @@ if __name__ == "__main__":
 
     #ax.set_xticks(np.unique(minor_ticks))
     #ax.set_xticklabels(np.unique(minor_ticks).astype(int))
+    ax.set_ylim(ylims)
 
     ax.legend(bbox_to_anchor=(1.2, .8), frameon=True, fontsize=8)
     ax.set_axisbelow(True)

@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=1-88
+#SBATCH --array=1-33
 #SBATCH --time=12:00:00
 #SBATCH --mem=40G
 #SBATCH --exclude node017,node018
@@ -8,10 +8,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=1
-for benchmark in Pereira2023aud-pass-passage-RidgeEncoding Pereira2023aud-pass-passage-Encoding \
-                 Pereira2023aud-pass-sentence-RidgeEncoding Pereira2023aud-pass-sentence-Encoding \
-                 Pereira2023aud-sent-passage-RidgeEncoding Pereira2023aud-sent-passage-Encoding \
-                 Pereira2023aud-sent-sentence-RidgeEncoding Pereira2023aud-sent-sentence-Encoding ; do
+for benchmark in DsParametricRDM-max-encoding DsParametricRDM-rand-encoding DsParametricRDM-min-encoding ; do
   #for model in roberta-base xlnet-large-cased bert-large-uncased-whole-word-masking xlm-mlm-en-2048 gpt2-xl albert-xxlarge-v2 ctrl distilgpt2 gpt2 gpt2-medium gpt2-large  ; do
 
   for model in roberta-base xlnet-large-cased bert-large-uncased-whole-word-masking xlm-mlm-en-2048 \

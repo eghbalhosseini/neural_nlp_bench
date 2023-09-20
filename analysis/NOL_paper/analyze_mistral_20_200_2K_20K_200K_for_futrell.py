@@ -26,7 +26,7 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Futrell2018-norm-encoding'
+    benchmark='Futrell2018-encoding'
     #benchmark = 'Futrell2018-sentences_encoding'
     model = 'mistral-caprica-gpt2-small-x81'
     precomputed_model = 'gpt2'
@@ -70,7 +70,8 @@ if __name__ == "__main__":
         # else:
         #     scores_mean.append(np.nan)
         #     scors_std.append(np.nan)
-
+    glob(os.path.join(result_caching, 'neural_nlp.score',
+                      f'benchmark={benchmark},model={model}-ckpnt*,subsample=None.pkl'))
     # read precomputed scores
     l_names = pd.read_pickle(file)['data'].layer.values
     cmap_all = cm.get_cmap('inferno')

@@ -29,15 +29,43 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmarks=['Pereira2018-encoding']#,
+    benchmarks=['Futrell2018-encoding']#,
                 #'Pereira2023aud-sent-passage-RidgeEncoding', 'Pereira2023aud-sent-sentence-RidgeEncoding']
     #benchmark = 'LangLocECoGv2-encoding'
+    benchmarks = ['Pereira2018-v2-encoding']
     models=['gpt2-'+x for x in ['untrained', 'untrained_hf','untrained-1','untrained-2', 'untrained-3',
                                'untrained-4', 'untrained-5',
-                               'untrained-6', 'untrained-7', 'untrained-std-1', 'untrained-std-2',
-                               'untrained-mu-1', 'untrained-mu-2', 'untrained-ln-hf',
+                               'untrained-6', 'untrained-std-1', 'untrained-std-2',
+                               'untrained-mu-1', 'untrained-mu-2',
                                'untrained-ln-uniform']]
+
+    models=['gpt2-'+x for x in ['untrained', 'untrained_hf', 'untrained-std-1', 'untrained-std-2',
+                                'untrained-ln-uniform']]
     models.append('gpt2')
+
+    file_order = [
+                  'N(0,0.0.2)',
+                  'HuggingFace(HF)',
+                  'LayerNorm1=HF',
+                  'Attention=HF',
+                  'Projection=HF',
+                  'LayerNorm2=HF',
+                  'Feedforward1=HF',
+                  'Feedforward2=HF',
+                  'N(0,0.05)',
+                  'N(0,0.1)',
+                  'N(0.5,0.02)',
+                  'N(1.0,0.02)',
+                  'LayerNorm=uniform[0,1]',
+                'Trained',]
+
+    file_order = [
+        'N(0,0.0.2)',
+        'HuggingFace(HF)',
+        'N(0,0.05)',
+        'N(0,0.1)',
+        'LayerNorm=uniform[0,1]',
+        'Trained', ]
     # create a list of colors for the number of models
     colors = cm.rainbow(np.linspace(0, 1, len(models)))
 
@@ -93,3 +121,38 @@ if __name__ == "__main__":
                 metadata=None, bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
 
+
+    fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
+    # ax = plt.axes((.1, .4, .45, .35))
+    ax = plt.axes((.1, .4, .45, .45))
+    scr_layer=[x[0][0][-1] for x in models_scores]
+    scr_layer_std=[x[0][1][-1] for x in models_scores]
+    cmap_all = cm.get_cmap('plasma')
+    all_col = cmap_all(np.divide(np.arange(len(scr_layer)+1), len(scr_layer)+1))
+
+    x_coords = np.arange(len(scr_layer))
+    for idx, scr in enumerate(scr_layer):
+        ax.plot(x_coords[idx], scr, color=all_col[idx, :], linewidth=2, marker='o', markersize=10, markeredgecolor='k',
+                markeredgewidth=1,
+                label=f'{file_order[idx]}', zorder=2)
+        ax.errorbar(x_coords[idx], scr, yerr=scr_layer_std[idx], color='k', zorder=1)
+    # add precomputed
+    # ax.errorbar(idx+.5,model_bench['score'],yerr=model_bench['error'],linestyle='--',fmt='.',markersize=20,linewidth=2,color=(0,0,0,1),label='trained(Schrimpf)',zorder=1)
+    # ax.errorbar(-0.5, model_unt_bench['score'], yerr=model_unt_bench['error'], linestyle='--', fmt='.', markersize=20,
+    #            linewidth=2, color=(.5, .5, .5, 1), label='untrained(Schrimpf)', zorder=1)
+
+    #ax.plot(x_coords, scr_layer, color='k', linewidth=2, zorder=1)
+    ax.axhline(y=0, color='k', linestyle='-')
+    ax.set_xticks(np.arange(len(scr_layer)))
+
+    ax.set_xticklabels(file_order, rotation=90, fontsize=8)
+    ax.set_ylabel('Pearson Corr')
+    ax.set_ylim((-.1, 1.1))
+    fig.show()
+
+    fig.savefig(os.path.join(PLOTDIR, f'score_{benchmarks[0]}_untrained_versions_gpt2_last_layer.png'), dpi=250, format='png',
+                metadata=None, bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
+
+    # save as eps
+    fig.savefig(os.path.join(PLOTDIR, f'score_{benchmarks[0]}_untrained_versions_gpt2_last_layer.eps'), dpi=250, format='eps',
+                metadata=None, bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)

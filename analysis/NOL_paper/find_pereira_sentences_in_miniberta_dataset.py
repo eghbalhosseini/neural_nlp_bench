@@ -20,6 +20,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--data', type=str, default='10M')
 parser.add_argument('--chunk_id', type=int, default=0)
 import re
+from glob import glob
 from datasets.utils.logging import disable_progress_bar
 disable_progress_bar()
 def search_string_in_example(example, search_string):
@@ -59,3 +60,16 @@ if __name__ == "__main__":
     with open(f'/om2/user/ehoseini/MyData/miniBERTa_v2/miniBERTa-{data}/pereira_occurance_chunk_{chunk_id}.pkl', 'wb') as handle:
         pickle.dump(string_occurance, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+
+    # find files that match the pattern
+    # data='100M'
+    # files=glob(f'/om2/user/ehoseini/MyData/miniBERTa_v2/miniBERTa-{data}/Futrell_occurance_chunk_*.pkl')
+    # # assert there are 50 files
+    # assert len(files)==50
+    # # load the files
+    # occurance_list=[]
+    # for file in files:
+    #     with open(file, 'rb') as handle:
+    #         occurance_list.append(pickle.load(handle))
+    #
+    # np.sum(np.sum(np.stack(occurance_list),axis=0)>0)

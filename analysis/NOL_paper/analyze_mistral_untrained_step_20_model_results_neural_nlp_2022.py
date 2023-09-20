@@ -25,15 +25,15 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     benchmark='Pereira2018-v2-encoding'
-    #model='mistral-caprica-gpt2-small-x81-ckpnt-200000'
-    model='gpt2'
+    model='mistral-caprica-gpt2-small-x81-ckpnt-200000'
+    #model='gpt2'
     files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
     # order files
     # find
     file_order = ['-ckpnt-200000,','permuted,','untrained,', 'untrained_hf', 'untrained-1,', 'untrained-2,', 'untrained-3,', 'untrained-4,',
                   'untrained-5,', 'untrained-6,', 'untrained-7,', 'untrained-std-1,', 'untrained-mu-1,','untrained-mu-2,',
                   'untrained-ln-hf,', 'untrained-ln-uniform']
-    file_order = ['gpt2,', 'untrained,', 'untrained_hf', 'untrained-std-1,','untrained-ln-uniform']
+    file_order = ['-ckpnt-200000,', 'untrained_hf', 'untrained,', 'untrained-std-1,','untrained-ln-uniform']
     # # find the string in each element of filer_order in files
     reorder = []
     for y in file_order:
@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     # ax = plt.axes((.1, .4, .45, .35))
-    ax = plt.axes((.1, .4, .45, .45))
+    ax = plt.axes((.1, .4, .3, .45))
     scr_layer = [x[-1] for x in scores_mean]
     scr_layer_std = [x[-1] for x in scors_std]
     x_coords = np.arange(len(scr_layer))
@@ -100,9 +100,20 @@ if __name__ == "__main__":
 
     # ax.plot(x_coords, scr_layer, color='k', linewidth=2, zorder=1)
     ax.axhline(y=0, color='k', linestyle='-')
-    ax.set_xticks(np.arange(len(scr_layer)))
 
-    ax.set_xticklabels(file_order, rotation=90, fontsize=8)
+    # turn of the top and right axes
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    # set xticklabel as follows
+    x_ticks=['trained', 'untrained_hf,' ,'untrained N(0,0.02)', 'untrained N(0,0.1)', 'untrained \n(layernorm :uniform)']
+    ax.set_xticks(np.arange(len(scr_layer)))
+    ax.set_xticklabels(x_ticks, rotation=45, fontsize=8)
     ax.set_ylabel('Pearson Corr')
 
     fig.show()
+    # save figure
+    fig.savefig(os.path.join(analysis_dir, f'variation_on_untrained_{model}_{benchmark}_layer.png'), dpi=250, format='png',
+                metadata=None,bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
+
+    fig.savefig(os.path.join(analysis_dir, f'variation_on_untrained_{model}_{benchmark}_layer.eps'), format='eps',
+                metadata=None,bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)

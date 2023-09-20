@@ -26,16 +26,18 @@ if __name__ == "__main__":
     ngram=int(args.ngram)
     data_id=int(args.data_id)
     # check if text file exists
-    file_path=f'/om2/user/ehoseini/MyData/openwebtext-tokenized/train_count_ngram_{ngram}_data_id_{data_id}.txt'
+    file_path=f'/om2/user/ehoseini/MyData/openwebtext-tokenized/train_count_ngram_tokenized_{ngram}_data_id_{data_id}.txt'
     if os.path.exists(file_path):
         print('text file exists')
         exit()
-    openwebtext_dataset = load_from_disk('/rdma/vast-rdma/vast/evlab/ehoseini/MyData/openwebtext/train')
+
+    openwebtext_dataset = load_from_disk('/rdma/vast-rdma/vast/evlab/ehoseini/MyData/openwebtext-crunched/train_context_len_1024/')
     # randomize the dataset
-    openwebtext_dataset = openwebtext_dataset.shuffle(seed=42)
+    openwebtext_dataset = openwebtext_dataset['train'].shuffle(seed=42)
     openwebtext_dataset=openwebtext_dataset.flatten_indices()
     # make a tokenizer for gpt2
     tokenizer = AutoTokenizer.from_pretrained('gpt2')
+
     # calucluate how many line would correspond to 0.1%,1%,10%,100% of the dataset
     # 0.1% of the dataset
     line_01=int(len(openwebtext_dataset)*(0.1/100))
@@ -67,23 +69,22 @@ if __name__ == "__main__":
     # # split the data to 4 parts from 0 to line_01, from line_01 to line_1, from line_1 to line_10, from line_10 to line_100
     # # 0 to line_01
     # # save the openwebtext_dataset in the following path f'/om2/user/ehoseini/MyData/miniBERTa_v2/openwebtext-tokenized/train_data_id_{data_id}_01' as a text file
-    data_id = 3
     for data_id in range(len(indieces_list_flat)):
         openwebtext_dataset_sample=openwebtext_dataset.select(indieces_list_flat[data_id])
         text_list=[]
         for x in tqdm(openwebtext_dataset_sample,total=len(openwebtext_dataset_sample)):
-             text_list.append(x['text'])
-        with open(f'/om2/user/ehoseini/MyData/openwebtext/train_data_id_{data_id}.txt', 'w') as f:
+             text_list.append(tokenizer.decode(x['input_ids']))
+        with open(f'/om2/user/ehoseini/MyData/openwebtext/train_tokenized_data_id_{data_id}.txt', 'w') as f:
             for item in tqdm(text_list,total=len(text_list)):
                 f.write("%s\n" % item)
 
     # do map tokenize_decode on the openwebtext_dataset_sample using a lampda function
     text_list=[]
     for x in tqdm(openwebtext_dataset_sample,total=len(openwebtext_dataset_sample)):
-        text_list.append(x['text'])
+        text_list.append(tokenizer.decode(x['input_ids']))
 
     #save the text_list in the following path f'/om2/user/ehoseini/MyData/miniBERTa_v2/openwebtext-tokenized/train_data_id_{data_id}_01.txt' as a text file
-    with open(f'/om2/user/ehoseini/MyData/openwebtext/train_data_id_{data_id}.txt', 'w') as f:
+    with open(f'/om2/user/ehoseini/MyData/openwebtext/train_tokenized_data_id_{data_id}.txt', 'w') as f:
         for item in tqdm(text_list,total=len(text_list)):
             f.write("%s\n" % item)
 
@@ -98,17 +99,12 @@ if __name__ == "__main__":
         #text=tokenizer.decode(token_ids=x['input_ids'])
         counts.update(Counter(ngrams(nltk.word_tokenize(text), n=ngram)))
     # print length of counts
-    counts_tok = Counter()
-    for text in tqdm(text_list, total=len(text_list)):
-        # text=tokenizer.decode(token_ids=x['input_ids'])
-        counts_tok.update(Counter(ngrams(tokenizer.tokenize(text), n=ngram)))
 
-    counts.keys()
-    print(f'counts length for ngram {ngram}, and data_id {data_id} : {len(counts)}\n')
+    print(f'counts length for ngram {ngram}, and data_id {data_id}, tokenized : {len(counts)}\n')
 
     # create a csv with 3 columns (ngram,dataset_id,len(count)
     # save the csv file in the following path f'/om2/user/ehoseini/MyData/miniBERTa_v2/openwebtext-tokenized/train_count_ngram_{ngram}_data_id_{data_id}.txt'
-    with open(f'/om2/user/ehoseini/MyData/openwebtext-tokenized/train_count_ngram_{ngram}_data_id_{data_id}.txt', 'w') as f:
+    with open(f'/om2/user/ehoseini/MyData/openwebtext-tokenized/train_count_ngram_tokenized_{ngram}_data_id_{data_id}.txt', 'w') as f:
         f.write("%s,%s,%s\n"%(ngram,data_id,len(counts)))
 
 

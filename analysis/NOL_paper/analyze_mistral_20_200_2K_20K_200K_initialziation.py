@@ -27,11 +27,12 @@ if __name__ == "__main__":
     benchmark='Pereira2018-v2-encoding'
     benchmark='Blank2014fROI-encoding'
     ylims=(-0.1,0.5)
+    ylims=(-0.1,1.1)
     #benchmark = 'Fedorenko2016v3-encoding'
     benchmark='Futrell2018-encoding'
     model='mistral-caprica-gpt2-small-x81'
     models=['mistral-caprica-gpt2-small-x81', 'alias-gpt2-small-x21', 'expanse-gpt2-small-x777']
-    chkpnts=[40,400,4000,40000,400000]
+    chkpnts=[20,200,2000,20000,200000]
     precomputed_model = 'gpt2'
     model_files_c=[]
     for ckpnt in chkpnts:
@@ -41,6 +42,10 @@ if __name__ == "__main__":
                 ckpnt=str(ckpnt)+'-untrained'
             else:
                 ckpnt = str(ckpnt) + ''
+            if model=='mistral-caprica-gpt2-small-x81':
+                benchmark='Pereira2018-encoding'
+            else:
+                benchmark='Pereira2018-v2-encoding'
             file_c = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model}-ckpnt-{ckpnt},subsample=None.pkl'))
             print(file_c)
@@ -52,7 +57,7 @@ if __name__ == "__main__":
 
     chkpoints_srt=['0.01% (n=40)','0.1% (n=400)' ,'1% (n=4K)','10% (n=40K)','100% (n=400K)']
     precomputed = pd.read_csv('/om/weka/evlab/ehoseini/neural-nlp-2022/precomputed-scores.csv')
-    precomputed_bench = precomputed[precomputed['benchmark'] == benchmark]
+    precomputed_bench = precomputed[precomputed['benchmark'] == 'Pereira2018-encoding']
     model_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model]
     model_unt_bench = precomputed_bench[precomputed_bench['model'] == precomputed_model + '-untrained']
 
@@ -115,9 +120,11 @@ if __name__ == "__main__":
     layer_id = np.argmax(model_bench['score'])
 
     scrs_layer=[]
+    scr_layer_std=[]
     for id_mod, scores_mean in enumerate(model_scores):
         scr_layer = [x[layer_id] for x in scores_mean]
         scrs_layer.append(scr_layer)
+        scr_layer_std.append([x[layer_id] for x in model_scores_std[id_mod]])
 
     fig = plt.figure(figsize=(11, 8), dpi=300, frameon=False)
     ax = plt.axes((.1, .4, .35, .35))
@@ -127,10 +134,11 @@ if __name__ == "__main__":
         ax.plot(x_coords, col, color=(.3,.3,.3), linewidth=1, zorder=1)
     for id_mod,scr_layer in enumerate(scrs_layer):
         markers=['o','s','d']
+        scr_layer_strd=scr_layer_std[id_mod]
         for idx, scr in enumerate(scr_layer):
             ax.plot(x_coords[id_mod], scr, color=all_col[id_mod, :], linewidth=2, marker=markers[idx], markersize=10,
                 label=f'{models[idx]}', zorder=2,markeredgecolor='k')
-            ax.errorbar(x_coords[id_mod], scr, yerr=scr_layer_std[idx], color='k', zorder=1)
+            ax.errorbar(x_coords[id_mod], scr, yerr=scr_layer_strd[idx], color='k', zorder=1)
     ax.set_xscale('log')
     ax.axhline(y=0, color='k', linestyle='-')
     ax.spines['top'].set_visible(False)
@@ -151,12 +159,12 @@ if __name__ == "__main__":
     ax.set_ylabel('Pearson Corr')
     ax.set_title(f'benchmark {benchmark}')
     fig.show()
-    fig.savefig(os.path.join(analysis_dir, f'mistral_effect_of_initialzation_schrimpf_layer_through_training_{benchmark}.png'), dpi=250,
+    fig.savefig(os.path.join(analysis_dir, f'mistral_effect_of_initialzation_schrimpf_layer_through_training_{benchmark}_steps_20.png'), dpi=250,
                 format='png',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
-    fig.savefig(os.path.join(analysis_dir, f'mistral_effect_of_initialzation_schrimpf_layer_through_training_{benchmark}.eps'), format='eps',
+    fig.savefig(os.path.join(analysis_dir, f'mistral_effect_of_initialzation_schrimpf_layer_through_training_{benchmark}_steps_20.eps'), format='eps',
                 metadata=None,
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 

@@ -22,6 +22,7 @@ from scipy.stats import ttest_ind_from_stats
 from matplotlib.backends.backend_pgf import FigureCanvasPgf
 matplotlib.backend_bases.register_backend('pdf', FigureCanvasPgf)
 
+# TODO : put the data for ttest on OSF
 
 if user=='eghbalhosseini':
     analysis_dir='/om/weka/evlab/ehoseini/MyData/NeuroBioLang_2022//analysis/'
