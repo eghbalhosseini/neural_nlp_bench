@@ -12,4 +12,4 @@
 . ~/.bash_profile
 . ~/.bashrc
 conda activate neural_nlp_2022
-/om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/weka/evlab/ehoseini/neural_nlp_bench/compute_dataset_size.py
+/om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/weka/evlab/ehoseini/neural_nlp_bench/process/NOL_paper/compute_dataset_size.py
