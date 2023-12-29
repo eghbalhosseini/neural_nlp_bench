@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --job-name=MGH
-#SBATCH --array=0-13
+#SBATCH --array=0-27
 #SBATCH --time=12:00:00
 #SBATCH --ntasks=1
 #SBATCH --mem=24G
@@ -11,7 +11,9 @@
 
 i=0
 
-for benchmark in LangLocECoG-bip-gamma-RidgeEncoding ANNSet1ECoG-bip-gamma-RidgeEncoding ; do
+for benchmark in LangLocECoG-bip-band-Encoding LangLocECoG-uni-band-Encoding \
+                  ANNSet1ECoG-bip-band-Encoding ANNSet1ECoG-uni-band-Encoding ; do
+
     for model in  roberta-base \
                   bert-large-uncased-whole-word-masking \
                   xlnet-large-cased \
