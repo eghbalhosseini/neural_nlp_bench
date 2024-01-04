@@ -25,9 +25,9 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    #benchmark='Futrell2018-encoding'
+    benchmark='Futrell2018-encoding'
     #benchmark='Futrell2018-stories_encoding'
-    benchmark = 'Futrell2018-norm-encoding'
+    #benchmark = 'Futrell2018-norm-encoding'
     ylims = (-.12, 1.1)
     model_1B='gpt2-neox-pos_learned-1B'
     precomputed_model='gpt2'
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     file_untrained = glob(os.path.join(result_caching, 'neural_nlp.score',
                                        f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{310000}-untrained,*.pkl'))
-
+    version='v2'
     file_untrained_hf = glob(os.path.join(result_caching, 'neural_nlp.score',
                                           f'benchmark={benchmark},model={model_1B}-{version}-ckpnt-{310000}-untrained_hf,*.pkl'))
     untrained_hf = pd.read_pickle(file_untrained_hf[0])['data'].values
@@ -69,6 +69,15 @@ if __name__ == "__main__":
     shcrimpf = glob(os.path.join(result_caching, 'neural_nlp.score',
                                  f'benchmark={benchmark},model=gpt2,*.pkl'))
     schirmpf_data = pd.read_pickle(shcrimpf[0])['data']
+
+    glob(os.path.join(result_caching, 'neural_nlp.score',
+                      f'benchmark={benchmark},*.pkl'))
+
+    o = pd.read_pickle('/om5/group/evlab/u/ehoseini/.result_caching/neural_nlp.score/benchmark=Futrell2018-encoding,model=gpt2-untrained_hf,subsample=None.pkl')
+    o = pd.read_pickle(
+        '/om5/group/evlab/u/ehoseini/.result_caching/neural_nlp.score/benchmark=Futrell2018-encoding,model=mistral-caprica-gpt2-small-x81-ckpnt-200000-untrained_hf,subsample=None.pkl')
+    o= pd.read_pickle('/om5/group/evlab/u/ehoseini/.result_caching/neural_nlp.score/benchmark=Futrell2018-encoding,model=gpt2-neox-pos_learned-1B-v2-ckpnt-2500-untrained,subsample=None.pkl')
+
 
     # order files
     scores_mean=[]

@@ -77,6 +77,8 @@ if __name__ == "__main__":
     shcrimpf_unt = glob(os.path.join(result_caching, 'neural_nlp.score',
                                  f'benchmark={benchmark},model=gpt2-untrained_hf,*.pkl'))
     schirmpf_data_unt = pd.read_pickle(shcrimpf_unt[0])['data']
+
+    glob ('/om5/group/evlab/u/ehoseini/.result_caching/neural_nlp.score/benchmark=Pereira2018-encoding,model=gpt2-neox-pos_learned*')
     schirmpf_data=pd.read_pickle(shcrimpf[0])['data']
     hf_untrained_data = pd.read_pickle(file_untrained_hf[0])['data']
     schrimpf_mean=schirmpf_data.values[:,0]

@@ -212,7 +212,7 @@ if __name__ == "__main__":
     plt.grid(True, which="both", ls="-", color='0.9', zorder=0)
     ax.set_axisbelow(True)
 
-    chkpoints_label = ['0%','0.1%\n~10M', '1%\n~100M', '10%\n~1B', '100%\n~10B', '1000%\n~100B','Schrimpf\n(2021)']
+    chkpoints_label = ['0%','0.1%\n~10M', '1%\n~100M', '10%\n~1B', '100%\n~10B', '10*\n100%','Schrimpf\n(2021)']
     ax.set_xticklabels(chkpoints_label, rotation=0)
     ax.set_ylim(ylims)
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-15
+#SBATCH --array=0-6
 #SBATCH --time=12:00:00
 #SBATCH --mem=60G
 #SBATCH --exclude node017,node018
@@ -8,8 +8,13 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in  Pereira2018-encoding Pereira2018-norm-encoding  Futrell2018-encoding  ; do
-  for model in gpt2-neox-pos_learned-1B-v3-ckpnt-310000 gpt2-neox-pos_learned-50M-v3-ckpnt-8500 gpt2-neox-pos_learned-10M-v3-ckpnt-2000 gpt2-neox-pos_learned-100M-v3-ckpnt-14250 pt2-neox-pos_learned-1M-v3-ckpnt-1000 ; do
+for benchmark in  Futrell2018-encoding  ; do
+  for model in gpt2-neox-pos_learned-1B-v3-ckpnt-310000-untrained \
+   gpt2-neox-pos_learned-1B-v3-ckpnt-310000 \
+    gpt2-neox-pos_learned-50M-v3-ckpnt-8500 \
+    gpt2-neox-pos_learned-10M-v3-ckpnt-2000 \
+    gpt2-neox-pos_learned-100M-v3-ckpnt-14250 \
+    gpt2-neox-pos_learned-1M-v3-ckpnt-1000 ; do
 
     # 'untrained' 'untrained_hf' 'permuted' 'untrained-1' 'untrained-2' 'untrained-3' 'untrained-4' 'untrained-5' 'untrained-6' 'untrained-7' 'untrained-std-1' 'untrained-std-2' 'untrained-mu-1' 'untrained-mu-2' 'untrained-ln-hf' 'untrained-ln-uniform'
     #gpt2-neox-pos_learned-1B-v3-ckpnt-310000-untrained-ln-uniform \
@@ -37,4 +42,4 @@ echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 . ~/.bash_profile
 conda activate neural_nlp_2022
 
-/om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om/weka/evlab/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+/om2/user/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om2/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"

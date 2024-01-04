@@ -24,8 +24,10 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark='Pereira2018-encoding'
+    benchmark='Pereira2018-v2-encoding'
     model='mistral-caprica-gpt2-small-x81-ckpnt-400000-untrained-mu'
+
+    model= 'expanse-gpt2-small-x777'
     files=glob(os.path.join(result_caching,'neural_nlp.score',f'benchmark={benchmark},model={model}*.pkl'))
     # order files
 

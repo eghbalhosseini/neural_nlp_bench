@@ -24,14 +24,14 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    #benchmark='Pereira2018-encoding'
-    #ylims = (-0.1, 1)
-    benchmark='Blank2014fROI-encoding'
-    ylims = (-0.1, .5)
+    benchmark='Pereira2018-encoding'
+    ylims = (-0.1, 1)
+    #benchmark='Blank2014fROI-encoding'
+    #ylims = (-0.1, .5)
 
 
-    benchmark='Futrell2018-encoding'
-    ylims = (.2, .8)
+    #benchmark='Futrell2018-encoding'
+    #ylims = (.2, .8)
 
 
 
@@ -85,7 +85,10 @@ if __name__ == "__main__":
     #files_srt_2 = [file_1B_untrained[0], file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
     files_srt_2 = [ file_1M[0], file_10M[0], file_100M[0], file_1B[0]]
 
-
+    model_='bplm-gpt2'
+    oo=glob(os.path.join(result_caching, 'neural_nlp.score',
+                                f'benchmark={benchmark},model={model_}*.pkl'))
+    oo1=pd.read_pickle(oo[2])['data']
     precomputed_model = 'gpt2'
     precomputed = pd.read_csv('/om/weka/evlab/ehoseini/neural-nlp-2022/precomputed-scores.csv')
     precomputed_bench = precomputed[precomputed['benchmark'] == benchmark]

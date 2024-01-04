@@ -207,15 +207,11 @@ if __name__ == "__main__":
                 bbox_inches=None, pad_inches=0.1, facecolor='auto', edgecolor='auto', backend=None)
 
     """look at all models"""
-    all_models=["roberta-large",'roberta-base', "distilroberta-base",
-    "xlnet-base-cased",'xlnet-large-cased','xlm-mlm-en-2048',
-    "bert-base-uncased",
-    "bert-base-multilingual-cased",
-    'bert-large-uncased-whole-word-masking',
-    "bert-large-uncased",
-    "xlm-mlm-enfr-1024", "xlm-mlm-100-1280",
-    "albert-base-v2", "albert-large-v1", "albert-large-v2", "albert-xlarge-v1",'albert-xxlarge-v2',
-    'gpt2-xl','distilgpt2', 'gpt2', 'gpt2-medium', 'gpt2-large','ctrl']
+    all_models=['roberta-base','bert-large-uncased-whole-word-masking',
+    'xlnet-large-cased',
+    'xlm-mlm-en-2048',
+    'albert-xxlarge-v2',
+    'gpt2-xl','ctrl']
     all_models_scores = []
     all_per_models_scores = []
     all_model_layers = []
