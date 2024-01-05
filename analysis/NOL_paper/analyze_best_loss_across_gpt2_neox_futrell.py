@@ -71,9 +71,10 @@ if __name__ == "__main__":
     schirmpf_data = pd.read_pickle(shcrimpf[0])['data']
 
     glob(os.path.join(result_caching, 'neural_nlp.score',
-                      f'benchmark={benchmark},*.pkl'))
+                      f'benchmark=*,model=roberta-base*.pkl'))
 
-    o = pd.read_pickle('/om5/group/evlab/u/ehoseini/.result_caching/neural_nlp.score/benchmark=Futrell2018-encoding,model=gpt2-untrained_hf,subsample=None.pkl')
+    o = pd.read_pickle( '/om5/group/evlab/u/ehoseini/.result_caching/neural_nlp.score/benchmark=Pereira2018-encoding,model=roberta-base,subsample=None.pkl')
+
     o = pd.read_pickle(
         '/om5/group/evlab/u/ehoseini/.result_caching/neural_nlp.score/benchmark=Futrell2018-encoding,model=mistral-caprica-gpt2-small-x81-ckpnt-200000-untrained_hf,subsample=None.pkl')
     o= pd.read_pickle('/om5/group/evlab/u/ehoseini/.result_caching/neural_nlp.score/benchmark=Futrell2018-encoding,model=gpt2-neox-pos_learned-1B-v2-ckpnt-2500-untrained,subsample=None.pkl')
