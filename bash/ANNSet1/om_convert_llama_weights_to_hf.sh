@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=llama
-#SBATCH --array=0-8
+#SBATCH --array=0-1
 #SBATCH --time=24:00:00
 #SBATCH --mem=120G
 #SBATCH --exclude node017,node018
@@ -20,7 +20,7 @@ i=0
 #            i=$[$i +1]
 #    done
 
-for model_size in 7B 7Bf 13B 13Bf 30B 34B 65B 70B 70Bf ; do
+for model_size in 70B 70Bf ; do
            model_list[$i]="$model_size"
             i=$[$i +1]
     done
