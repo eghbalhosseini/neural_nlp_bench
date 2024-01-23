@@ -22,7 +22,7 @@ elif user=='ehoseini':
 
 if __name__ == "__main__":
     benchmark = 'LangLocECoG-uni-gaus-Encoding'
-    model= 'gpt2-large'
+    model= 'gpt2'
     # create model directory
     model_dir = Path(OUTDIR, model)
     # make sure parent directory exists
