@@ -11,7 +11,7 @@ matplotlib.rcParams['font.size'] = 6
 matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
 from pathlib import Path
-ROOTDIR = (Path('/Users/eghbalhosseini/MyData/neural_nlp_bench/analysis/LangLoc_ECoG/') ).resolve()
+ROOTDIR = (Path('/Users/eghbalhosseini/MyData/neural_nlp_bench/analysis/ANNSet1_ECoG/') ).resolve()
 OUTDIR = (Path(ROOTDIR / 'models')).resolve()
 PLOTDIR = (Path(ROOTDIR / 'plots')).resolve()
 from glob import glob
@@ -21,8 +21,8 @@ elif user=='ehoseini':
     result_caching='/om5/group/evlab/u/ehoseini/.result_caching/'
 
 if __name__ == "__main__":
-    benchmark = 'LangLocECoG-uni-gaus-strict-Encoding'
-    model= 'gpt2-xl'
+    benchmark = 'ANNSet1ECoG-uni-gaus-Encoding'
+    model= 'gpt2'
     # create model directory
     model_dir = Path(OUTDIR, model)
     # make sure parent directory exists

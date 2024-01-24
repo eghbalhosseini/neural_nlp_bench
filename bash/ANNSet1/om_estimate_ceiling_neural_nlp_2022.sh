@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=ceiling
-#SBATCH --array=0-9
+#SBATCH --array=0-25
 #SBATCH --time=36:00:00
-#SBATCH --mem=64G
+#SBATCH --mem=32G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
@@ -13,19 +13,33 @@ num_subsamples=500
 # define number of bootstrap samples as 100
 num_bootstrap_samples=100
 
-
-
 i=0
-for benchmark in   LangLocECoG-bip-gaus-Encoding \
-                   LangLocECoG-uni-gaus-Encoding \
-                   LangLocECoG-bip-gaus-zs-Encoding \
-                   LangLocECoG-uni-gaus-zs-Encoding \
-                   LangLocECoG-bip-band-Encoding \
-                   LangLocECoG-uni-band-Encoding \
-                   LangLocECoG-bip-gaus-shared-ANN-Encoding \
-                   LangLocECoG-uni-gaus-shared-ANN-Encoding \
-                   LangLocECoG-bip-band-shared-ANN-Encoding \
-                   LangLocECoG-uni-band-shared-ANN-Encoding ; do
+for benchmark in   LangLocECoG-bip-gaus-strict-Encoding \
+                   LangLocECoG-uni-gaus-strict-Encoding \
+                   LangLocECoG-bip-gaus-zs-strict-Encoding \
+                   LangLocECoG-uni-gaus-zs-strict-Encoding \
+                   LangLocECoG-bip-band-strict-Encoding \
+                   LangLocECoG-uni-band-strict-Encoding \
+                   LangLocECoG-bip-gaus-shared-ANN-strict-Encoding \
+                   LangLocECoG-uni-gaus-shared-ANN-strict-Encoding \
+                   LangLocECoG-bip-band-shared-ANN-strict-Encoding \
+                   LangLocECoG-uni-band-shared-ANN-strict-Encoding \
+                   ANNSet1ECoG-bip-gaus-Encoding \
+                   ANNSet1ECoG-bip-gaus-strict-Encoding \
+                   ANNSet1ECoG-bip-band-Encoding \
+                   ANNSet1ECoG-bip-band-strict-Encoding \
+                   ANNSet1ECoG-uni-gaus-Encoding \
+                   ANNSet1ECoG-uni-gaus-strict-Encoding \
+                   ANNSet1ECoG-uni-band-Encoding \
+                   ANNSet1ECoG-uni-band-strict-Encoding \
+                   ANNSet1ECoG-bip-gaus-shared-LangLoc-Encoding \
+                   ANNSet1ECoG-bip-gaus-shared-LangLoc-strict-Encoding \
+                   ANNSet1ECoG-bip-band-shared-LangLoc-Encoding \
+                   ANNSet1ECoG-bip-band-shared-LangLoc-strict-Encoding \
+                   ANNSet1ECoG-uni-gaus-shared-LangLoc-Encoding \
+                   ANNSet1ECoG-uni-gaus-shared-LangLoc-strict-Encoding \
+                   ANNSet1ECoG-uni-band-shared-LangLoc-Encoding \
+                   ANNSet1ECoG-uni-band-shared-LangLoc-strict-Encoding ; do
                       benchmark_list[$i]="$benchmark"
                       i=$[$i+1]
 done
