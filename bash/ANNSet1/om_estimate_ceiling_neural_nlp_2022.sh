@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=ceiling
-#SBATCH --array=0-36
+#SBATCH --array=0-38
 #SBATCH --time=36:00:00
 #SBATCH --mem=16G
 #SBATCH --exclude node017,node018
@@ -12,7 +12,9 @@ num_subsamples=100
 num_bootstrap_samples=50
 
 i=0
-for benchmark in     ANNSet1ECoG-bip-gaus-Encoding \
+for benchmark in ANNSet1fMRI-wordForm-encoding \
+  ANNSet1fMRI-encoding \
+    ANNSet1ECoG-bip-gaus-Encoding \
     ANNSet1ECoG-bip-gaus-strict-Encoding \
     ANNSet1ECoG-bip-band-Encoding \
     ANNSet1ECoG-bip-band-strict-Encoding \
