@@ -9,7 +9,7 @@
 # define num_subsamples as 200
 num_subsamples=100
 # define number of bootstrap samples as 100
-num_bootstrap_samples=200
+num_bootstrap_samples=300
 
     #LangLocECoG-uni-band-Encoding \
         #LangLocECoG-bip-band-Encoding \
