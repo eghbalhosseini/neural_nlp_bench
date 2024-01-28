@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=ceiling
-#SBATCH --array=0-38
+#SBATCH --array=0-32
 #SBATCH --time=24:00:00
 #SBATCH --mem=16G
 #SBATCH --exclude node017,node018
@@ -10,6 +10,13 @@
 num_subsamples=100
 # define number of bootstrap samples as 100
 num_bootstrap_samples=50
+
+    #LangLocECoG-uni-band-Encoding \
+        #LangLocECoG-bip-band-Encoding \
+            #LangLocECoG-uni-gaus-zs-Encoding \
+                #LangLocECoG-bip-gaus-zs-Encoding \
+                    #LangLocECoG-uni-gaus-Encoding \
+                        #LangLocECoG-bip-gaus-Encoding \
 
 i=0
 for benchmark in ANNSet1fMRI-wordForm-encoding \
@@ -29,17 +36,11 @@ for benchmark in ANNSet1fMRI-wordForm-encoding \
     ANNSet1ECoG-uni-gaus-shared-LangLoc-strict-Encoding \
     ANNSet1ECoG-uni-band-shared-LangLoc-Encoding \
     ANNSet1ECoG-uni-band-shared-LangLoc-strict-Encoding \
-    LangLocECoG-bip-gaus-Encoding \
     LangLocECoG-bip-gaus-strict-Encoding \
-    LangLocECoG-uni-gaus-Encoding \
     LangLocECoG-uni-gaus-strict-Encoding \
-    LangLocECoG-bip-gaus-zs-Encoding \
     LangLocECoG-bip-gaus-zs-strict-Encoding \
-    LangLocECoG-uni-gaus-zs-Encoding \
     LangLocECoG-uni-gaus-zs-strict-Encoding \
-    LangLocECoG-bip-band-Encoding \
     LangLocECoG-bip-band-strict-Encoding \
-    LangLocECoG-uni-band-Encoding \
     LangLocECoG-uni-band-strict-Encoding \
     LangLocECoG-bip-gaus-shared-ANN-Encoding \
     LangLocECoG-bip-gaus-shared-ANN-strict-Encoding \
