@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-65
+#SBATCH --array=0-99
 #SBATCH --time=4:00:00
 #SBATCH -c 16
 #SBATCH --mem=20G
@@ -9,8 +9,9 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in DsParametricfMRI-first-max-Encoding DsParametricfMRI-first-min-Encoding DsParametricfMRI-first-rand-Encoding \
-  DsParametricfMRI-first-max-RidgeEncoding DsParametricfMRI-first-min-RidgeEncoding DsParametricfMRI-first-rand-RidgeEncoding  ; do
+for benchmark in DsParametricfMRI-second-max-Encoding DsParametricfMRI-second-min-Encoding DsParametricfMRI-second-rand-Encoding \
+  DsParametricfMRI-first-max-StrictEncoding DsParametricfMRI-first-min-StrictEncoding DsParametricfMRI-first-rand-StrictEncoding \
+  DsParametricfMRI-second-max-StrictEncoding DsParametricfMRI-second-min-StrictEncoding DsParametricfMRI-second-rand-StrictEncoding ; do
   for model in bert-large-uncased-whole-word-masking \
                xlnet-large-cased \
                roberta-base \
