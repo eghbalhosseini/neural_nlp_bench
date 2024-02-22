@@ -21,35 +21,35 @@ num_bootstrap_samples=300
 i=0
 for benchmark in ANNSet1fMRI-wordForm-encoding \
                 ANNSet1fMRI-encoding \
-    ANNSet1ECoG-bip-gaus-Encoding \
-    ANNSet1ECoG-bip-gaus-strict-Encoding \
-    ANNSet1ECoG-bip-band-Encoding \
-    ANNSet1ECoG-bip-band-strict-Encoding \
-    ANNSet1ECoG-uni-gaus-Encoding \
-    ANNSet1ECoG-uni-gaus-strict-Encoding \
-    ANNSet1ECoG-uni-band-Encoding \
-    ANNSet1ECoG-bip-gaus-shared-LangLoc-Encoding \
-    ANNSet1ECoG-bip-gaus-shared-LangLoc-strict-Encoding \
-    ANNSet1ECoG-bip-band-shared-LangLoc-Encoding \
-    ANNSet1ECoG-bip-band-shared-LangLoc-strict-Encoding \
-    ANNSet1ECoG-uni-gaus-shared-LangLoc-Encoding \
-    ANNSet1ECoG-uni-gaus-shared-LangLoc-strict-Encoding \
-    ANNSet1ECoG-uni-band-shared-LangLoc-Encoding \
-    ANNSet1ECoG-uni-band-shared-LangLoc-strict-Encoding \
-    LangLocECoG-bip-gaus-strict-Encoding \
-    LangLocECoG-uni-gaus-strict-Encoding \
-    LangLocECoG-bip-gaus-zs-strict-Encoding \
-    LangLocECoG-uni-gaus-zs-strict-Encoding \
-    LangLocECoG-bip-band-strict-Encoding \
-    LangLocECoG-uni-band-strict-Encoding \
-    LangLocECoG-bip-gaus-shared-ANN-Encoding \
-    LangLocECoG-bip-gaus-shared-ANN-strict-Encoding \
-    LangLocECoG-uni-gaus-shared-ANN-Encoding \
-    LangLocECoG-uni-gaus-shared-ANN-strict-Encoding \
-    LangLocECoG-bip-band-shared-ANN-Encoding  \
-    LangLocECoG-bip-band-shared-ANN-strict-Encoding \
-    LangLocECoG-uni-band-shared-ANN-Encoding \
-    LangLocECoG-uni-band-shared-ANN-strict-Encoding ; do
+                ANNSet1ECoG-bip-gaus-Encoding \
+                ANNSet1ECoG-bip-gaus-strict-Encoding \
+                ANNSet1ECoG-bip-band-Encoding \
+                ANNSet1ECoG-bip-band-strict-Encoding \
+                ANNSet1ECoG-uni-gaus-Encoding \
+                ANNSet1ECoG-uni-gaus-strict-Encoding \
+                ANNSet1ECoG-uni-band-Encoding \
+                ANNSet1ECoG-bip-gaus-shared-LangLoc-Encoding \
+                ANNSet1ECoG-bip-gaus-shared-LangLoc-strict-Encoding \
+                ANNSet1ECoG-bip-band-shared-LangLoc-Encoding \
+                ANNSet1ECoG-bip-band-shared-LangLoc-strict-Encoding \
+                ANNSet1ECoG-uni-gaus-shared-LangLoc-Encoding \
+                ANNSet1ECoG-uni-gaus-shared-LangLoc-strict-Encoding \
+                ANNSet1ECoG-uni-band-shared-LangLoc-Encoding \
+                ANNSet1ECoG-uni-band-shared-LangLoc-strict-Encoding \
+                LangLocECoG-bip-gaus-strict-Encoding \
+                LangLocECoG-uni-gaus-strict-Encoding \
+                LangLocECoG-bip-gaus-zs-strict-Encoding \
+                LangLocECoG-uni-gaus-zs-strict-Encoding \
+                LangLocECoG-bip-band-strict-Encoding \
+                LangLocECoG-uni-band-strict-Encoding \
+                LangLocECoG-bip-gaus-shared-ANN-Encoding \
+                LangLocECoG-bip-gaus-shared-ANN-strict-Encoding \
+                LangLocECoG-uni-gaus-shared-ANN-Encoding \
+                LangLocECoG-uni-gaus-shared-ANN-strict-Encoding \
+                LangLocECoG-bip-band-shared-ANN-Encoding  \
+                LangLocECoG-bip-band-shared-ANN-strict-Encoding \
+                LangLocECoG-uni-band-shared-ANN-Encoding \
+                LangLocECoG-uni-band-shared-ANN-strict-Encoding ; do
    benchmark_list[$i]="$benchmark"
                       i=$[$i+1]
 done
