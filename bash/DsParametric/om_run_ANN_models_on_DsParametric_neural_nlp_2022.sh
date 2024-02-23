@@ -9,8 +9,8 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in DsParametricfMRI-first-reliable-max-Encoding DsParametricfMRI-first-reliable-min-Encoding DsParametricfMRI-first-reliable-rand-Encoding \
-  DsParametricfMRI-second-reliable-max-Encoding DsParametricfMRI-second-reliable-min-Encoding DsParametricfMRI-second-reliable-rand-Encoding ; do
+for benchmark in DsParametricfMRI-first-all-max-Encoding DsParametricfMRI-first-all-min-Encoding DsParametricfMRI-first-all-rand-Encoding \
+  DsParametricfMRI-second-all-max-Encoding DsParametricfMRI-second-all-min-Encoding DsParametricfMRI-second-all-rand-Encoding ; do
   #DsParametricfMRI-first-max-RidgeEncoding DsParametricfMRI-first-min-RidgeEncoding DsParametricfMRI-first-rand-RidgeEncoding \
   #DsParametricfMRI-second-max-RidgeEncoding DsParametricfMRI-second-min-RidgeEncoding DsParametricfMRI-second-rand-RidgeEncoding
   for model in bert-large-uncased-whole-word-masking \
