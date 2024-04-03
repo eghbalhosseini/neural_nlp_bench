@@ -1,14 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
 #SBATCH --array=0
-#SBATCH --time=56:00:00
+#SBATCH --time=32:00:00
 #SBATCH --mem=120G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in Pereira2018-encoding ; do
+for benchmark in Pereira2018-RDM ; do
   for model in xlnet-large-cased \
                 xlm-mlm-en-2048 \
                 albert-xxlarge-v2 \
@@ -22,7 +22,6 @@ for benchmark in Pereira2018-encoding ; do
   done
 done
 
-module add openmind/singularity
 export SINGULARITY_CACHEDIR=/om/user/`whoami`/st/
 RESULTCACHING_HOME=/om5/group/evlab/u/ehoseini/.result_caching
 export RESULTCACHING_HOME
@@ -36,4 +35,4 @@ echo "Running benchmark ${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
 . ~/.bashrc
 conda activate neural_nlp_2022
 
-/om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python /om2/user/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
+/om/weka/evlab/ehoseini/miniconda3/envs/neural_nlp_2022/bin/python  /weka/scratch/weka/evlab/ehoseini/neural-nlp-2022/neural_nlp run --model "${model_list[$SLURM_ARRAY_TASK_ID]}" --benchmark "${benchmark_list[$SLURM_ARRAY_TASK_ID]}"
