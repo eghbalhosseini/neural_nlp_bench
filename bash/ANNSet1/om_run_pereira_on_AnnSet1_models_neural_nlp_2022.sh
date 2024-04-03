@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0
-#SBATCH --time=32:00:00
-#SBATCH --mem=120G
+#SBATCH --array=0-6
+#SBATCH --time=24:00:00
+#SBATCH --mem=40G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ehoseini@mit.edu
