@@ -1,8 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-66
+#SBATCH --array=0-297
 #SBATCH --time=4:00:00
-#SBATCH -c 16
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
 #SBATCH --mail-type=ALL
@@ -10,7 +9,14 @@
 
 i=0
 for benchmark in DsParametricfMRI-first-reliable-min-RidgeEncoding DsParametricfMRI-first-reliable-rand-RidgeEncoding DsParametricfMRI-first-reliable-max-RidgeEncoding \
-  DsParametricfMRI-second-reliable-min-RidgeEncoding DsParametricfMRI-second-reliable-rand-RidgeEncoding DsParametricfMRI-second-reliable-max-RidgeEncoding ; do
+  DsParametricfMRI-second-reliable-min-RidgeEncoding DsParametricfMRI-second-reliable-rand-RidgeEncoding DsParametricfMRI-second-reliable-max-RidgeEncoding \
+  DsParametricfMRI-shared-90-max-encoding DsParametricfMRI-shared-90-min-encoding DsParametricfMRI-shared-90-rand-encoding \
+  DsParametricfMRI-full-90-max-encoding DsParametricfMRI-full-90-min-encoding DsParametricfMRI-full-90-rand-encoding \
+  DsParametricfMRI-shared-max-RidgeEncoding DsParametricfMRI-shared-min-RidgeEncoding DsParametricfMRI-shared-rand-RidgeEncoding \
+  DsParametricfMRI-first-max-Encoding DsParametricfMRI-first-min-Encoding DsParametricfMRI-first-rand-Encoding \
+  DsParametricfMRI-second-max-Encoding DsParametricfMRI-second-min-Encoding DsParametricfMRI-second-rand-Encoding \
+  DsParametricfMRI-first-reliable-max-Encoding DsParametricfMRI-first-reliable-min-Encoding DsParametricfMRI-first-reliable-rand-Encoding \
+  DsParametricfMRI-second-reliable-max-Encoding DsParametricfMRI-second-reliable-min-Encoding DsParametricfMRI-second-reliable-rand-Encoding ; do
   for model in bert-large-uncased-whole-word-masking \
                xlnet-large-cased \
                roberta-base \
