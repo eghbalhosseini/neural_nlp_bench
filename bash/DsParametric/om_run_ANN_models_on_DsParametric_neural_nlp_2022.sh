@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-230
+#SBATCH --array=0-33
 #SBATCH --time=4:00:00
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
@@ -8,13 +8,14 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in DsParametricfMRI-first-reliable-min-RidgeEncoding_aug2024 DsParametricfMRI-first-reliable-rand-RidgeEncoding_aug2024 DsParametricfMRI-first-reliable-max-RidgeEncoding_aug2024 \
-  DsParametricfMRI-second-reliable-min-RidgeEncoding_aug2024 DsParametricfMRI-second-reliable-rand-RidgeEncoding_aug2024 DsParametricfMRI-second-reliable-max-RidgeEncoding_aug2024 \
-  DsParametricfMRI-full-90-max-encoding_aug2024 DsParametricfMRI-full-90-min-encoding_aug2024 DsParametricfMRI-full-90-rand-encoding_aug2024 \
-  DsParametricfMRI-first-max-Encoding_aug2024 DsParametricfMRI-first-min-Encoding_aug2024 DsParametricfMRI-first-rand-Encoding_aug2024 \
-  DsParametricfMRI-second-max-Encoding_aug2024 DsParametricfMRI-second-min-Encoding_aug2024 DsParametricfMRI-second-rand-Encoding_aug2024 \
-  DsParametricfMRI-first-reliable-max-Encoding_aug2024 DsParametricfMRI-first-reliable-min-Encoding_aug2024 DsParametricfMRI-first-reliable-rand-Encoding_aug2024 \
-  DsParametricfMRI-second-reliable-max-Encoding_aug2024 DsParametricfMRI-second-reliable-min-Encoding_aug2024 DsParametricfMRI-second-reliable-rand-Encoding_aug2024 ; do
+for benchmark in DsParametricfMRI-full-90-max-encoding_aug2024 DsParametricfMRI-full-90-min-encoding_aug2024 DsParametricfMRI-full-90-rand-encoding_aug2024 ; do
+#DsParametricfMRI-first-reliable-min-RidgeEncoding_aug2024 DsParametricfMRI-first-reliable-rand-RidgeEncoding_aug2024 DsParametricfMRI-first-reliable-max-RidgeEncoding_aug2024 \
+  #DsParametricfMRI-second-reliable-min-RidgeEncoding_aug2024 DsParametricfMRI-second-reliable-rand-RidgeEncoding_aug2024 DsParametricfMRI-second-reliable-max-RidgeEncoding_aug2024 \
+  #DsParametricfMRI-first-max-Encoding_aug2024 DsParametricfMRI-first-min-Encoding_aug2024 DsParametricfMRI-first-rand-Encoding_aug2024 \
+  #DsParametricfMRI-second-max-Encoding_aug2024 DsParametricfMRI-second-min-Encoding_aug2024 DsParametricfMRI-second-rand-Encoding_aug2024 \
+  #DsParametricfMRI-first-reliable-max-Encoding_aug2024 DsParametricfMRI-first-reliable-min-Encoding_aug2024 DsParametricfMRI-first-reliable-rand-Encoding_aug2024 \
+  #DsParametricfMRI-second-reliable-max-Encoding_aug2024 DsParametricfMRI-second-reliable-min-Encoding_aug2024 DsParametricfMRI-second-reliable-rand-Encoding_aug2024
+
   for model in bert-large-uncased-whole-word-masking \
                xlnet-large-cased \
                roberta-base \
