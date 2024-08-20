@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-65
+#SBATCH --array=0-32
 #SBATCH --time=4:00:00
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
@@ -9,9 +9,11 @@
 
 i=0
 for benchmark in  \
-  DsParametricfMRI-full-90-max-RidgeEncoding_aug2024 DsParametricfMRI-full-90-min-RidgeEncoding_aug2024 DsParametricfMRI-full-90-rand-RidgeEncoding_aug2024 \
-  DsParametricfMRI-shared-90-max-RidgeEncoding_aug2024 DsParametricfMRI-shared-90-min-RidgeEncoding_aug2024 DsParametricfMRI-shared-90-rand-RidgeEncoding_aug2024 \
+  DsParametricfMRI-full-90-max-encoding_aug2024 DsParametricfMRI-full-90-min-encoding_aug2024 DsParametricfMRI-full-90-rand-encoding_aug2024 \
   \ ; do
+  #DsParametricfMRI-full-90-max-RidgeEncoding_aug2024 DsParametricfMRI-full-90-min-RidgeEncoding_aug2024 DsParametricfMRI-full-90-rand-RidgeEncoding_aug2024 \
+  #DsParametricfMRI-shared-90-max-RidgeEncoding_aug2024 DsParametricfMRI-shared-90-min-RidgeEncoding_aug2024 DsParametricfMRI-shared-90-rand-RidgeEncoding_aug2024 \
+
   #DsParametricfMRI-first-min-RidgeEncoding_aug2024 DsParametricfMRI-first-rand-RidgeEncoding_aug2024 DsParametricfMRI-first-max-RidgeEncoding_aug2024 \
   #DsParametricfMRI-second-min-RidgeEncoding_aug2024 DsParametricfMRI-second-rand-RidgeEncoding_aug2024 DsParametricfMRI-second-max-RidgeEncoding_aug2024 \
   #DsParametricfMRI-first-max-Encoding_aug2024 DsParametricfMRI-first-min-Encoding_aug2024 DsParametricfMRI-first-rand-Encoding_aug2024 \
