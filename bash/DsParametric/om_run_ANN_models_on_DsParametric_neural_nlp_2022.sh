@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-32
+#SBATCH --array=0-164
 #SBATCH --time=4:00:00
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
@@ -9,21 +9,25 @@
 
 i=0
 for benchmark in  \
-  DsParametricfMRI-full-90-max-encoding_aug2024 DsParametricfMRI-full-90-min-encoding_aug2024 DsParametricfMRI-full-90-rand-encoding_aug2024 \
-  \ ; do
-  #DsParametricfMRI-full-90-max-RidgeEncoding_aug2024 DsParametricfMRI-full-90-min-RidgeEncoding_aug2024 DsParametricfMRI-full-90-rand-RidgeEncoding_aug2024 \
-  #DsParametricfMRI-shared-90-max-RidgeEncoding_aug2024 DsParametricfMRI-shared-90-min-RidgeEncoding_aug2024 DsParametricfMRI-shared-90-rand-RidgeEncoding_aug2024 \
+  DsParametricfMRI-full-90-max-encoding_sep2024 DsParametricfMRI-full-90-min-encoding_sep2024 DsParametricfMRI-full-90-rand-encoding_sep2024 \
+  DsParametricfMRI-first-max-Encoding_sep2024 DsParametricfMRI-first-min-Encoding_sep2024 DsParametricfMRI-first-rand-Encoding_sep2024 \
+  DsParametricfMRI-second-max-Encoding_sep2024 DsParametricfMRI-second-min-Encoding_sep2024 DsParametricfMRI-second-rand-Encoding_sep2024 \
+  DsParametricfMRI-first-all-max-Encoding_sep2024 DsParametricfMRI-first-all-min-Encoding_sep2024 DsParametricfMRI-first-all-rand-Encoding_sep2024 \
+  DsParametricfMRI-second-all-max-Encoding_sep2024 DsParametricfMRI-second-all-min-Encoding_sep2024 DsParametricfMRI-second-all-rand-Encoding_sep2024 \
+   ; do
+  #DsParametricfMRI-full-90-max-RidgeEncoding_sep2024 DsParametricfMRI-full-90-min-RidgeEncoding_sep2024 DsParametricfMRI-full-90-rand-RidgeEncoding_sep2024 \
+  #DsParametricfMRI-shared-90-max-RidgeEncoding_sep2024 DsParametricfMRI-shared-90-min-RidgeEncoding_sep2024 DsParametricfMRI-shared-90-rand-RidgeEncoding_sep2024 \
 
-  #DsParametricfMRI-first-min-RidgeEncoding_aug2024 DsParametricfMRI-first-rand-RidgeEncoding_aug2024 DsParametricfMRI-first-max-RidgeEncoding_aug2024 \
-  #DsParametricfMRI-second-min-RidgeEncoding_aug2024 DsParametricfMRI-second-rand-RidgeEncoding_aug2024 DsParametricfMRI-second-max-RidgeEncoding_aug2024 \
-  #DsParametricfMRI-first-max-Encoding_aug2024 DsParametricfMRI-first-min-Encoding_aug2024 DsParametricfMRI-first-rand-Encoding_aug2024 \
-  #DsParametricfMRI-second-max-Encoding_aug2024 DsParametricfMRI-second-min-Encoding_aug2024 DsParametricfMRI-second-rand-Encoding_aug2024 \
-  #DsParametricfMRI-first-reliable-max-Encoding_aug2024 DsParametricfMRI-first-reliable-min-Encoding_aug2024 DsParametricfMRI-first-reliable-rand-Encoding_aug2024 \
-  #DsParametricfMRI-second-reliable-max-Encoding_aug2024 DsParametricfMRI-second-reliable-min-Encoding_aug2024 DsParametricfMRI-second-reliable-rand-Encoding_aug2024
-  #DsParametricfMRI-shared-90-max-encoding_aug2024 DsParametricfMRI-shared-90-min-encoding_aug2024 DsParametricfMRI-shared-90-rand-encoding_aug2024 \
-  #DsParametricfMRI-full-90-max-RidgeEncoding_aug2024 DsParametricfMRI-full-90-min-RidgeEncoding_aug2024 DsParametricfMRI-full-90-rand-RidgeEncoding_aug2024 \
+  #DsParametricfMRI-first-min-RidgeEncoding_sep2024 DsParametricfMRI-first-rand-RidgeEncoding_sep2024 DsParametricfMRI-first-max-RidgeEncoding_sep2024 \
+  #DsParametricfMRI-second-min-RidgeEncoding_sep2024 DsParametricfMRI-second-rand-RidgeEncoding_sep2024 DsParametricfMRI-second-max-RidgeEncoding_sep2024 \
+  #DsParametricfMRI-first-max-Encoding_sep2024 DsParametricfMRI-first-min-Encoding_sep2024 DsParametricfMRI-first-rand-Encoding_sep2024 \
+  #DsParametricfMRI-second-max-Encoding_sep2024 DsParametricfMRI-second-min-Encoding_sep2024 DsParametricfMRI-second-rand-Encoding_sep2024 \
+  #DsParametricfMRI-first-reliable-max-Encoding_sep2024 DsParametricfMRI-first-reliable-min-Encoding_sep2024 DsParametricfMRI-first-reliable-rand-Encoding_sep2024 \
+  #DsParametricfMRI-second-reliable-max-Encoding_sep2024 DsParametricfMRI-second-reliable-min-Encoding_sep2024 DsParametricfMRI-second-reliable-rand-Encoding_sep2024
+  #DsParametricfMRI-shared-90-max-encoding_sep2024 DsParametricfMRI-shared-90-min-encoding_sep2024 DsParametricfMRI-shared-90-rand-encoding_sep2024 \
+  #DsParametricfMRI-full-90-max-RidgeEncoding_sep2024 DsParametricfMRI-full-90-min-RidgeEncoding_sep2024 DsParametricfMRI-full-90-rand-RidgeEncoding_sep2024 \
 
-  #DsParametricfMRI-full-90-max-encoding_aug2024 DsParametricfMRI-full-90-min-encoding_aug2024 DsParametricfMRI-full-90-rand-encoding_aug2024
+
   for model in bert-large-uncased-whole-word-masking \
                xlnet-large-cased \
                roberta-base \
