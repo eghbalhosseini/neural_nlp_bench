@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-22
+#SBATCH --array=0-49
 #SBATCH --time=12:00:00
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
@@ -9,9 +9,9 @@
 
 i=0
 for benchmark in  \
-  DsParametricfMRI-first-all-all-Encoding_sep2024 DsParametricfMRI-second-all-all-Encoding_sep2024 ; do
-  #DsParametricfMRI-first-all-max-visual-Encoding_sep2024 DsParametricfMRI-first-all-min-visual-Encoding_sep2024 DsParametricfMRI-first-all-rand-visual-Encoding_sep2024 \
-  #DsParametricfMRI-second-all-max-visual-Encoding_sep2024 DsParametricfMRI-second-all-min-visual-Encoding_sep2024 DsParametricfMRI-second-all-rand-visual-Encoding_sep2024 \
+  DsParametricfMRI-first-all-all-Encoding_sep2024 DsParametricfMRI-second-all-all-Encoding_sep2024 \
+  DsParametricfMRI-first-all-max-Encoding_sep2024 DsParametricfMRI-first-all-min-Encoding_sep2024 DsParametricfMRI-first-all-rand-Encoding_sep2024 \
+  DsParametricfMRI-second-all-max-Encoding_sep2024 DsParametricfMRI-second-all-min-Encoding_sep2024 DsParametricfMRI-second-all-rand-Encoding_sep2024 ; do
   #DsParametricfMRI-first-all-max-auditory-Encoding_sep2024 DsParametricfMRI-first-all-min-auditory-Encoding_sep2024 DsParametricfMRI-first-all-rand-auditory-Encoding_sep2024 \
   #DsParametricfMRI-second-all-max-auditory-Encoding_sep2024 DsParametricfMRI-second-all-min-auditory-Encoding_sep2024 DsParametricfMRI-second-all-rand-auditory-Encoding_sep2024 \
 
@@ -28,18 +28,19 @@ for benchmark in  \
   #DsParametricfMRI-full-90-max-RidgeEncoding_sep2024 DsParametricfMRI-full-90-min-RidgeEncoding_sep2024 DsParametricfMRI-full-90-rand-RidgeEncoding_sep2024 \
 
 
-  for model in bert-large-uncased-whole-word-masking \
-               xlnet-large-cased \
-               roberta-base \
-               xlm-mlm-en-2048 \
-               gpt2-xl \
-               distilgpt2 \
-               gpt2 \
-               gpt2-medium \
-               gpt2-large \
-               albert-xxlarge-v2 \
-               ctrl ; do
-
+ #bert-large-uncased-whole-word-masking \
+               #xlnet-large-cased \
+               #roberta-base \
+               #xlm-mlm-en-2048 \
+               #gpt2-xl \
+               #distilgpt2 \
+               #gpt2 \
+               #gpt2-medium \
+               #gpt2-large \
+               #albert-xxlarge-v2 \
+               #ctrl
+               # ; do
+  for model in sentence-length word-position random-embedding skip-thoughts lm_1b word2vec glove ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
