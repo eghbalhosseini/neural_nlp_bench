@@ -8,8 +8,7 @@
 #SBATCH --mail-user=ehoseini@mit.edu
 
 i=0
-for benchmark in  \
-  DsParametricfMRI-first-all-all-Encoding_sep2024 DsParametricfMRI-second-all-all-Encoding_sep2024 \
+for benchmark in  DsParametricfMRI-first-all-all-Encoding_sep2024 DsParametricfMRI-second-all-all-Encoding_sep2024 \
   DsParametricfMRI-first-all-max-Encoding_sep2024 DsParametricfMRI-first-all-min-Encoding_sep2024 DsParametricfMRI-first-all-rand-Encoding_sep2024 \
   DsParametricfMRI-second-all-max-Encoding_sep2024 DsParametricfMRI-second-all-min-Encoding_sep2024 DsParametricfMRI-second-all-rand-Encoding_sep2024 ; do
   #DsParametricfMRI-first-all-max-auditory-Encoding_sep2024 DsParametricfMRI-first-all-min-auditory-Encoding_sep2024 DsParametricfMRI-first-all-rand-auditory-Encoding_sep2024 \
@@ -41,7 +40,7 @@ for benchmark in  \
                #ctrl
                # ; do
                #sentence-length word-position random-embedding skip-thoughts lm_1b word2vec glove
-  for model in  glove ; do
+  for model in random-embedding ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
