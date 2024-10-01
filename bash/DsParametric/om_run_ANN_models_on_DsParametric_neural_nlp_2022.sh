@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-131
+#SBATCH --array=0-22
 #SBATCH --time=12:00:00
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
@@ -9,11 +9,12 @@
 
 i=0
 for benchmark in  \
-  DsParametricfMRI-first-all-max-visual-Encoding_sep2024 DsParametricfMRI-first-all-min-visual-Encoding_sep2024 DsParametricfMRI-first-all-rand-visual-Encoding_sep2024 \
-  DsParametricfMRI-second-all-max-visual-Encoding_sep2024 DsParametricfMRI-second-all-min-visual-Encoding_sep2024 DsParametricfMRI-second-all-rand-visual-Encoding_sep2024 \
-  DsParametricfMRI-first-all-max-auditory-Encoding_sep2024 DsParametricfMRI-first-all-min-auditory-Encoding_sep2024 DsParametricfMRI-first-all-rand-auditory-Encoding_sep2024 \
-  DsParametricfMRI-second-all-max-auditory-Encoding_sep2024 DsParametricfMRI-second-all-min-auditory-Encoding_sep2024 DsParametricfMRI-second-all-rand-auditory-Encoding_sep2024 \
-  ; do
+  DsParametricfMRI-first-all-all-Encoding_sep2024 DsParametricfMRI-second-all-all-Encoding_sep2024 ; do
+  #DsParametricfMRI-first-all-max-visual-Encoding_sep2024 DsParametricfMRI-first-all-min-visual-Encoding_sep2024 DsParametricfMRI-first-all-rand-visual-Encoding_sep2024 \
+  #DsParametricfMRI-second-all-max-visual-Encoding_sep2024 DsParametricfMRI-second-all-min-visual-Encoding_sep2024 DsParametricfMRI-second-all-rand-visual-Encoding_sep2024 \
+  #DsParametricfMRI-first-all-max-auditory-Encoding_sep2024 DsParametricfMRI-first-all-min-auditory-Encoding_sep2024 DsParametricfMRI-first-all-rand-auditory-Encoding_sep2024 \
+  #DsParametricfMRI-second-all-max-auditory-Encoding_sep2024 DsParametricfMRI-second-all-min-auditory-Encoding_sep2024 DsParametricfMRI-second-all-rand-auditory-Encoding_sep2024 \
+
   #DsParametricfMRI-full-90-max-RidgeEncoding_sep2024 DsParametricfMRI-full-90-min-RidgeEncoding_sep2024 DsParametricfMRI-full-90-rand-RidgeEncoding_sep2024 \
   #DsParametricfMRI-shared-90-max-RidgeEncoding_sep2024 DsParametricfMRI-shared-90-min-RidgeEncoding_sep2024 DsParametricfMRI-shared-90-rand-RidgeEncoding_sep2024 \
 
