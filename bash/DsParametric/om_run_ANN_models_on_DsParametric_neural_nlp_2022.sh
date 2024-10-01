@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=nlp2022
-#SBATCH --array=0-49
+#SBATCH --array=0-7
 #SBATCH --time=12:00:00
 #SBATCH --mem=20G
 #SBATCH --exclude node017,node018
