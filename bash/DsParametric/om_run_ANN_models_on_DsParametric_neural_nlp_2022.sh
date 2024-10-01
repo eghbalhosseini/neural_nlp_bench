@@ -40,7 +40,8 @@ for benchmark in  \
                #albert-xxlarge-v2 \
                #ctrl
                # ; do
-  for model in sentence-length word-position random-embedding skip-thoughts lm_1b word2vec glove ; do
+               #sentence-length word-position random-embedding skip-thoughts lm_1b word2vec glove
+  for model in  glove ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
