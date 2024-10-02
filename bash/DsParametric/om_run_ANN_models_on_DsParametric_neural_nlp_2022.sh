@@ -40,7 +40,7 @@ for benchmark in  DsParametricfMRI-first-all-all-Encoding_sep2024 DsParametricfM
                #ctrl
                # ; do
                #sentence-length word-position random-embedding skip-thoughts lm_1b word2vec glove
-  for model in random-embedding ; do
+  for model in lm_1b ; do
             model_list[$i]="${model}"
             benchmark_list[$i]="$benchmark"
             i=$[$i+1]
