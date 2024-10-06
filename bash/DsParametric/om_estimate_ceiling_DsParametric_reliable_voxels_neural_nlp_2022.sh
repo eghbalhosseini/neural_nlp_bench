@@ -13,9 +13,9 @@ num_bootstrap_samples=200
 
 
 i=0
-for benchmark in DsParametricfMRI-first-all-min-Encoding_sep2024 \
-                DsParametricfMRI-first-all-rand-Encoding_sep2024 \
-                DsParametricfMRI-first-all-max-Encoding_sep2024  ; do
+for benchmark in DsParametricfMRI-second-all-min-Encoding_sep2024 \
+                DsParametricfMRI-second-all-rand-Encoding_sep2024 \
+                DsParametricfMRI-second-all-max-Encoding_sep2024  ; do
    benchmark_list[$i]="$benchmark"
                       i=$[$i+1]
 done
